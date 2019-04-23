@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bulma';
+import './App.scss';
 
 import AppNavbar from './components/Layout/AppNavbar/AppNavbar';
 import Loader from './components/shared/Loader/Loader';
@@ -21,8 +21,9 @@ const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 
 const App = () => {
   return (
-    <div className="App">
+    <div>
       <AppNavbar />
+      <h2 className="test">Test SCSS</h2>
       <Suspense fallback={<Loader />}>
         <div className="container">
           <Switch>
