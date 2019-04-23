@@ -4,12 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
-import AppNavbar from './components/Layout/AppNavbar/AppNavbar';
 import Loader from './components/shared/Loader/Loader';
+import TheNavbar from './components/shared/TheNavbar/TheNavbar';
+import TheFooter from './components/shared/TheFooter/TheFooter';
 
-const BookListPage = React.lazy(() =>
-  import('./pages/BookListPage/BookListPage')
-);
 const BookPageEdit = React.lazy(() =>
   import('./pages/BookPageEdit/BookPageEdit')
 );
@@ -21,18 +19,16 @@ const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 
 const App = () => {
   return (
-    <div>
-      <AppNavbar />
-      <h2 className="test">Test SCSS</h2>
+    <div id="app">
+      <TheNavbar />
       <Suspense fallback={<Loader />}>
-        <div className="container">
-          <Switch>
-            <Route exact path="/" component={PageHome} />
-            <Route exact path="/books/:id/edit" component={BookPageEdit} />
-            <Route exact path="/create" component={BookPageCreate} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/" component={PageHome} />
+          <Route exact path="/books/:id/edit" component={BookPageEdit} />
+          <Route exact path="/create" component={BookPageCreate} />
+        </Switch>
       </Suspense>
+      <TheFooter />
     </div>
   );
 };
