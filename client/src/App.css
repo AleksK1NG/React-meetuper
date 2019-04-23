@@ -1,0 +1,27 @@
+.remove-btn {
+  margin-right: 0.5rem;
+}
+
+.fade-enter {
+  opacity: 0.01;
+  transform: scale(0.9);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1000ms, transform 1000ms, ease-in;
+  /*transition: opacity 1000ms ease-in;*/
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0.01;
+  /*transition: opacity 1000ms ease-in;*/
+  transform: scale(0.9);
+  transition: opacity 1000ms, transform 1000ms ease-in;
+}
+

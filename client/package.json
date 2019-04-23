@@ -1,0 +1,77 @@
+{
+  "name": "react-saga",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.0",
+    "axios": "^0.18.0",
+    "connected-react-router": "^6.4.0",
+    "history": "^4.9.0",
+    "immutable": "^4.0.0-rc.12",
+    "react-redux": "^7.0.2",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.2",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "final-form": "^4.12.0",
+    "final-form-arrays": "^1.1.2",
+    "json-server": "^0.14.2",
+    "lodash": "^4.17.11",
+    "react-final-form": "^4.1.0",
+    "react-final-form-arrays": "^2.0.3",
+    "react-transition-group": "^2.7.1",
+    "uuid": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "dev": "concurrently \"npm run start\" \"json-server --watch db.json --port 3001\" ",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write \"**/*.js\""
+  },
+  "author": "Alexander Bryksin",
+  "license": "ISC",
+  "homepage": "https://github.com/AleksK1NG",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.17.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettier",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
