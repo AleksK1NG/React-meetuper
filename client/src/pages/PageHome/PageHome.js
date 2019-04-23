@@ -7,8 +7,12 @@ import {
   fetchAllCategories,
   loadingCatSelector
 } from '../../ducks/categories';
-import CategoryItem from '../../components/CategoryItem/CategoryItem';
+// import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import Loader from '../../components/shared/Loader/Loader';
+
+const CategoryItem = React.lazy(() =>
+  import('../../components/CategoryItem/CategoryItem')
+);
 
 const PageHome = ({ fetchAllCategories, categories, loading }) => {
   useEffect(() => {
@@ -158,15 +162,17 @@ const PageHome = ({ fetchAllCategories, categories, loading }) => {
             <h1 className="title">Categories</h1>
 
             <div className="columns cover is-multiline is-mobile">
-              {categories && !loading ? (
-                categories.map((category) => (
-                  <React.Fragment key={category._id}>
-                    <CategoryItem category={category} />
-                  </React.Fragment>
-                ))
-              ) : (
-                <Loader />
-              )}
+              <Suspense fallback={<Loader />}>
+                {categories && !loading ? (
+                  categories.map((category) => (
+                    <React.Fragment key={category._id}>
+                      <CategoryItem category={category} />
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <Loader />
+                )}
+              </Suspense>
             </div>
           </div>
         </section>

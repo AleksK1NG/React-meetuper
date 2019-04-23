@@ -1,4 +1,5 @@
 import React from 'react';
+import { capitalize } from '../../utils/helpers';
 
 const CategoryItem = ({ category }) => {
   return (
@@ -8,7 +9,9 @@ const CategoryItem = ({ category }) => {
           <figure className="image is-4by3 imageFade">
             <img className="is-rounded" src={category.image} />
           </figure>
-          <div className="subtitle m-t-xs bold">{category.name}</div>
+          <div className="subtitle m-t-xs bold">
+            {capitalize(category.name)}
+          </div>
         </span>
       </a>
     </div>
