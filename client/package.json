@@ -30,7 +30,9 @@
     "react-final-form": "^4.1.0",
     "react-final-form-arrays": "^2.0.3",
     "react-transition-group": "^2.7.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "bulma": "^0.7.2",
+    "moment": "^2.23.0"
   },
   "scripts": {
     "start": "react-scripts start",

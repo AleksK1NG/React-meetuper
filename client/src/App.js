@@ -16,6 +16,8 @@ const BookPageCreate = React.lazy(() =>
   import('./pages/BookPageCreate/BookPageCreate')
 );
 
+const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
+
 const App = () => {
   return (
     <div className="App">
@@ -23,7 +25,7 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <div className="container">
           <Switch>
-            <Route exact path="/" component={BookListPage} />
+            <Route exact path="/" component={PageHome} />
             <Route exact path="/books/:id/edit" component={BookPageEdit} />
             <Route exact path="/create" component={BookPageCreate} />
           </Switch>
