@@ -6,6 +6,7 @@ import axios from 'axios';
 const booksListURL = 'http://localhost:3001/booksList';
 // const categoriesURL = 'http://localhost:3001/api/v1/categories';
 const categoriesURL = '/api/v1/categories';
+const meetupsURl = '/api/v1/meetups';
 
 class ApiService {
   getAllBooks() {
@@ -30,6 +31,10 @@ class ApiService {
 
   getAllCategories() {
     return axios.get(categoriesURL);
+  }
+
+  getAllMeetups() {
+    return axios.get(meetupsURl);
   }
 }
 

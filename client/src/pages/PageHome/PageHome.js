@@ -9,14 +9,21 @@ import {
 } from '../../ducks/categories';
 // import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import Loader from '../../components/shared/Loader/Loader';
+import { fetchAllMeetups } from '../../ducks/meetups';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')
 );
 
-const PageHome = ({ fetchAllCategories, categories, loading }) => {
+const PageHome = ({
+  fetchAllCategories,
+  fetchAllMeetups,
+  categories,
+  loading
+}) => {
   useEffect(() => {
     fetchAllCategories();
+    fetchAllMeetups();
   }, []);
 
   return (
@@ -186,5 +193,5 @@ export default connect(
     categories: allCategoriesSelector(state),
     loading: loadingCatSelector(state)
   }),
-  { fetchAllCategories }
+  { fetchAllCategories, fetchAllMeetups }
 )(PageHome);
