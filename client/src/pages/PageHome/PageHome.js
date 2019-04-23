@@ -9,7 +9,11 @@ import {
 } from '../../ducks/categories';
 // import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import Loader from '../../components/shared/Loader/Loader';
-import { allMeetupsSelector, fetchAllMeetups } from '../../ducks/meetups';
+import {
+  allMeetupsSelector,
+  fetchAllMeetups,
+  loadingMeetupsSelector
+} from '../../ducks/meetups';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')
@@ -24,7 +28,8 @@ const PageHome = ({
   fetchAllMeetups,
   categories,
   meetups,
-  loading
+  loadingCategories,
+  loadingMeetups
 }) => {
   useEffect(() => {
     fetchAllCategories();
@@ -47,12 +52,17 @@ const PageHome = ({
             </button>
           </div>
           <div className="row columns is-multiline">
-            {meetups &&
-              meetups.map((meetup) => (
-                <React.Fragment key={meetup._id}>
-                  <MeetupItem meetup={meetup} />
-                </React.Fragment>
-              ))}
+            <Suspense fallback={<Loader />}>
+              {meetups && !loadingMeetups ? (
+                meetups.map((meetup) => (
+                  <React.Fragment key={meetup._id}>
+                    <MeetupItem meetup={meetup} />
+                  </React.Fragment>
+                ))
+              ) : (
+                <Loader />
+              )}
+            </Suspense>
           </div>
         </section>
         <section className="section">
@@ -61,7 +71,7 @@ const PageHome = ({
 
             <div className="columns cover is-multiline is-mobile">
               <Suspense fallback={<Loader />}>
-                {categories && !loading ? (
+                {categories && !loadingCategories ? (
                   categories.map((category) => (
                     <React.Fragment key={category._id}>
                       <CategoryItem category={category} />
@@ -82,8 +92,9 @@ const PageHome = ({
 export default connect(
   (state) => ({
     categories: allCategoriesSelector(state),
-    loading: loadingCatSelector(state),
-    meetups: allMeetupsSelector(state)
+    loadingCategories: loadingCatSelector(state),
+    meetups: allMeetupsSelector(state),
+    loadingMeetups: loadingMeetupsSelector(state)
   }),
   { fetchAllCategories, fetchAllMeetups }
 )(PageHome);

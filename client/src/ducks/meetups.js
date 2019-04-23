@@ -40,7 +40,7 @@ export const FETCH_MEETUPS_ERROR = `${prefix}/FETCH_MEETUPS_ERROR`;
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
-  loading: false,
+  loadingCategories: false,
   meetups: new List([]),
   meetup: {}
 });
@@ -53,17 +53,17 @@ export default function reducer(state = ReducerRecord, action) {
     case ADD_BOOK_REQUEST:
     case FETCH_BOOK_BY_ID_REQUEST:
     case FETCH_BOOK_BY_ID:
-      return state.set('loading', true);
+      return state.set('loadingCategories', true);
 
     case FETCH_MEETUPS_SUCCESS:
       return state
         .set('meetups', fromJS(payload.data))
-        .set('loading', false)
+        .set('loadingCategories', false)
         .set('error', null);
 
     case FETCH_BOOK_BY_ID_SUCCESS:
       return state
-        .set('loading', false)
+        .set('loadingCategories', false)
         .set('error', null)
         .set('book', fromJS(payload.data));
 
@@ -71,17 +71,17 @@ export default function reducer(state = ReducerRecord, action) {
     case FETCH_BOOK_BY_ID_ERROR:
     case ADD_BOOK_ERROR:
     case DELETE_BOOK_ERROR:
-      return state.set('error', payload.err).set('loading', false);
+      return state.set('error', payload.err).set('loadingCategories', false);
 
     case ADD_BOOK_SUCCESS:
       return state
         .set('error', null)
-        .set('loading', false)
+        .set('loadingCategories', false)
         .update('books', (books) => books.push(fromJS(payload.data)));
 
     case DELETE_BOOK_SUCCESS:
       return state
-        .set('loading', false)
+        .set('loadingCategories', false)
         .set('error', null)
         .update('books', (books) => {
           return books.filter((book) => book.get('id') !== payload);
@@ -90,7 +90,7 @@ export default function reducer(state = ReducerRecord, action) {
     case 'UPDATE_MEETUP_SUCCESS':
       return state
         .set('error', null)
-        .set('loading', false)
+        .set('loadingCategories', false)
         .update('books', (books) =>
           books.map((book) =>
             book.get('id') === payload.data.id ? fromJS(payload.data) : book
@@ -110,7 +110,7 @@ export const stateSelector = (state) => state[moduleName];
 
 export const loadingMeetupsSelector = createSelector(
   stateSelector,
-  (state) => state.get('loading')
+  (state) => state.get('loadingCategories')
 );
 export const allMeetupsSelector = createSelector(
   stateSelector,

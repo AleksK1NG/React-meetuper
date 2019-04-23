@@ -214,7 +214,7 @@ const EditBook = ({ book, loading, fetchBookById, id, updateBook }) => {
 export default connect(
   (state) => ({
     book: bookSelector(state),
-    loading: loadingSelector(state)
+    loadingCategories: loadingSelector(state)
   }),
   { fetchBookById, updateBook }
 )(EditBook);

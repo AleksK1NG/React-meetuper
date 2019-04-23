@@ -2,6 +2,7 @@ import React from 'react';
 import { capitalize } from '../../utils/helpers';
 
 const CategoryItem = ({ category }) => {
+  console.log('reander category item');
   return (
     <div className="column is-one-quarter" style={{ minHeight: '160px' }}>
       <a href="#">
@@ -18,4 +19,4 @@ const CategoryItem = ({ category }) => {
   );
 };
 
-export default CategoryItem;
+export default React.memo(CategoryItem);

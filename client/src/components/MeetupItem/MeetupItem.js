@@ -2,6 +2,7 @@ import React from 'react';
 import { formatDate } from '../../utils/helpers';
 
 const MeetupItem = ({ meetup }) => {
+  console.log('render meetup item');
   return (
     <div className="column is-one-third">
       <div className="card large">
@@ -40,4 +41,4 @@ const MeetupItem = ({ meetup }) => {
   );
 };
 
-export default MeetupItem;
+export default React.memo(MeetupItem);

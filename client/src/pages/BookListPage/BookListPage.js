@@ -90,7 +90,7 @@ const BookListPage = ({ loading, books, fetchAllBooks, deleteBook }) => {
 export default connect(
   (state) => ({
     books: allBooksSelector(state),
-    loading: loadingSelector(state)
+    loadingCategories: loadingSelector(state)
   }),
   { deleteBook, fetchAllBooks }
 )(BookListPage);
