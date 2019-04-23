@@ -4,6 +4,8 @@ import axios from 'axios';
  * */
 
 const booksListURL = 'http://localhost:3001/booksList';
+// const categoriesURL = 'http://localhost:3001/api/v1/categories';
+const categoriesURL = '/api/v1/categories';
 
 class ApiService {
   getAllBooks() {
@@ -24,6 +26,10 @@ class ApiService {
 
   updateBook(bookId, newBook) {
     return axios.put(`${booksListURL}/${bookId}`, newBook);
+  }
+
+  getAllCategories() {
+    return axios.get(categoriesURL);
   }
 }
 

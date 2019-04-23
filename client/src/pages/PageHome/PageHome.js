@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import AppHero from '../../components/shared/AppHero/AppHero';
 import AppDropdown from '../../components/shared/AppDropdown/AppDropdown';
+import {
+  allCategoriesSelector,
+  fetchAllCategories
+} from '../../ducks/categories';
 
-const PageHome = (props) => {
+const PageHome = ({ fetchAllCategories, categories }) => {
+  useEffect(() => {
+    fetchAllCategories();
+  }, []);
+
   return (
     <div>
       <AppHero />
@@ -265,4 +274,9 @@ const PageHome = (props) => {
   );
 };
 
-export default PageHome;
+export default connect(
+  (state) => ({
+    categories: allCategoriesSelector(state)
+  }),
+  { fetchAllCategories }
+)(PageHome);
