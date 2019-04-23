@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bulma';
 
 import AppNavbar from './components/Layout/AppNavbar/AppNavbar';
 import Loader from './components/shared/Loader/Loader';
