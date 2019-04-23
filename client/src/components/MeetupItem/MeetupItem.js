@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '../../utils/helpers';
 
 const MeetupItem = ({ meetup }) => {
   return (
@@ -14,8 +15,8 @@ const MeetupItem = ({ meetup }) => {
             <div className="media-left">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="title">{meetup.startDate}</p>
-                  <p className="title">{meetup.startDate}</p>
+                  <p className="title">{formatDate(meetup.startDate, 'MMM')}</p>
+                  <p className="title">{formatDate(meetup.startDate, 'D')}</p>
                 </div>
               </div>
             </div>

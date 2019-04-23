@@ -9,16 +9,21 @@ import {
 } from '../../ducks/categories';
 // import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import Loader from '../../components/shared/Loader/Loader';
-import { fetchAllMeetups } from '../../ducks/meetups';
+import { allMeetupsSelector, fetchAllMeetups } from '../../ducks/meetups';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')
+);
+
+const MeetupItem = React.lazy(() =>
+  import('../../components/MeetupItem/MeetupItem')
 );
 
 const PageHome = ({
   fetchAllCategories,
   fetchAllMeetups,
   categories,
+  meetups,
   loading
 }) => {
   useEffect(() => {
@@ -41,127 +46,13 @@ const PageHome = ({
               All
             </button>
           </div>
-          <div className="row columns">
-            <div className="column is-one-third">
-              <div className="card large">
-                <div className="card-image">
-                  <figure className="image is-4by3">
-                    <img
-                      src="https://images.unsplash.com/photo-1475778057357-d35f37fa89dd?dpr=1&auto=compress,format&fit=crop&w=1920&h=&q=80&cs=tinysrgb&crop="
-                      alt="Image"
-                    />
-                  </figure>
-                </div>
-                <div className="card-content">
-                  <div className="level m-b-md">
-                    <div className="media-left">
-                      <div className="level-item has-text-centered">
-                        <div>
-                          <p className="title">JAN</p>
-                          <p className="title">16</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="media-content">
-                      <p className="title is-4 no-padding is-marginless">
-                        Beer and Burger in Hamburg
-                      </p>
-                      <span className="tag is-success">Music</span>
-                      <p className="subtitle is-7">
-                        Tomorrow · Times Square · 05201
-                      </p>
-                    </div>
-                  </div>
-                  <div className="content">
-                    The Beast stumbled in the dark for it could no longer see
-                    the path...
-                    <div className="background-icon">
-                      <span className="icon-twitter" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="column is-one-third">
-              <div className="card large">
-                <div className="card-image">
-                  <figure className="image is-4by3">
-                    <img
-                      src="https://source.unsplash.com/uzDLtlPY8kQ"
-                      alt="Image"
-                    />
-                  </figure>
-                </div>
-                <div className="card-content">
-                  <div className="level m-b-md">
-                    <div className="media-left">
-                      <div className="level-item has-text-centered">
-                        <div>
-                          <p className="title">JAN</p>
-                          <p className="title">16</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="media-content">
-                      <p className="title is-4 no-padding is-marginless">
-                        Beer and Burger in Hamburg
-                      </p>
-                      <span className="tag is-success">Music</span>
-                      <p className="subtitle is-7">
-                        Tomorrow · Times Square · 05201
-                      </p>
-                    </div>
-                  </div>
-                  <div className="content">
-                    The Beast stumbled in the dark for it could no longer see
-                    the path...
-                    <div className="background-icon">
-                      <span className="icon-facebook" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="column is-one-third">
-              <div className="card large">
-                <div className="card-image">
-                  <figure className="image is-4by3">
-                    <img
-                      src="https://source.unsplash.com/pe_R74hldW4"
-                      alt="Image"
-                    />
-                  </figure>
-                </div>
-                <div className="card-content">
-                  <div className="level m-b-md">
-                    <div className="media-left">
-                      <div className="level-item has-text-centered">
-                        <div>
-                          <p className="title">JAN</p>
-                          <p className="title">16</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="media-content">
-                      <p className="title is-4 no-padding is-marginless">
-                        Beer and Burger in Hamburg
-                      </p>
-                      <span className="tag is-success">Music</span>
-                      <p className="subtitle is-7">
-                        Tomorrow · Times Square · 05201
-                      </p>
-                    </div>
-                  </div>
-                  <div className="content">
-                    The Beast stumbled in the dark for it could no longer see
-                    the path...
-                    <div className="background-icon">
-                      <span className="icon-barcode" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="row columns is-multiline">
+            {meetups &&
+              meetups.map((meetup) => (
+                <React.Fragment key={meetup._id}>
+                  <MeetupItem meetup={meetup} />
+                </React.Fragment>
+              ))}
           </div>
         </section>
         <section className="section">
@@ -191,7 +82,8 @@ const PageHome = ({
 export default connect(
   (state) => ({
     categories: allCategoriesSelector(state),
-    loading: loadingCatSelector(state)
+    loading: loadingCatSelector(state),
+    meetups: allMeetupsSelector(state)
   }),
   { fetchAllCategories, fetchAllMeetups }
 )(PageHome);
