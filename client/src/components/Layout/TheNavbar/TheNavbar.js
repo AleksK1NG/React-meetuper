@@ -31,7 +31,9 @@ const TheNavbar = () => {
             Home
           </Link>
 
-          <a className="navbar-item">Find</a>
+          <Link to="/find" className="navbar-item">
+            Find
+          </Link>
 
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">More</a>
