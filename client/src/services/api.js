@@ -39,6 +39,10 @@ class ApiService {
   getMeetupById(id) {
     return axios.get(`${meetupsURl}/${id}`);
   }
+
+  getThreadsById(meetupId) {
+    return axios.get(`/api/v1/threads?meetupId=${meetupId}`);
+  }
 }
 
 export default new ApiService();

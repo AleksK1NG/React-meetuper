@@ -8,10 +8,18 @@ import {
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
+import { fetchThreadsById } from '../../ducks/threads';
 
-const PageMeetupDetail = ({ match, meetup, fetchMeetupById, loading }) => {
+const PageMeetupDetail = ({
+  match,
+  meetup,
+  fetchMeetupById,
+  fetchThreadsById,
+  loading
+}) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
+    fetchThreadsById(match.params.id);
   }, []);
 
   if (!meetup.meetupCreator || loading) return <Loader />;
@@ -166,5 +174,5 @@ export default connect(
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state)
   }),
-  { fetchMeetupById }
+  { fetchMeetupById, fetchThreadsById }
 )(PageMeetupDetail);
