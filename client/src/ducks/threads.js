@@ -1,7 +1,7 @@
 import { appName } from '../config';
 import { List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all } from 'redux-saga/effects';
+import { takeEvery, call, put, all, select } from 'redux-saga/effects';
 import ApiService from '../services/api';
 import { replace } from 'connected-react-router';
 
@@ -194,17 +194,23 @@ export function* fetchAllThreadsSaga() {
 export function* fetchThreadsByIdSaga(action) {
   const { payload } = action;
 
+  const state = yield select();
+
+  const meetups = state.meetups.get('meetups').toJS();
+
   try {
     yield put({
       type: FETCH_THREADS_BY_ID_REQUEST
     });
 
     const { data } = yield call(ApiService.getThreadsById, payload.meetupId);
-    debugger;
+
     yield put({
       type: FETCH_THREADS_BY_ID_SUCCESS,
       payload: { data }
     });
+
+    debugger;
   } catch (err) {
     console.log(err);
 

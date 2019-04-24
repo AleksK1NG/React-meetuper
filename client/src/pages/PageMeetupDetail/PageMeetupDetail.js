@@ -8,11 +8,12 @@ import {
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
-import { fetchThreadsById } from '../../ducks/threads';
+import { fetchThreadsById, threadsSelector } from '../../ducks/threads';
 
 const PageMeetupDetail = ({
   match,
   meetup,
+  threads,
   fetchMeetupById,
   fetchThreadsById,
   loading
@@ -22,7 +23,7 @@ const PageMeetupDetail = ({
     fetchThreadsById(match.params.id);
   }, []);
 
-  if (!meetup.meetupCreator || loading) return <Loader />;
+  if (!meetup.meetupCreator || !threads || loading) return <Loader />;
 
   return (
     <div className="meetup-detail-page">
@@ -94,21 +95,31 @@ const PageMeetupDetail = ({
                     alt="Location image of meetup venue"
                   />
                 </div>
+
+                {/**************************** Threads Titles Section ****************************/}
+
                 <p className="menu-label">Threads</p>
                 <ul>
-                  <li>Should I follow some dresscode ?</li>
+                  {threads &&
+                    threads.map((thread) => (
+                      <li key={thread._id}>{thread.title}</li>
+                    ))}
                 </ul>
+
                 <p className="menu-label">Who is Going</p>
                 <div className="columns is-multiline is-mobile">
-                  <div className="column is-3">
-                    <figure className="image is-64x64">
-                      <img
-                        className="is-rounded"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuqyc3j2s3bL4DIkC8uC9h0rcAdsDXcwJPNh8XHWbLQfHbOpVU"
-                        alt="Image"
-                      />
-                    </figure>
-                  </div>
+                  {meetup &&
+                    meetup.joinedPeople.map((p) => (
+                      <div className="column is-3" key={p._id}>
+                        <figure className="image is-64x64">
+                          <img
+                            className="is-rounded"
+                            src={p.avatar}
+                            alt="Image"
+                          />
+                        </figure>
+                      </div>
+                    ))}
                 </div>
               </aside>
             </div>
@@ -120,46 +131,59 @@ const PageMeetupDetail = ({
               </div>
               <div className="content is-medium">
                 <h3 className="title is-3">Threads</h3>
-                <div className="box">
-                  <h4 id="const" className="title is-3">
-                    Should I follow some dresscode ?
-                  </h4>
-                  <form className="post-create">
-                    <div className="field">
-                      <textarea
-                        className="textarea textarea-post"
-                        placeholder="Write a post"
-                        rows="1"
-                      />
-                      <button disabled className="button is-primary m-t-sm">
-                        Send
-                      </button>
-                    </div>
-                  </form>
-                  <article className="media post-item">
-                    <figure className="media-left is-rounded user-image">
-                      <p className="image is-32x32">
-                        <img
-                          className="is-rounded"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuqyc3j2s3bL4DIkC8uC9h0rcAdsDXcwJPNh8XHWbLQfHbOpVU"
-                        />
-                      </p>
-                    </figure>
-                    <div className="media-content">
-                      <div className="content is-medium">
-                        <div className="post-content">
-                          <strong className="author">Alexander Bryksin</strong>
-
-                          <small className="post-time">7 May</small>
-                          <br />
-                          <p className="post-content-message">
-                            It's up to you :)
-                          </p>
+                {/**************************** Threads Section ****************************/}
+                {threads &&
+                  threads.map((thread) => (
+                    <div className="box" key={thread._id}>
+                      <h4 id="const" className="title is-3">
+                        {thread.title}
+                      </h4>
+                      <form className="post-create">
+                        <div className="field">
+                          <textarea
+                            className="textarea textarea-post"
+                            placeholder="Write a post"
+                            rows="1"
+                          />
+                          <button disabled className="button is-primary m-t-sm">
+                            Send
+                          </button>
                         </div>
-                      </div>
+                      </form>
+
+                      {/**************************** Threads Posts ****************************/}
+                      {thread &&
+                        thread.posts.map((post) => (
+                          <article className="media post-item" key={post._id}>
+                            <figure className="media-left is-rounded user-image">
+                              <p className="image is-32x32">
+                                <img
+                                  className="is-rounded"
+                                  src={post.user.avatar}
+                                />
+                              </p>
+                            </figure>
+                            <div className="media-content">
+                              <div className="content is-medium">
+                                <div className="post-content">
+                                  <strong className="author">
+                                    {post.user.name}
+                                  </strong>
+
+                                  <small className="post-time">
+                                    {formatDate(post.updatedAt, 'LLL')}
+                                  </small>
+                                  <br />
+                                  <p className="post-content-message">
+                                    {post.text}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </article>
+                        ))}
                     </div>
-                  </article>
-                </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -172,7 +196,8 @@ const PageMeetupDetail = ({
 export default connect(
   (state) => ({
     meetup: meetupSelector(state),
-    loading: loadingMeetupsSelector(state)
+    loading: loadingMeetupsSelector(state),
+    threads: threadsSelector(state)
   }),
   { fetchMeetupById, fetchThreadsById }
 )(PageMeetupDetail);
