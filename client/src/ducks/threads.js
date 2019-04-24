@@ -194,9 +194,9 @@ export function* fetchAllThreadsSaga() {
 export function* fetchThreadsByIdSaga(action) {
   const { payload } = action;
 
-  const state = yield select();
+  // const state = yield select();
 
-  const meetups = state.meetups.get('meetups').toJS();
+  // const meetups = state.meetups.get('meetups').toJS();
 
   try {
     yield put({
@@ -209,8 +209,6 @@ export function* fetchThreadsByIdSaga(action) {
       type: FETCH_THREADS_BY_ID_SUCCESS,
       payload: { data }
     });
-
-    debugger;
   } catch (err) {
     console.log(err);
 

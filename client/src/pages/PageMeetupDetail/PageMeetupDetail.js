@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
 import {
@@ -8,8 +8,19 @@ import {
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 import { fetchThreadsById, threadsSelector } from '../../ducks/threads';
-import MeetupDetailHeroSection from '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection';
-import MeetupDetailMainSection from '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection';
+// import MeetupDetailHeroSection from '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection';
+// import MeetupDetailMainSection from '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection';
+
+const MeetupDetailHeroSection = React.lazy(() =>
+  import(
+    '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection'
+  )
+);
+const MeetupDetailMainSection = React.lazy(() =>
+  import(
+    '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection'
+  )
+);
 
 const PageMeetupDetail = ({
   match,
@@ -28,6 +39,7 @@ const PageMeetupDetail = ({
 
   return (
     <div className="meetup-detail-page">
+      <Suspense fallback={<Loader />} />
       <MeetupDetailHeroSection meetup={meetup} />
       <MeetupDetailMainSection meetup={meetup} threads={threads} />
     </div>
