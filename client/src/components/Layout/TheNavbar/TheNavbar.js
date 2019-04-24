@@ -54,7 +54,9 @@ const TheNavbar = () => {
               <a className="button is-primary">
                 <strong>Sign up</strong>
               </a>
-              <a className="button is-light">Log in</a>
+              <Link to="/login" className="button is-light">
+                Log in
+              </Link>
             </div>
           </div>
         </div>
