@@ -9,6 +9,7 @@ import {
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 import { fetchThreadsById, threadsSelector } from '../../ducks/threads';
+import ThreadItem from '../../components/ThreadItem/ThreadItem';
 
 const PageMeetupDetail = ({
   match,
@@ -132,57 +133,10 @@ const PageMeetupDetail = ({
               <div className="content is-medium">
                 <h3 className="title is-3">Threads</h3>
                 {/**************************** Threads Section ****************************/}
+
                 {threads &&
                   threads.map((thread) => (
-                    <div className="box" key={thread._id}>
-                      <h4 id="const" className="title is-3">
-                        {thread.title}
-                      </h4>
-                      <form className="post-create">
-                        <div className="field">
-                          <textarea
-                            className="textarea textarea-post"
-                            placeholder="Write a post"
-                            rows="1"
-                          />
-                          <button disabled className="button is-primary m-t-sm">
-                            Send
-                          </button>
-                        </div>
-                      </form>
-
-                      {/**************************** Threads Posts ****************************/}
-                      {thread &&
-                        thread.posts.map((post) => (
-                          <article className="media post-item" key={post._id}>
-                            <figure className="media-left is-rounded user-image">
-                              <p className="image is-32x32">
-                                <img
-                                  className="is-rounded"
-                                  src={post.user.avatar}
-                                />
-                              </p>
-                            </figure>
-                            <div className="media-content">
-                              <div className="content is-medium">
-                                <div className="post-content">
-                                  <strong className="author">
-                                    {post.user.name}
-                                  </strong>
-
-                                  <small className="post-time">
-                                    {formatDate(post.updatedAt, 'LLL')}
-                                  </small>
-                                  <br />
-                                  <p className="post-content-message">
-                                    {post.text}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </article>
-                        ))}
-                    </div>
+                    <ThreadItem thread={thread} key={thread._id} />
                   ))}
               </div>
             </div>
