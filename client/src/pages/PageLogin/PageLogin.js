@@ -42,15 +42,9 @@ const PageLogin = () => {
                                 placeholder="Email"
                               />
                               {meta.touched && meta.error && (
-                                <div className="form-error">
-                                  <span>{meta.error}</span>
-                                  <span className="help is-danger">
-                                    Email is required
-                                  </span>
-                                  <span className="help is-danger">
-                                    Email address is not valid
-                                  </span>
-                                </div>
+                                <span className="help is-danger">
+                                  {meta.error}
+                                </span>
                               )}
                             </div>
                           )}
@@ -74,15 +68,9 @@ const PageLogin = () => {
                                 placeholder="Password"
                               />
                               {meta.touched && meta.error && (
-                                <div className="form-error">
-                                  <span>{meta.error}</span>
-                                  <span className="help is-danger">
-                                    Password is required
-                                  </span>
-                                  <span className="help is-danger">
-                                    Password is not valid
-                                  </span>
-                                </div>
+                                <span className="help is-danger">
+                                  {meta.error}
+                                </span>
                               )}
                             </div>
                           )}
