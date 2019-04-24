@@ -5,8 +5,8 @@ import { Route, Switch } from 'react-router-dom';
 import './App.scss';
 
 import Loader from './components/shared/Loader/Loader';
-import TheNavbar from './components/shared/TheNavbar/TheNavbar';
-import TheFooter from './components/shared/TheFooter/TheFooter';
+import TheNavbar from './components/Layout/TheNavbar/TheNavbar';
+import TheFooter from './components/Layout/TheFooter/TheFooter';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>

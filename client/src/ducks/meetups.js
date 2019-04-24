@@ -43,18 +43,12 @@ export const FETCH_MEETUP_BY_ID_ERROR = `${prefix}/FETCH_MEETUP_BY_ID_ERROR`;
  * Reducer
  * */
 
-const test = {
-  obj1: {
-    obj2: 'Obj2'
-  }
-};
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
   loading: false,
   meetups: new List([]),
-  meetup: {},
-  test: fromJS(test)
+  meetup: {}
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -137,11 +131,6 @@ export const meetupSelector = createSelector(
 export const meetupCreatorSelector = createSelector(
   stateSelector,
   (state) => state.get('meetup').toJS().meetupCreator
-);
-
-export const testSelector = createSelector(
-  stateSelector,
-  (state) => state.get('test').toJS()
 );
 
 /**

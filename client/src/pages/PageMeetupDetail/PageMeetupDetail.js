@@ -36,7 +36,7 @@ const PageMeetupDetail = ({ match, meetup, fetchMeetupById, loading }) => {
               <div className="media-content">
                 <div className="content">
                   <p>
-                    Created by <strong>{meetup.meetupCreator.name} </strong>
+                    Created by <strong> {meetup.meetupCreator.name} </strong>
                   </p>
                 </div>
               </div>

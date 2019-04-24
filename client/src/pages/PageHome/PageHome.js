@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
-import AppHero from '../../components/shared/AppHero/AppHero';
+import AppHero from '../../components/Layout/AppHero/AppHero';
 import AppDropdown from '../../components/shared/AppDropdown/AppDropdown';
 import {
   allCategoriesSelector,

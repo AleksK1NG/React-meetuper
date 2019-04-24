@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TheNavbar = () => {
   return (
@@ -8,9 +9,9 @@ const TheNavbar = () => {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a className="navbar-item" href="https://bulma.io">
+        <Link to="/" className="navbar-item">
           <h1 className="title is-4">React Meetuper</h1>
-        </a>
+        </Link>
         <a
           role="button"
           className="navbar-burger burger"
@@ -26,7 +27,9 @@ const TheNavbar = () => {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item">Home</a>
+          <Link to="/" className="navbar-item">
+            Home
+          </Link>
 
           <a className="navbar-item">Find</a>
 
