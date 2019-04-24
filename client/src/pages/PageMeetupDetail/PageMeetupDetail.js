@@ -9,20 +9,12 @@ import {
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 
-const PageMeetupDetail = ({
-  match,
-  meetup,
-  fetchMeetupById,
-  loadingMeetups
-}) => {
+const PageMeetupDetail = ({ match, meetup, fetchMeetupById, loading }) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
   }, []);
 
-  // if (!loadingMeetups) return <Loader />;
-  if (!meetup.meetupCreator) return <Loader />;
-
-  console.log('from meetup detail ', loadingMeetups, meetup.meetupCreator);
+  if (!meetup.meetupCreator || loading) return <Loader />;
 
   return (
     <div className="meetup-detail-page">
@@ -172,7 +164,7 @@ const PageMeetupDetail = ({
 export default connect(
   (state) => ({
     meetup: meetupSelector(state),
-    loadingMeetups: loadingMeetupsSelector(state)
+    loading: loadingMeetupsSelector(state)
   }),
   { fetchMeetupById }
 )(PageMeetupDetail);

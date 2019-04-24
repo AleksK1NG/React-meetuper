@@ -51,7 +51,7 @@ const test = {
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
-  loadingMeetups: false,
+  loading: false,
   meetups: new List([]),
   meetup: {},
   test: fromJS(test)
@@ -66,35 +66,35 @@ export default function reducer(state = ReducerRecord, action) {
     case ADD_BOOK_REQUEST:
     case FETCH_BOOK_BY_ID_REQUEST:
     case FETCH_BOOK_BY_ID:
-      return state.set('loadingMeetups', true);
+      return state.set('loading', true);
 
     case FETCH_MEETUPS_SUCCESS:
       return state
         .set('meetups', fromJS(payload.data))
-        .set('loadingMeetups', false)
+        .set('loading', false)
         .set('error', null);
 
     case FETCH_MEETUP_BY_ID_SUCCESS:
       return state
         .set('meetup', fromJS(payload.data))
-        .set('loadingMeetups', false)
+        .set('loading', false)
         .set('error', null);
 
     case FETCH_MEETUPS_ERROR:
     case FETCH_MEETUP_BY_ID_ERROR:
     case ADD_BOOK_ERROR:
     case DELETE_BOOK_ERROR:
-      return state.set('error', payload.err).set('loadingMeetups', false);
+      return state.set('error', payload.err).set('loading', false);
 
     case ADD_BOOK_SUCCESS:
       return state
         .set('error', null)
-        .set('loadingMeetups', false)
+        .set('loading', false)
         .update('books', (books) => books.push(fromJS(payload.data)));
 
     case DELETE_BOOK_SUCCESS:
       return state
-        .set('loadingMeetups', false)
+        .set('loading', false)
         .set('error', null)
         .update('books', (books) => {
           return books.filter((book) => book.get('id') !== payload);
@@ -103,7 +103,7 @@ export default function reducer(state = ReducerRecord, action) {
     case 'UPDATE_MEETUP_SUCCESS':
       return state
         .set('error', null)
-        .set('loadingMeetups', false)
+        .set('loading', false)
         .update('books', (books) =>
           books.map((book) =>
             book.get('id') === payload.data.id ? fromJS(payload.data) : book
@@ -123,7 +123,7 @@ export const stateSelector = (state) => state[moduleName];
 
 export const loadingMeetupsSelector = createSelector(
   stateSelector,
-  (state) => state.get('loadingMeetups')
+  (state) => state.get('loading')
 );
 export const allMeetupsSelector = createSelector(
   stateSelector,

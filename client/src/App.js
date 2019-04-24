@@ -8,13 +8,6 @@ import Loader from './components/shared/Loader/Loader';
 import TheNavbar from './components/shared/TheNavbar/TheNavbar';
 import TheFooter from './components/shared/TheFooter/TheFooter';
 
-const BookPageEdit = React.lazy(() =>
-  import('./pages/BookPageEdit/BookPageEdit')
-);
-const BookPageCreate = React.lazy(() =>
-  import('./pages/BookPageCreate/BookPageCreate')
-);
-
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>
   import('./pages/PageMeetupDetail/PageMeetupDetail')
@@ -28,7 +21,6 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={PageHome} />
           <Route exact path="/meetups/:id" component={PageMeetupDetail} />
-          <Route exact path="/create" component={BookPageCreate} />
         </Switch>
       </Suspense>
       <TheFooter />
