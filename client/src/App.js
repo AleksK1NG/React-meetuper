@@ -17,6 +17,10 @@ const PageMeetupFind = React.lazy(() =>
   import('./pages/PageMeetupFind/PageMeetupFind')
 );
 
+const PageNotFound = React.lazy(() =>
+  import('./pages/PageNotFound/PageNotFound')
+);
+
 const App = () => {
   return (
     <div id="app">
@@ -26,6 +30,7 @@ const App = () => {
           <Route exact path="/" component={PageHome} />
           <Route exact path="/meetups/:id" component={PageMeetupDetail} />
           <Route exact path="/find" component={PageMeetupFind} />
+          <Route path="*" exact component={PageNotFound} />
         </Switch>
       </Suspense>
       <TheFooter />
