@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/helpers';
 
 const MeetupItem = ({ meetup }) => {
   console.log('render meetup item');
   return (
     <div className="column is-one-third">
-      <div className="card large">
+      <Link to={`/meetups/${meetup._id}`} className="card large">
         <div className="card-image">
           <figure className="image is-4by3">
             <img src={meetup.image} alt="Image" />
@@ -36,7 +37,7 @@ const MeetupItem = ({ meetup }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

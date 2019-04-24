@@ -1,5 +1,5 @@
 import { appName } from '../config';
-import { List, fromJS } from 'immutable';
+import { List, fromJS, Map } from 'immutable';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put, all } from 'redux-saga/effects';
 import ApiService from '../services/api';
@@ -34,54 +34,60 @@ export const FETCH_MEETUPS_REQUEST = `${prefix}/FETCH_MEETUPS_REQUEST`;
 export const FETCH_MEETUPS_SUCCESS = `${prefix}/FETCH_MEETUPS_SUCCESS`;
 export const FETCH_MEETUPS_ERROR = `${prefix}/FETCH_MEETUPS_ERROR`;
 
+export const FETCH_MEETUP_BY_ID = `${prefix}/FETCH_MEETUP_BY_ID`;
+export const FETCH_MEETUP_BY_ID_REQUEST = `${prefix}/FETCH_MEETUP_BY_ID_REQUEST`;
+export const FETCH_MEETUP_BY_ID_SUCCESS = `${prefix}/FETCH_MEETUP_BY_ID_SUCCESS`;
+export const FETCH_MEETUP_BY_ID_ERROR = `${prefix}/FETCH_MEETUP_BY_ID_ERROR`;
+
 /**
  * Reducer
  * */
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
-  loadingCategories: false,
+  loadingMeetups: false,
   meetups: new List([]),
-  meetup: {}
+  meetup: new Map({})
 });
 
 export default function reducer(state = ReducerRecord, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case FETCH_MEETUP_BY_ID_REQUEST:
     case FETCH_MEETUPS_REQUEST:
     case ADD_BOOK_REQUEST:
     case FETCH_BOOK_BY_ID_REQUEST:
     case FETCH_BOOK_BY_ID:
-      return state.set('loadingCategories', true);
+      return state.set('loadingMeetups', true);
 
     case FETCH_MEETUPS_SUCCESS:
       return state
         .set('meetups', fromJS(payload.data))
-        .set('loadingCategories', false)
+        .set('loadingMeetups', false)
         .set('error', null);
 
-    case FETCH_BOOK_BY_ID_SUCCESS:
+    case FETCH_MEETUP_BY_ID_SUCCESS:
       return state
-        .set('loadingCategories', false)
+        .set('loadingMeetups', false)
         .set('error', null)
-        .set('book', fromJS(payload.data));
+        .set('meetup', fromJS(payload.data));
 
     case FETCH_MEETUPS_ERROR:
-    case FETCH_BOOK_BY_ID_ERROR:
+    case FETCH_MEETUP_BY_ID_ERROR:
     case ADD_BOOK_ERROR:
     case DELETE_BOOK_ERROR:
-      return state.set('error', payload.err).set('loadingCategories', false);
+      return state.set('error', payload.err).set('loadingMeetups', false);
 
     case ADD_BOOK_SUCCESS:
       return state
         .set('error', null)
-        .set('loadingCategories', false)
+        .set('loadingMeetups', false)
         .update('books', (books) => books.push(fromJS(payload.data)));
 
     case DELETE_BOOK_SUCCESS:
       return state
-        .set('loadingCategories', false)
+        .set('loadingMeetups', false)
         .set('error', null)
         .update('books', (books) => {
           return books.filter((book) => book.get('id') !== payload);
@@ -90,7 +96,7 @@ export default function reducer(state = ReducerRecord, action) {
     case 'UPDATE_MEETUP_SUCCESS':
       return state
         .set('error', null)
-        .set('loadingCategories', false)
+        .set('loadingMeetups', false)
         .update('books', (books) =>
           books.map((book) =>
             book.get('id') === payload.data.id ? fromJS(payload.data) : book
@@ -110,7 +116,7 @@ export const stateSelector = (state) => state[moduleName];
 
 export const loadingMeetupsSelector = createSelector(
   stateSelector,
-  (state) => state.get('loadingCategories')
+  (state) => state.get('loadingMeetups')
 );
 export const allMeetupsSelector = createSelector(
   stateSelector,
@@ -131,10 +137,10 @@ export const fetchAllMeetups = () => {
   };
 };
 
-export const fetchBookById = (bookId) => {
+export const fetchMeetupById = (meetupId) => {
   return {
-    type: FETCH_BOOK_BY_ID,
-    payload: { bookId }
+    type: FETCH_MEETUP_BY_ID,
+    payload: { meetupId }
   };
 };
 
@@ -183,25 +189,25 @@ export function* fetchAllMeetupsSaga() {
   }
 }
 
-export function* fetchBookByIdSaga(action) {
+export function* fetchMeetupByIdSaga(action) {
   const { payload } = action;
-
+  debugger;
   try {
     yield put({
-      type: FETCH_BOOK_BY_ID_REQUEST
+      type: FETCH_MEETUP_BY_ID_REQUEST
     });
 
-    const { data } = yield call(ApiService.getBookById, payload.bookId);
-
+    const { data } = yield call(ApiService.getMeetupById, payload.meetupId);
+    debugger;
     yield put({
-      type: FETCH_BOOK_BY_ID_SUCCESS,
+      type: FETCH_MEETUP_BY_ID_SUCCESS,
       payload: { data }
     });
   } catch (err) {
     console.log(err);
 
     yield put({
-      type: FETCH_BOOK_BY_ID_ERROR,
+      type: FETCH_MEETUP_BY_ID_ERROR,
       payload: { err }
     });
   }
@@ -275,7 +281,7 @@ export function* updateBookSaga(action) {
 export function* saga() {
   yield all([
     takeEvery(FETCH_ALL_REQUEST, fetchAllMeetupsSaga),
-    takeEvery(FETCH_BOOK_BY_ID, fetchBookByIdSaga),
+    takeEvery(FETCH_MEETUP_BY_ID, fetchMeetupByIdSaga),
     takeEvery(ADD_BOOK_REQUEST, addBookSaga),
     takeEvery(DELETE_BOOK_REQUEST, deleteBookSaga)
   ]);
