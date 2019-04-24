@@ -65,3 +65,6 @@
   transform: scale(0.9);
   transition: opacity 1000ms, transform 1000ms ease-in;
 }
+.page-wrapper {
+  min-height: 55vh;
+}

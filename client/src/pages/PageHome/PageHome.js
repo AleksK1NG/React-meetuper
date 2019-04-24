@@ -14,6 +14,7 @@ import {
   fetchAllMeetups,
   loadingMeetupsSelector
 } from '../../ducks/meetups';
+import AppSpinner from '../../components/shared/AppSpinner/AppSpinner';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')
@@ -51,7 +52,10 @@ const PageHome = ({
               All
             </button>
           </div>
-          <div className="row columns is-multiline">
+          <div
+            className="row columns is-multiline"
+            style={{ justifyContent: 'center' }}
+          >
             <Suspense fallback={<Loader />}>
               {meetups && !loadingMeetups ? (
                 meetups.map((meetup) => (
@@ -69,7 +73,10 @@ const PageHome = ({
           <div>
             <h1 className="title">Categories</h1>
 
-            <div className="columns cover is-multiline is-mobile">
+            <div
+              className="columns cover is-multiline is-mobile"
+              style={{ justifyContent: 'center' }}
+            >
               <Suspense fallback={<Loader />}>
                 {categories && !loadingCategories ? (
                   categories.map((category) => (
