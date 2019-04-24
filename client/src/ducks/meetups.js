@@ -42,12 +42,19 @@ export const FETCH_MEETUP_BY_ID_ERROR = `${prefix}/FETCH_MEETUP_BY_ID_ERROR`;
 /**
  * Reducer
  * */
+
+const test = {
+  obj1: {
+    obj2: 'Obj2'
+  }
+};
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
   loadingMeetups: false,
   meetups: new List([]),
-  meetup: new Map({})
+  meetup: {},
+  test: fromJS(test)
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -69,9 +76,9 @@ export default function reducer(state = ReducerRecord, action) {
 
     case FETCH_MEETUP_BY_ID_SUCCESS:
       return state
+        .set('meetup', fromJS(payload.data))
         .set('loadingMeetups', false)
-        .set('error', null)
-        .set('meetup', fromJS(payload.data));
+        .set('error', null);
 
     case FETCH_MEETUPS_ERROR:
     case FETCH_MEETUP_BY_ID_ERROR:
@@ -125,6 +132,16 @@ export const allMeetupsSelector = createSelector(
 export const meetupSelector = createSelector(
   stateSelector,
   (state) => state.get('meetup').toJS()
+);
+
+export const meetupCreatorSelector = createSelector(
+  stateSelector,
+  (state) => state.get('meetup').toJS().meetupCreator
+);
+
+export const testSelector = createSelector(
+  stateSelector,
+  (state) => state.get('test').toJS()
 );
 
 /**
@@ -191,14 +208,14 @@ export function* fetchAllMeetupsSaga() {
 
 export function* fetchMeetupByIdSaga(action) {
   const { payload } = action;
-  debugger;
+
   try {
     yield put({
       type: FETCH_MEETUP_BY_ID_REQUEST
     });
 
     const { data } = yield call(ApiService.getMeetupById, payload.meetupId);
-    debugger;
+
     yield put({
       type: FETCH_MEETUP_BY_ID_SUCCESS,
       payload: { data }

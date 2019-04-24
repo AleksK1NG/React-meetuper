@@ -5,7 +5,9 @@ import './PageMeetupDetail.scss';
 import {
   fetchMeetupById,
   loadingMeetupsSelector,
-  meetupSelector
+  meetupCreatorSelector,
+  meetupSelector,
+  testSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 
@@ -13,16 +15,25 @@ const PageMeetupDetail = ({
   match,
   meetup,
   fetchMeetupById,
-  loadingMeetups
+  loadingMeetups,
+  meetupCreator,
+  test
 }) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
   }, []);
 
-  if (loadingMeetups) return <Loader />;
+  // if (!loadingMeetups) return <Loader />;
+  if (!meetupCreator) return <Loader />;
+
+  console.log('from meetup detail ', loadingMeetups, meetupCreator);
 
   return (
     <div className="meetup-detail-page">
+      {/*{meetupCreator._id}*/}
+      {test.obj1.obj2}
+      {JSON.stringify(meetupCreator.name, null, 2)}
+      {meetupCreator && meetupCreator.name}
       <section className="hero">
         <div className="hero-body">
           <div className="container">
@@ -31,13 +42,17 @@ const PageMeetupDetail = ({
             <article className="media v-center">
               <figure className="media-left">
                 <p className="image is-64x64">
-                  <img className="is-rounded" src="" />
+                  <img
+                    className="is-rounded"
+                    src={meetupCreator && meetupCreator.avatar}
+                  />
                 </p>
               </figure>
               <div className="media-content">
                 <div className="content">
                   <p>
-                    Created by <strong>Creator Name</strong>
+                    Created by{' '}
+                    <strong>{meetupCreator && meetupCreator.name} </strong>
                   </p>
                 </div>
               </div>
@@ -165,7 +180,9 @@ const PageMeetupDetail = ({
 export default connect(
   (state) => ({
     meetup: meetupSelector(state),
-    loadingMeetups: loadingMeetupsSelector(state)
+    loadingMeetups: loadingMeetupsSelector(state),
+    meetupCreator: meetupCreatorSelector(state),
+    test: testSelector(state)
   }),
   { fetchMeetupById }
 )(PageMeetupDetail);
