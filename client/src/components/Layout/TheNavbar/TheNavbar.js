@@ -51,9 +51,9 @@ const TheNavbar = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a className="button is-primary">
+              <Link to="/register" className="button is-primary">
                 <strong>Sign up</strong>
-              </a>
+              </Link>
               <Link to="/login" className="button is-light">
                 Log in
               </Link>

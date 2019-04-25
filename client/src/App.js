@@ -1,7 +1,5 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import './App.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
 import Loader from './components/shared/Loader/Loader';
@@ -12,16 +10,16 @@ const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>
   import('./pages/PageMeetupDetail/PageMeetupDetail')
 );
-
 const PageMeetupFind = React.lazy(() =>
   import('./pages/PageMeetupFind/PageMeetupFind')
 );
-
 const PageNotFound = React.lazy(() =>
   import('./pages/PageNotFound/PageNotFound')
 );
-
 const PageLogin = React.lazy(() => import('./pages/PageLogin/PageLogin'));
+const PageRegister = React.lazy(() =>
+  import('./pages/PageRegister/PageRegister')
+);
 
 const App = () => {
   return (
@@ -34,6 +32,7 @@ const App = () => {
             <Route exact path="/meetups/:id" component={PageMeetupDetail} />
             <Route exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
+            <Route exact path="/register" component={PageRegister} />
             <Route path="*" exact component={PageNotFound} />
           </Switch>
         </Suspense>

@@ -81,6 +81,7 @@ const PageLogin = () => {
                     </div>
 
                     <button
+                      disabled={pristine || invalid}
                       type="submit"
                       className="button is-block is-info is-large is-fullwidth"
                     >
