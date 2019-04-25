@@ -10,8 +10,17 @@ export const validate = (values) => {
   }
 
   if (values.password && values.password.trim().length < 6) {
-    errors.password = 'Password must > 6 characters';
+    errors.password = 'Password length must be greater then 6 characters';
+  }
+
+  if (values.email && !emailIsValid(values.email)) {
+    errors.email = 'Invalid email !';
   }
 
   return errors;
 };
+
+// Email regex validator
+function emailIsValid(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

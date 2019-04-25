@@ -7,6 +7,8 @@ import { validate } from '../../utils/finalFormValidate';
 const PageLogin = () => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
+
+    formApi.reset();
   };
   return (
     <section className="hero is-success is-fullheight">
