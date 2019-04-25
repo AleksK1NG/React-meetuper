@@ -31,3 +31,7 @@ exports.getMeetupById = function(req, res) {
       return res.json(meetup);
     });
 };
+
+exports.getSecret = function(req, res) {
+  return res.json({ secret: 'I am secret Message' });
+};
