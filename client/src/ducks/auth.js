@@ -1,7 +1,8 @@
 import { appName } from '../config';
-import { Record, Map, fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put, all } from 'redux-saga/effects';
+import { replace } from 'connected-react-router';
 import api from '../services/api';
 
 /**
@@ -115,10 +116,10 @@ export const registerUser = (userData) => {
   };
 };
 
-export const login = ({ email, password }) => {
+export const loginUser = (userData) => {
   return {
     type: SIGN_IN_REQUEST,
-    payload: { email, password }
+    payload: { userData }
   };
 };
 
@@ -151,6 +152,7 @@ export function* registerSaga(action) {
       payload: { data }
     });
     debugger;
+    yield put(replace('/'));
   } catch (error) {
     console.log(error);
     // localStorage.removeItem('token');
@@ -163,20 +165,20 @@ export function* registerSaga(action) {
 
 export function* loginSaga(action) {
   const {
-    payload: { email, password }
+    payload: { userData }
   } = action;
+
   try {
-    const {
-      data: { token, user }
-    } = yield call(api.loginUser, { email, password });
-    localStorage.setItem('token', token);
+    const { data } = yield call(api.loginUser, userData);
+    // localStorage.setItem('token', token);
     yield put({
       type: SIGN_IN_SUCCESS,
-      payload: { user }
+      payload: { data }
     });
+    yield put(replace('/'));
   } catch (error) {
     console.log(error);
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     yield put({
       type: SIGN_IN_ERROR,
       payload: { error }

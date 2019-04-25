@@ -7,6 +7,7 @@ const booksListURL = 'http://localhost:3001/booksList';
 const categoriesURL = '/api/v1/categories';
 const meetupsURl = '/api/v1/meetups';
 const registerURL = '/api/v1/users/register';
+const loginURL = '/api/v1/users/login';
 
 class ApiService {
   getAllBooks() {
@@ -47,6 +48,10 @@ class ApiService {
 
   registerUser(userData) {
     return axios.post(registerURL, userData);
+  }
+
+  loginUser(userData) {
+    return axios.post(loginURL, userData);
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
-import { validate } from '../../utils/finalFormValidate';
+import { validateRegister } from '../../utils/finalFormValidate';
 import './PageRegister.scss';
 import { registerUser } from '../../ducks/auth';
 
@@ -26,7 +26,7 @@ const PageRegister = ({ registerUser }) => {
               </figure>
               <Form
                 onSubmit={onSubmit}
-                validate={validate}
+                validate={validateRegister}
                 render={({ handleSubmit, pristine, invalid }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="field">

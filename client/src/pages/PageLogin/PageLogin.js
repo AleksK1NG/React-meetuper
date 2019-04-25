@@ -1,15 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './PageLogin.scss';
 import { Field, Form } from 'react-final-form';
-import { validate } from '../../utils/finalFormValidate';
-
-const PageLogin = () => {
+import { validate, validateLogin } from '../../utils/finalFormValidate';
+import { loginUser } from '../../ducks/auth';
+const PageLogin = ({ loginUser }) => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
 
+    loginUser(values);
     formApi.reset();
   };
+
   return (
     <section className="hero is-success is-fullheight">
       <div className="hero-body">
@@ -23,7 +26,7 @@ const PageLogin = () => {
               </figure>
               <Form
                 onSubmit={onSubmit}
-                validate={validate}
+                validate={validateLogin}
                 render={({ handleSubmit, pristine, invalid }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="field">
@@ -39,7 +42,7 @@ const PageLogin = () => {
                               <label>Email</label>
                               <input
                                 className="input is-large"
-                                type="text"
+                                type="email"
                                 {...input}
                                 placeholder="Email"
                               />
@@ -103,4 +106,7 @@ const PageLogin = () => {
   );
 };
 
-export default PageLogin;
+export default connect(
+  (state) => ({}),
+  { loginUser }
+)(PageLogin);
