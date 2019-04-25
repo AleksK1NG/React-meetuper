@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { userSelector } from '../../../ducks/auth';
 
-const TheNavbar = () => {
+const TheNavbar = ({ user }) => {
   return (
     <nav
       className="navbar is-spaced"
@@ -49,6 +51,7 @@ const TheNavbar = () => {
         </div>
 
         <div className="navbar-end">
+          {user.name && <div className="navbar-item">Welcome {user.name}</div>}
           <div className="navbar-item">
             <div className="buttons">
               <Link to="/register" className="button is-primary">
@@ -65,4 +68,9 @@ const TheNavbar = () => {
   );
 };
 
-export default TheNavbar;
+export default connect(
+  (state) => ({
+    user: userSelector(state)
+  }),
+  null
+)(TheNavbar);

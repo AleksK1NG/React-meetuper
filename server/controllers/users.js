@@ -95,3 +95,13 @@ exports.logout = function(req, res) {
   req.logout();
   return res.json({ status: 'Session destroyed!' });
 };
+
+  exports.getCurrentUser = function(req, res, next) {
+  const user = req.user;
+
+  if (!user) {
+    return res.sendStatus(422);
+  }
+
+  return res.json(user);
+};

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './PageLogin.scss';
 import { Field, Form } from 'react-final-form';
-import { validate, validateLogin } from '../../utils/finalFormValidate';
+import { validateLogin } from '../../utils/finalFormValidate';
 import { loginUser } from '../../ducks/auth';
 const PageLogin = ({ loginUser }) => {
   const onSubmit = (values, formApi) => {
