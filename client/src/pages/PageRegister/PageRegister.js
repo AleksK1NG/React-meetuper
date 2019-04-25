@@ -88,16 +88,16 @@ const PageRegister = () => {
                           name="avatar"
                           component="input"
                           type="text"
-                          label="Avatar"
+                          label="Avatar URL"
                         >
                           {({ input, meta }) => (
                             <div>
-                              <label>User Avatar</label>
+                              <label>User Avatar URL</label>
                               <input
                                 className="input is-large"
                                 type="text"
                                 {...input}
-                                placeholder="Avatar"
+                                placeholder="Avatar URL"
                               />
                               {meta.touched && meta.error && (
                                 <span className="help is-danger">
