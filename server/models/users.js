@@ -67,12 +67,3 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 };
 
 module.exports = mongoose.model('User', userSchema);
-
-
-// {
-//   "username": "Alex",
-//   "name": "Alexander Bryksin",
-//   "email": "alexander.bryksin@yandex.ru",
-//   "password": "123456",
-//   "passwordConfirmation": "123456",
-// }

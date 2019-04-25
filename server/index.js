@@ -20,6 +20,8 @@ require('./models/threads');
 require('./models/posts');
 require('./models/categories');
 
+require('./services/passport');
+
 const meetupsRoutes = require('./routes/meetups'),
   usersRoutes = require('./routes/users'),
   threadsRoutes = require('./routes/threads'),
@@ -34,6 +36,7 @@ mongoose
 const app = express();
 
 app.use(bodyParser.json());
+
 app.use(
   session({
     secret: config.SESSION_SECRET,
