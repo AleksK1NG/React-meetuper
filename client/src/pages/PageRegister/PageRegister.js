@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
 import { validate } from '../../utils/finalFormValidate';
 import './PageRegister.scss';
+import { registerUser } from '../../ducks/auth';
 
-const PageRegister = () => {
+const PageRegister = ({ registerUser }) => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
 
+    registerUser(values);
     formApi.reset();
   };
   return (
@@ -215,4 +218,7 @@ const PageRegister = () => {
   );
 };
 
-export default PageRegister;
+export default connect(
+  (state) => ({}),
+  { registerUser }
+)(PageRegister);

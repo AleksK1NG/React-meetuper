@@ -6,6 +6,7 @@ import axios from 'axios';
 const booksListURL = 'http://localhost:3001/booksList';
 const categoriesURL = '/api/v1/categories';
 const meetupsURl = '/api/v1/meetups';
+const registerURL = '/api/v1/users/register';
 
 class ApiService {
   getAllBooks() {
@@ -42,6 +43,10 @@ class ApiService {
 
   getThreadsById(meetupId) {
     return axios.get(`/api/v1/threads?meetupId=${meetupId}`);
+  }
+
+  registerUser(userData) {
+    return axios.post(registerURL, userData);
   }
 }
 
