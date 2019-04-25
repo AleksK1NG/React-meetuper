@@ -63,7 +63,7 @@ export default function reducer(state = ReducerRecord, action) {
 
     case LOAD_USER_SUCCESS:
       return state
-        .merge({ user: new Map(payload.data) })
+        .merge({ user: fromJS(payload.data) })
         .set('error', null)
         .set('isLoading', false)
         .set('isAuthenticated', true);
@@ -190,13 +190,15 @@ export function* loginSaga(action) {
 export function* loadUserSaga() {
   try {
     const { data } = yield call(api.loadUser);
+
     yield put({
       type: LOAD_USER_SUCCESS,
       payload: { data }
     });
+    debugger;
   } catch (error) {
     console.log(error);
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     yield put({
       type: LOAD_USER_ERROR,
       payload: { error }

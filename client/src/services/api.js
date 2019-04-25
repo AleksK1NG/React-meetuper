@@ -8,6 +8,8 @@ const categoriesURL = '/api/v1/categories';
 const meetupsURl = '/api/v1/meetups';
 const registerURL = '/api/v1/users/register';
 const loginURL = '/api/v1/users/login';
+const threadsURL = '/api/v1/threads';
+const currentUserURL = '/api/v1/users/me';
 
 class ApiService {
   getAllBooks() {
@@ -43,7 +45,7 @@ class ApiService {
   }
 
   getThreadsById(meetupId) {
-    return axios.get(`/api/v1/threads?meetupId=${meetupId}`);
+    return axios.get(`${threadsURL}?meetupId=${meetupId}`);
   }
 
   registerUser(userData) {
@@ -52,6 +54,10 @@ class ApiService {
 
   loginUser(userData) {
     return axios.post(loginURL, userData);
+  }
+
+  loadUser() {
+    return axios.get(currentUserURL);
   }
 }
 
