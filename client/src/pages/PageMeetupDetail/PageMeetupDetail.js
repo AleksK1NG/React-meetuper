@@ -7,7 +7,11 @@ import {
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
-import { fetchThreadsById, threadsSelector } from '../../ducks/threads';
+import {
+  fetchThreadsById,
+  loadingThreadsSelector,
+  threadsSelector
+} from '../../ducks/threads';
 // import MeetupDetailHeroSection from '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection';
 // import MeetupDetailMainSection from '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection';
 
@@ -28,14 +32,16 @@ const PageMeetupDetail = ({
   threads,
   fetchMeetupById,
   fetchThreadsById,
-  loading
+  loading,
+  loadingThreads
 }) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
     fetchThreadsById(match.params.id);
   }, []);
 
-  if (!meetup.meetupCreator || !threads || loading) return <Loader />;
+  // if (!meetup.meetupCreator || !threads || loading) return <Loader />;
+  if (loadingThreads || loading) return <Loader />;
 
   return (
     <div className="meetup-detail-page">
@@ -50,7 +56,8 @@ export default connect(
   (state) => ({
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state),
-    threads: threadsSelector(state)
+    threads: threadsSelector(state),
+    loadingThreads: loadingThreadsSelector(state)
   }),
   { fetchMeetupById, fetchThreadsById }
 )(PageMeetupDetail);

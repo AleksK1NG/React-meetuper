@@ -46,7 +46,7 @@ export const FETCH_THREADS_BY_ID_ERROR = `${prefix}/FETCH_THREADS_BY_ID_ERROR`;
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
-  loading: false,
+  loading: true,
   threads: new List([]),
   thread: {}
 });
