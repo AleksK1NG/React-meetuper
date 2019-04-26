@@ -10,6 +10,7 @@ const registerURL = '/api/v1/users/register';
 const loginURL = '/api/v1/users/login';
 const threadsURL = '/api/v1/threads';
 const currentUserURL = '/api/v1/users/me';
+const logoutURL = '/api/v1/users/logout';
 
 class ApiService {
   getAllBooks() {
@@ -58,6 +59,10 @@ class ApiService {
 
   loadUser() {
     return axios.get(currentUserURL);
+  }
+
+  logoutUser() {
+    return axios.post(logoutURL);
   }
 }
 

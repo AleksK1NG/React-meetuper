@@ -17,10 +17,12 @@ export const SIGN_IN_ERROR = `${prefix}/SIGN_IN_ERROR`;
 export const SIGN_UP_REQUEST = `${prefix}/SIGN_UP_REQUEST`;
 export const SIGN_UP_SUCCESS = `${prefix}/SIGN_UP_SUCCESS`;
 export const SIGN_UP_ERROR = `${prefix}/SIGN_UP_ERROR`;
-export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
 export const LOAD_USER_REQUEST = `${prefix}/LOAD_USER_REQUEST`;
 export const LOAD_USER_SUCCESS = `${prefix}/LOAD_USER_SUCCESS`;
 export const LOAD_USER_ERROR = `${prefix}/LOAD_USER_ERROR`;
+export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
+export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
+export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
 
 /**
  * Reducer
@@ -72,7 +74,7 @@ export default function reducer(state = ReducerRecord, action) {
       return state
         .set('isLoading', false)
         .set('isAuthenticated', false)
-        .set('user', null);
+        .set('user', new Map({}));
 
     case SIGN_IN_ERROR:
     case SIGN_UP_ERROR:
@@ -123,10 +125,11 @@ export const loginUser = (userData) => {
   };
 };
 
-export const logout = () => {
-  localStorage.removeItem('token');
+export const logoutUser = () => {
+  // localStorage.removeItem('token');
+  debugger;
   return {
-    type: SIGN_OUT_SUCCESS
+    type: SIGN_OUT_REQUEST
   };
 };
 
@@ -206,10 +209,29 @@ export function* loadUserSaga() {
   }
 }
 
+export function* logoutSaga() {
+  try {
+    yield call(api.logoutUser);
+
+    yield put({
+      type: SIGN_OUT_SUCCESS
+    });
+    debugger;
+  } catch (error) {
+    console.log(error);
+    // localStorage.removeItem('token');
+    yield put({
+      type: SIGN_OUT_ERROR,
+      payload: { error }
+    });
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(SIGN_UP_REQUEST, registerSaga),
     takeEvery(LOAD_USER_REQUEST, loadUserSaga),
-    takeEvery(SIGN_IN_REQUEST, loginSaga)
+    takeEvery(SIGN_IN_REQUEST, loginSaga),
+    takeEvery(SIGN_OUT_REQUEST, logoutSaga)
   ]);
 }
