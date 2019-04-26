@@ -129,7 +129,7 @@ export const loginUser = (userData) => {
 };
 
 export const logoutUser = () => {
-  // localStorage.removeItem('token');
+  localStorage.removeItem('react-meetuper');
   return {
     type: SIGN_OUT_REQUEST
   };
@@ -151,7 +151,7 @@ export function* registerSaga(action) {
   try {
     const { data } = yield call(api.registerUser, userData);
 
-    // localStorage.setItem('token', token);
+    localStorage.setItem('react-meetuper', data.token);
     yield put({
       type: SIGN_UP_SUCCESS,
       payload: { data }
@@ -160,7 +160,7 @@ export function* registerSaga(action) {
     yield put(replace('/'));
   } catch (error) {
     console.log(error);
-    // localStorage.removeItem('token');
+    localStorage.removeItem('react-meetuper');
     yield put({
       type: SIGN_UP_ERROR,
       payload: { error }
@@ -175,16 +175,15 @@ export function* loginSaga(action) {
 
   try {
     const { data } = yield call(api.loginUser, userData);
-    // localStorage.setItem('token', 'test');
+    localStorage.setItem('react-meetuper', data.token);
     yield put({
       type: SIGN_IN_SUCCESS,
       payload: { data }
     });
-    debugger;
     yield put(replace('/'));
   } catch (error) {
     console.log(error);
-    // localStorage.removeItem('token');
+    localStorage.removeItem('react-meetuper');
     yield put({
       type: SIGN_IN_ERROR,
       payload: { error }
@@ -202,7 +201,7 @@ export function* loadUserSaga() {
     });
   } catch (error) {
     console.log(error);
-    // localStorage.removeItem('token');
+    // localStorage.removeItem('react-meetuper');
     yield put({
       type: LOAD_USER_ERROR,
       payload: { error }
@@ -219,7 +218,7 @@ export function* logoutSaga() {
     });
   } catch (error) {
     console.log(error);
-    // localStorage.removeItem('token');
+    localStorage.removeItem('react-meetuper');
     yield put({
       type: SIGN_OUT_ERROR,
       payload: { error }

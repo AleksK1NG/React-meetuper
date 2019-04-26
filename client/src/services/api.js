@@ -58,7 +58,13 @@ class ApiService {
   }
 
   loadUser() {
-    return axios.get(currentUserURL);
+    const token = localStorage.getItem('react-meetuper');
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    };
+    return axios.get(currentUserURL, config);
   }
 
   logoutUser() {
