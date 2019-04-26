@@ -28,10 +28,10 @@ export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
  * Reducer
  * */
 export const ReducerRecord = fromJS({
-  user: new Map({}),
+  user: null,
   error: null,
-  isAuthenticated: null,
-  isLoading: false
+  isAuthenticated: false,
+  isLoading: true
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -74,7 +74,7 @@ export default function reducer(state = ReducerRecord, action) {
       return state
         .set('isLoading', false)
         .set('isAuthenticated', false)
-        .set('user', new Map({}));
+        .set('user', null);
 
     case SIGN_IN_ERROR:
     case SIGN_UP_ERROR:
@@ -99,12 +99,15 @@ export const authErrorSelector = createSelector(
 
 export const isAuthSelector = createSelector(
   stateSelector,
-  (state) => state.get('isAuthenticated').toJS()
+  (state) => state.get('isAuthenticated')
 );
 
 export const userSelector = createSelector(
   stateSelector,
-  (state) => state.get('user').toJS()
+  (state) => {
+    const user = state.get('user');
+    return user ? user.toJS() : null;
+  }
 );
 
 /**
@@ -127,7 +130,6 @@ export const loginUser = (userData) => {
 
 export const logoutUser = () => {
   // localStorage.removeItem('token');
-  debugger;
   return {
     type: SIGN_OUT_REQUEST
   };
@@ -154,7 +156,7 @@ export function* registerSaga(action) {
       type: SIGN_UP_SUCCESS,
       payload: { data }
     });
-    debugger;
+
     yield put(replace('/'));
   } catch (error) {
     console.log(error);
@@ -173,12 +175,12 @@ export function* loginSaga(action) {
 
   try {
     const { data } = yield call(api.loginUser, userData);
-    // localStorage.setItem('token', token);
+    // localStorage.setItem('token', 'test');
     yield put({
       type: SIGN_IN_SUCCESS,
       payload: { data }
     });
-    debugger;
+
     yield put(replace('/'));
   } catch (error) {
     console.log(error);
@@ -198,7 +200,6 @@ export function* loadUserSaga() {
       type: LOAD_USER_SUCCESS,
       payload: { data }
     });
-    debugger;
   } catch (error) {
     console.log(error);
     // localStorage.removeItem('token');
@@ -216,7 +217,6 @@ export function* logoutSaga() {
     yield put({
       type: SIGN_OUT_SUCCESS
     });
-    debugger;
   } catch (error) {
     console.log(error);
     // localStorage.removeItem('token');

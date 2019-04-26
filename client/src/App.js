@@ -7,6 +7,8 @@ import Loader from './components/shared/Loader/Loader';
 import TheNavbar from './components/Layout/TheNavbar/TheNavbar';
 import TheFooter from './components/Layout/TheFooter/TheFooter';
 import { loadUser } from './ducks/auth';
+import PageSecret from './pages/PageSecret/PageSecret';
+import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>
@@ -36,9 +38,10 @@ const App = ({ loadUser }) => {
           <Switch>
             <Route exact path="/" component={PageHome} />
             <Route exact path="/meetups/:id" component={PageMeetupDetail} />
-            <Route exact path="/find" component={PageMeetupFind} />
+            <ProtectedRoute exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
+            <Route path="/secret" component={PageSecret} />
             <Route path="*" exact component={PageNotFound} />
           </Switch>
         </Suspense>

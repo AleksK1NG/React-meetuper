@@ -14,7 +14,6 @@ import {
   fetchAllMeetups,
   loadingMeetupsSelector
 } from '../../ducks/meetups';
-import AppSpinner from '../../components/shared/AppSpinner/AppSpinner';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')

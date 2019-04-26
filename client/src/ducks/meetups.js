@@ -46,7 +46,7 @@ export const FETCH_MEETUP_BY_ID_ERROR = `${prefix}/FETCH_MEETUP_BY_ID_ERROR`;
 export const ReducerRecord = fromJS({
   user: 'Alex',
   error: null,
-  loading: false,
+  loading: true,
   meetups: new List([]),
   meetup: {}
 });

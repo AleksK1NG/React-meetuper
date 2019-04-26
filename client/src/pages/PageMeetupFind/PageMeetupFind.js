@@ -1,6 +1,10 @@
 import React, { useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
-import { allMeetupsSelector, fetchAllMeetups } from '../../ducks/meetups';
+import {
+  allMeetupsSelector,
+  fetchAllMeetups,
+  loadingMeetupsSelector
+} from '../../ducks/meetups';
 import AppHero from '../../components/Layout/AppHero/AppHero';
 import Loader from '../../components/shared/Loader/Loader';
 import './PageMeetupFind.scss';
@@ -13,12 +17,13 @@ const MeetupFindMainSection = React.lazy(() =>
   )
 );
 
-const PageMeetupFind = ({ fetchAllMeetups, meetups }) => {
+const PageMeetupFind = ({ fetchAllMeetups, meetups, loading }) => {
   useEffect(() => {
     fetchAllMeetups();
   }, []);
 
-  if (!meetups) return <Loader />;
+  // if (!meetups) return <Loader />;
+  if (loading) return <Loader />;
 
   return (
     <div>
@@ -37,7 +42,8 @@ const PageMeetupFind = ({ fetchAllMeetups, meetups }) => {
 
 export default connect(
   (state) => ({
-    meetups: allMeetupsSelector(state)
+    meetups: allMeetupsSelector(state),
+    loading: loadingMeetupsSelector(state)
   }),
   { fetchAllMeetups }
 )(PageMeetupFind);
