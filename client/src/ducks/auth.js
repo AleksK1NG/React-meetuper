@@ -180,7 +180,7 @@ export function* loginSaga(action) {
       type: SIGN_IN_SUCCESS,
       payload: { data }
     });
-
+    debugger;
     yield put(replace('/'));
   } catch (error) {
     console.log(error);

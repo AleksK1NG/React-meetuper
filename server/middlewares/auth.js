@@ -1,8 +1,12 @@
-// Auth Middleware
-exports.onlyAuthUser = function(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
+const passport = require('passport');
 
-  return res.status(401).send({ errors: { auth: 'Not Authenticated!' } });
-};
+exports.onlyAuthUser = passport.authenticate('jwt', { session: false });
+//*********************** Only For Session Authentication ***********************
+// // Auth Middleware
+// exports.onlyAuthUser = function(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//
+//   return res.status(401).send({ errors: { auth: 'Not Authenticated!' } });
+// };
