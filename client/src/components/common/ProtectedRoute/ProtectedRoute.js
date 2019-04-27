@@ -2,9 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isAuthSelector } from '../../../ducks/auth';
 import { Route, Redirect } from 'react-router-dom';
+import { checkTokenValidity } from '../../../utils/checkTokenValidity';
 
 const ProtectedRoute = ({ isAuthorized, component: Component, ...rest }) => {
-  if (localStorage.getItem('react-meetuper'))
+  if (
+    localStorage.getItem('react-meetuper') &&
+    checkTokenValidity(localStorage.getItem('react-meetuper'))
+  )
     return <Route render={(props) => <Component {...props} />} {...rest} />;
 
   return (
