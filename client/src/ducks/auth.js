@@ -1,7 +1,7 @@
 import { appName } from '../config';
 import { Map, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all } from 'redux-saga/effects';
+import { takeEvery, call, put, all, select } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
 import api from '../services/api';
 
