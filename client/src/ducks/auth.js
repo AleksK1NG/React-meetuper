@@ -205,7 +205,6 @@ export function* loginSaga(action) {
       payload: { error }
     });
     toast.error(rejectError(error));
-    // toast.error("Wrong email or password");
   }
 }
 
