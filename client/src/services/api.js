@@ -12,12 +12,26 @@ const threadsURL = '/api/v1/threads';
 const currentUserURL = '/api/v1/users/me';
 const logoutURL = '/api/v1/users/logout';
 
+// Axios Instance
 const axiosInstance = axios.create({
-  timeout: 3000,
-  headers: {
-    authorization: `Bearer ${localStorage.getItem('react-meetuper') || ''}`
-  }
+  timeout: 3000
 });
+
+// Runs before every request
+axiosInstance.interceptors.request.use(
+  function(config) {
+    const token = localStorage.getItem('react-meetuper') || '';
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  function(err) {
+    return Promise.reject(err);
+  }
+);
 
 class ApiService {
   getAllBooks() {
@@ -63,16 +77,6 @@ class ApiService {
   loginUser(userData) {
     return axios.post(loginURL, userData);
   }
-
-  // loadUser() {
-  //   const token = localStorage.getItem('react-meetuper');
-  //   const config = {
-  //     headers: {
-  //       authorization: `Bearer ${token}`
-  //     }
-  //   };
-  //   return axios.get(currentUserURL, config);
-  // }
 
   loadUser() {
     return axiosInstance.get(currentUserURL);

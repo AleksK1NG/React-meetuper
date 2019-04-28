@@ -216,6 +216,7 @@ export function* logoutSaga() {
     yield put({
       type: SIGN_OUT_SUCCESS
     });
+    localStorage.removeItem('react-meetuper');
   } catch (error) {
     console.log(error);
     localStorage.removeItem('react-meetuper');
