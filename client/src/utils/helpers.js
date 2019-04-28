@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment/moment';
 
 export function capitalize(value) {
   if (value && typeof value === 'string') {

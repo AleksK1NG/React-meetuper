@@ -6,6 +6,7 @@ import { replace } from 'connected-react-router';
 import api from '../services/api';
 
 import { toast } from 'react-toastify';
+import { rejectError } from '../utils/rejectErrorHelper';
 
 /**
  * Constants
@@ -178,7 +179,7 @@ export function* registerSaga(action) {
       type: SIGN_UP_ERROR,
       payload: { error }
     });
-    toast.error('Error :(');
+    toast.error(rejectError(error));
   }
 }
 
@@ -203,7 +204,8 @@ export function* loginSaga(action) {
       type: SIGN_IN_ERROR,
       payload: { error }
     });
-    toast.error('Error :(');
+    toast.error(rejectError(error));
+    // toast.error("Wrong email or password");
   }
 }
 

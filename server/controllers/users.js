@@ -97,7 +97,7 @@ exports.login = function(req, res, next) {
     } else {
       return res.status(422).send({
         errors: {
-          authentication: 'Ooops, something went wrong!'
+          authentication: 'Invalid password or email !'
         }
       });
     }
