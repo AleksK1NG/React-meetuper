@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import './PageLogin.scss';
 import { Field, Form } from 'react-final-form';
 import { validateLogin } from '../../utils/finalFormValidate';
-import { loginUser } from '../../ducks/auth';
-const PageLogin = ({ loginUser }) => {
+import { loginUser, toastMessageSelector } from '../../ducks/auth';
+
+const PageLogin = ({ loginUser, toastMessage }) => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
 
@@ -15,6 +16,7 @@ const PageLogin = ({ loginUser }) => {
 
   return (
     <section className="hero is-success is-fullheight">
+      {toastMessage && JSON.stringify(toastMessage, null, 2)}
       <div className="hero-body">
         <div className="container has-text-centered">
           <div className="column is-4 is-offset-4">
@@ -107,6 +109,8 @@ const PageLogin = ({ loginUser }) => {
 };
 
 export default connect(
-  (state) => ({}),
+  (state) => ({
+    toastMessage: toastMessageSelector(state)
+  }),
   { loginUser }
 )(PageLogin);

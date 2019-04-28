@@ -10,6 +10,8 @@ import { loadUser } from './ducks/auth';
 import PageSecret from './pages/PageSecret/PageSecret';
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>
   import('./pages/PageMeetupDetail/PageMeetupDetail')
@@ -47,6 +49,7 @@ const App = ({ loadUser }) => {
         </Suspense>
       </div>
       <TheFooter />
+      <ToastContainer position={toast.POSITION.TOP_CENTER} />
     </div>
   );
 };

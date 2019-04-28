@@ -5,6 +5,8 @@ import { takeEvery, call, put, all, select } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
 import api from '../services/api';
 
+import { toast } from 'react-toastify';
+
 /**
  * Constants
  * */
@@ -23,6 +25,8 @@ export const LOAD_USER_ERROR = `${prefix}/LOAD_USER_ERROR`;
 export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
+
+export const SET_TOAST_MESSAGE = `${prefix}/SET_TOAST_MESSAGE`;
 
 /**
  * Reducer
@@ -110,6 +114,14 @@ export const userSelector = createSelector(
   }
 );
 
+export const toastMessageSelector = createSelector(
+  stateSelector,
+  (state) => {
+    const message = state.get('toastMessage');
+    return message ? message : null;
+  }
+);
+
 /**
  * Action Creators
  * */
@@ -158,6 +170,7 @@ export function* registerSaga(action) {
     });
 
     yield put(replace('/'));
+    toast.success('You are registered ! =D');
   } catch (error) {
     console.log(error);
     localStorage.removeItem('react-meetuper');
@@ -165,6 +178,7 @@ export function* registerSaga(action) {
       type: SIGN_UP_ERROR,
       payload: { error }
     });
+    toast.error('Error :(');
   }
 }
 
@@ -181,6 +195,7 @@ export function* loginSaga(action) {
       payload: { data }
     });
     yield put(replace('/'));
+    toast.success('You are logged in ! =D');
   } catch (error) {
     console.log(error);
     localStorage.removeItem('react-meetuper');
@@ -188,6 +203,7 @@ export function* loginSaga(action) {
       type: SIGN_IN_ERROR,
       payload: { error }
     });
+    toast.error('Error :(');
   }
 }
 
@@ -217,6 +233,7 @@ export function* logoutSaga() {
       type: SIGN_OUT_SUCCESS
     });
     localStorage.removeItem('react-meetuper');
+    toast.warn('You are logged out');
   } catch (error) {
     console.log(error);
     localStorage.removeItem('react-meetuper');
