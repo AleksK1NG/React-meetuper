@@ -80,12 +80,12 @@ export const validateMeetupCreateForm = (values) => {
     errors.title = 'Title is required !';
   }
 
-  if (!values.imageUrl) {
-    errors.imageUrl = 'Image URL is required !';
+  if (!values.image) {
+    errors.image = 'Image URL is required !';
   }
 
-  if (!values.startsAt) {
-    errors.startsAt = 'Start Date is required !';
+  if (!values.startDate) {
+    errors.startDate = 'Start Date is required !';
   }
 
   if (!values.timeFrom) {
@@ -100,8 +100,8 @@ export const validateMeetupCreateForm = (values) => {
     errors.category = 'Category is required !';
   }
 
-  if (!values.info) {
-    errors.info = 'Additional info is required !';
+  if (!values.shortInfo) {
+    errors.shortInfo = 'Additional info is required !';
   }
 
   if (!values.description) {
@@ -112,12 +112,12 @@ export const validateMeetupCreateForm = (values) => {
     errors.location = 'Location is required !';
   }
 
-  if (values.imageUrl && !checkURL(values.imageUrl)) {
-    errors.imageUrl = 'Invalid Image URL !';
+  if (values.image && !checkURL(values.image)) {
+    errors.image = 'Invalid Image URL !';
   }
 
-  if (values.imageUrl && !is_url(values.imageUrl)) {
-    errors.imageUrl = 'Invalid Image URL !';
+  if (values.image && !is_url(values.image)) {
+    errors.image = 'Invalid Image URL !';
   }
 
   console.log('validate errors =>', errors);

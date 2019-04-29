@@ -4,7 +4,7 @@ import { Field } from 'react-final-form';
 const MeetupDescription = () => {
   return (
     <div className="m-b-md">
-      <Field name="imageUrl" component="input" type="text" label="Image URL">
+      <Field name="image" component="input" type="text" label="Image URL">
         {({ input, meta }) => (
           <div className="field">
             <label className="title">Image</label>
@@ -22,7 +22,7 @@ const MeetupDescription = () => {
       </Field>
 
       <Field
-        name="info"
+        name="shortInfo"
         component="textarea"
         type="text"
         label="Additional Info"

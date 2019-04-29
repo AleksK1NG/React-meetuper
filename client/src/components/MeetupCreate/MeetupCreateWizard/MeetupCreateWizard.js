@@ -7,13 +7,16 @@ import MeetupLocation from '../MeetupLocation/MeetupLocation';
 
 import { Form } from 'react-final-form';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidate';
+import moment from 'moment';
 
 const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
 
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values, props);
+    const startDate = moment(values.startDate).format();
 
+    console.log('ready form => ', { ...values, startDate });
     formApi.reset();
   };
 
@@ -45,7 +48,9 @@ const MeetupCreateWizard = (props) => {
       <div className="current-step is-pulled-right">{step} of 4</div>
       <Form
         validate={validateMeetupCreateForm}
-        initialValues={{ title: 'Cool JS =D', employed: true }}
+        initialValues={{
+          startDate: moment(Date.now()).format('YYYY-MM-DD')
+        }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
           <form onSubmit={handleSubmit}>

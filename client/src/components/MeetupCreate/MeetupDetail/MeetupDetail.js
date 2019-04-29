@@ -22,7 +22,7 @@ const MeetupDetail = ({ values }) => {
         )}
       </Field>
 
-      <Field name="startsAt" type="text" label="Starts At">
+      <Field name="startDate" type="date" label="Starts At">
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">Start Date</label>
@@ -39,7 +39,7 @@ const MeetupDetail = ({ values }) => {
         )}
       </Field>
 
-      <Field name="timeFrom" type="text" label="Time From">
+      <Field name="timeFrom" type="time" label="Time From">
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">From</label>
@@ -56,7 +56,7 @@ const MeetupDetail = ({ values }) => {
         )}
       </Field>
 
-      <Field name="timeTo" type="text" label="Time To">
+      <Field name="timeTo" type="time" label="Time To">
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">To</label>

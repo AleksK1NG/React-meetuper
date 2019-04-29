@@ -1,5 +1,6 @@
 import React from 'react';
 import './MeetupConfirmation.scss';
+import moment from 'moment';
 
 const MeetupConfirmation = ({ values }) => {
   return (
@@ -18,6 +19,8 @@ const MeetupConfirmation = ({ values }) => {
         <div>
           <span className="result-title">Start Date</span>
           <p>{values.startsAt}</p>
+          <p>{moment(values.startsAt).format()}</p>
+          <p>{moment(Date.now()).format()}</p>
         </div>
         <div>
           <span className="result-title">From</span>
