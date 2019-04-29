@@ -26,6 +26,9 @@ const PageLogin = React.lazy(() => import('./pages/PageLogin/PageLogin'));
 const PageRegister = React.lazy(() =>
   import('./pages/PageRegister/PageRegister')
 );
+const PageMeetupCreate = React.lazy(() =>
+  import('./pages/PageMeetupCreate/PageMeetupCreate')
+);
 
 const App = ({ loadUser }) => {
   useEffect(() => {
@@ -44,6 +47,7 @@ const App = ({ loadUser }) => {
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
             <Route path="/secret" component={PageSecret} />
+            <Route path="/create" component={PageMeetupCreate} />
             <Route path="*" exact component={PageNotFound} />
           </Switch>
         </Suspense>

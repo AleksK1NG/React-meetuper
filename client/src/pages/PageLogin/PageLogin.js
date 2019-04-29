@@ -6,7 +6,7 @@ import { Field, Form } from 'react-final-form';
 import { validateLogin } from '../../utils/finalFormValidate';
 import { loginUser, toastMessageSelector } from '../../ducks/auth';
 
-const PageLogin = ({ loginUser, toastMessage }) => {
+const PageLogin = ({ loginUser }) => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
 
@@ -16,7 +16,6 @@ const PageLogin = ({ loginUser, toastMessage }) => {
 
   return (
     <section className="hero is-success is-fullheight">
-      {toastMessage && JSON.stringify(toastMessage, null, 2)}
       <div className="hero-body">
         <div className="container has-text-centered">
           <div className="column is-4 is-offset-4">
