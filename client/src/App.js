@@ -9,7 +9,7 @@ import TheFooter from './components/Layout/TheFooter/TheFooter';
 import { loadUser } from './ducks/auth';
 import PageSecret from './pages/PageSecret/PageSecret';
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
-
+import 'react-dates/lib/css/_datepicker.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));

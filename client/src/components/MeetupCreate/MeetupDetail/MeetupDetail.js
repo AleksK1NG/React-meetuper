@@ -2,7 +2,7 @@ import React from 'react';
 import './MeetupDetail.scss';
 import { Field } from 'react-final-form';
 
-const MeetupDetail = () => {
+const MeetupDetail = ({ values }) => {
   return (
     <div>
       <Field name="title" component="input" type="text" label="Title">
@@ -22,15 +22,15 @@ const MeetupDetail = () => {
         )}
       </Field>
 
-      <Field name="startsAt" component="input" type="text" label="Starts At">
+      <Field name="startsAt" type="text" label="Starts At">
         {({ input, meta }) => (
           <div className="field">
-            <label className="title m-b-sm">Starts At</label>
+            <label className="title m-b-sm">Start Date</label>
             <input
               className="input"
-              type="text"
+              type="date"
               {...input}
-              placeholder="Starts At"
+              placeholder="Start Date"
             />
             {meta.touched && meta.error && (
               <span className="help is-danger">{meta.error}</span>
@@ -39,13 +39,13 @@ const MeetupDetail = () => {
         )}
       </Field>
 
-      <Field name="timeFrom" component="input" type="text" label="Time From">
+      <Field name="timeFrom" type="text" label="Time From">
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">From</label>
             <input
               className="input"
-              type="text"
+              type="time"
               {...input}
               placeholder="Time From"
             />
@@ -56,13 +56,13 @@ const MeetupDetail = () => {
         )}
       </Field>
 
-      <Field name="timeTo" component="input" type="text" label="Time To">
+      <Field name="timeTo" type="text" label="Time To">
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">To</label>
             <input
               className="input"
-              type="text"
+              type="time"
               {...input}
               placeholder="Time To"
             />

@@ -29,7 +29,7 @@ const MeetupCreateWizard = (props) => {
       case 1:
         return <MeetupLocation />;
       case 2:
-        return <MeetupDetail />;
+        return <MeetupDetail values={values} />;
       case 3:
         return <MeetupDescription />;
       case 4:

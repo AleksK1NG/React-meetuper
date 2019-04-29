@@ -1,5 +1,7 @@
 import React, { useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
+
+import { Link } from 'react-router-dom';
 import AppHero from '../../components/Layout/AppHero/AppHero';
 import AppDropdown from '../../components/shared/AppDropdown/AppDropdown';
 import {
@@ -44,9 +46,12 @@ const PageHome = ({
           <div className="m-b-lg">
             <h1 className="title is-inline">Featured Meetups in "Location"</h1>
             <AppDropdown />
-            <button className="button is-primary is-pulled-right m-r-sm">
+            <Link
+              to="/create"
+              className="button is-primary is-pulled-right m-r-sm"
+            >
               Create Meetups
-            </button>
+            </Link>
             <button className="button is-primary is-pulled-right m-r-sm">
               All
             </button>
