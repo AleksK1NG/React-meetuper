@@ -7,10 +7,11 @@ const PageMeetupCreate = () => {
   return (
     <div className="meetup-create-page">
       <AppHero />
-      <div className="container">
-        <MeetupCreateWizard />
-      </div>
-      <h2>Page Meetup Create</h2>
+      <section className="section">
+        <div className="container">
+          <MeetupCreateWizard />
+        </div>
+      </section>
     </div>
   );
 };

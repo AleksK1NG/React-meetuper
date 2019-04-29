@@ -6,10 +6,7 @@ import MeetupDescription from '../MeetupDescription/MeetupDescription';
 import MeetupLocation from '../MeetupLocation/MeetupLocation';
 
 import { Form } from 'react-final-form';
-import {
-  validateLogin,
-  validateMeetupCreateForm
-} from '../../../utils/finalFormValidate';
+import { validateMeetupCreateForm } from '../../../utils/finalFormValidate';
 
 const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
@@ -18,6 +15,13 @@ const MeetupCreateWizard = (props) => {
     console.log('Submit form ;D', values, props);
 
     formApi.reset();
+  };
+
+  const setFormStep = (stepValue) => {
+    if (step < 1 || step > 4) return;
+    setStep(stepValue);
+
+    console.log('step form is =>', step);
   };
 
   const renderStep = (values) => {
@@ -38,9 +42,7 @@ const MeetupCreateWizard = (props) => {
 
   return (
     <div className="meetup-create-form">
-      <div className="current-step is-pulled-right">1 of 4</div>
-      Form Steps
-      {/*{renderStep()}*/}
+      <div className="current-step is-pulled-right">{step} of 4</div>
       <Form
         validate={validateMeetupCreateForm}
         initialValues={{ title: 'Cool JS =D', employed: false }}
@@ -51,12 +53,15 @@ const MeetupCreateWizard = (props) => {
 
             <pre>{JSON.stringify(values, 0, 2)}</pre>
 
-            <button
-              type="submit"
-              className="button is-block is-info is-large is-fullwidth"
-            >
-              Login
-            </button>
+            {step >= 4 ? (
+              <button
+                disabled={invalid}
+                type="submit"
+                className="button is-primary"
+              >
+                Submit
+              </button>
+            ) : null}
           </form>
         )}
       />
@@ -65,12 +70,17 @@ const MeetupCreateWizard = (props) => {
       </progress>
       <div className="controll-btns m-b-md">
         <button
+          disabled={step <= 1}
           className="button is-primary m-r-sm"
-          onClick={() => setStep(step - 1)}
+          onClick={() => setFormStep(step - 1)}
         >
           Back
         </button>
-        <button className="button is-primary" onClick={() => setStep(step + 1)}>
+        <button
+          disabled={step >= 4}
+          className="button is-primary"
+          onClick={() => setFormStep(step + 1)}
+        >
           Next
         </button>
       </div>
