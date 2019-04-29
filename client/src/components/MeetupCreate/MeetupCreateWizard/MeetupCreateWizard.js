@@ -45,16 +45,15 @@ const MeetupCreateWizard = (props) => {
       <div className="current-step is-pulled-right">{step} of 4</div>
       <Form
         validate={validateMeetupCreateForm}
-        initialValues={{ title: 'Cool JS =D', employed: false }}
+        initialValues={{ title: 'Cool JS =D', employed: true }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
           <form onSubmit={handleSubmit}>
             {renderStep(values)}
 
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
-
             {step >= 4 ? (
               <button
+                style={{ marginTop: '25px' }}
                 disabled={invalid}
                 type="submit"
                 className="button is-primary"
@@ -62,10 +61,17 @@ const MeetupCreateWizard = (props) => {
                 Submit
               </button>
             ) : null}
+
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />
-      <progress className="progress" value={step * 25} max="100">
+      <progress
+        className="progress"
+        value={step * 25}
+        max="100"
+        style={{ marginTop: '25px' }}
+      >
         {step * 25}%
       </progress>
       <div className="controll-btns m-b-md">
