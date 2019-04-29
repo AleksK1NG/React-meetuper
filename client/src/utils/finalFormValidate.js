@@ -73,6 +73,58 @@ export const validateLogin = (values) => {
   return errors;
 };
 
+export const validateMeetupCreateForm = (values) => {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Title is required !';
+  }
+
+  if (!values.imageUrl) {
+    errors.imageUrl = 'Image URL is required !';
+  }
+
+  if (!values.startsAt) {
+    errors.startsAt = 'Start Date is required !';
+  }
+
+  if (!values.timeFrom) {
+    errors.timeFrom = 'Start time is required !';
+  }
+
+  if (!values.timeTo) {
+    errors.timeTo = 'End time is required !';
+  }
+
+  if (!values.category) {
+    errors.category = 'Category is required !';
+  }
+
+  if (!values.info) {
+    errors.info = 'Additional info is required !';
+  }
+
+  if (!values.description) {
+    errors.description = 'Description info is required !';
+  }
+
+  if (!values.location) {
+    errors.location = 'Location is required !';
+  }
+
+  if (values.imageUrl && !checkURL(values.imageUrl)) {
+    errors.imageUrl = 'Invalid Image URL !';
+  }
+
+  if (values.imageUrl && !is_url(values.imageUrl)) {
+    errors.imageUrl = 'Invalid Image URL !';
+  }
+
+  console.log('validate errors =>', errors);
+
+  return errors;
+};
+
 // Email regex validator
 function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

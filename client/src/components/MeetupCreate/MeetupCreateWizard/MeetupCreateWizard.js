@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import MeetupDetail from '../MeetupDetail/MeetupDetail';
 import MeetupConfirmation from '../MeetupConfirmation/MeetupConfirmation';
 import MeetupDescription from '../MeetupDescription/MeetupDescription';
 import MeetupLocation from '../MeetupLocation/MeetupLocation';
 
 import { Form } from 'react-final-form';
+import {
+  validateLogin,
+  validateMeetupCreateForm
+} from '../../../utils/finalFormValidate';
 
 const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
@@ -37,6 +42,8 @@ const MeetupCreateWizard = (props) => {
       Form Steps
       {/*{renderStep()}*/}
       <Form
+        validate={validateMeetupCreateForm}
+        initialValues={{ title: 'Cool JS =D', employed: false }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
           <form onSubmit={handleSubmit}>
@@ -71,4 +78,7 @@ const MeetupCreateWizard = (props) => {
   );
 };
 
-export default MeetupCreateWizard;
+export default connect(
+  (state) => ({}),
+  {}
+)(MeetupCreateWizard);
