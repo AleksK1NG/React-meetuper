@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { connect } from 'react-redux';
-import MeetupDetail from '../MeetupDetail/MeetupDetail';
-import MeetupConfirmation from '../MeetupConfirmation/MeetupConfirmation';
-import MeetupDescription from '../MeetupDescription/MeetupDescription';
-import MeetupLocation from '../MeetupLocation/MeetupLocation';
 
 import { Form } from 'react-final-form';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidate';
 import moment from 'moment';
+import Loader from '../../shared/Loader/Loader';
+
+const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
+const MeetupConfirmation = React.lazy(() =>
+  import('../MeetupConfirmation/MeetupConfirmation')
+);
+const MeetupDescription = React.lazy(() =>
+  import('../MeetupDescription/MeetupDescription')
+);
+const MeetupLocation = React.lazy(() =>
+  import('../MeetupLocation/MeetupLocation')
+);
 
 const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
@@ -46,6 +54,7 @@ const MeetupCreateWizard = (props) => {
   return (
     <div className="meetup-create-form">
       <div className="current-step is-pulled-right">{step} of 4</div>
+
       <Form
         validate={validateMeetupCreateForm}
         initialValues={{
@@ -54,8 +63,7 @@ const MeetupCreateWizard = (props) => {
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
           <form onSubmit={handleSubmit}>
-            {renderStep(values)}
-
+            <Suspense fallback={Loader}>{renderStep(values)}</Suspense>
             {step >= 4 ? (
               <button
                 style={{ marginTop: '25px' }}
@@ -71,6 +79,7 @@ const MeetupCreateWizard = (props) => {
           </form>
         )}
       />
+
       <progress
         className="progress"
         value={step * 25}
