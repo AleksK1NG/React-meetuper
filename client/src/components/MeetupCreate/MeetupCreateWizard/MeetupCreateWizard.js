@@ -4,10 +4,18 @@ import MeetupConfirmation from '../MeetupConfirmation/MeetupConfirmation';
 import MeetupDescription from '../MeetupDescription/MeetupDescription';
 import MeetupLocation from '../MeetupLocation/MeetupLocation';
 
-const MeetupCreateWizard = () => {
+import { Form } from 'react-final-form';
+
+const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
 
-  const renderStep = () => {
+  const onSubmit = (values, formApi) => {
+    console.log('Submit form ;D', values, props);
+
+    formApi.reset();
+  };
+
+  const renderStep = (values) => {
     switch (step) {
       case 1:
         return <MeetupLocation />;
@@ -16,7 +24,7 @@ const MeetupCreateWizard = () => {
       case 3:
         return <MeetupDescription />;
       case 4:
-        return <MeetupConfirmation />;
+        return <MeetupConfirmation values={values} />;
 
       default:
         return null;
@@ -27,7 +35,24 @@ const MeetupCreateWizard = () => {
     <div className="meetup-create-form">
       <div className="current-step is-pulled-right">1 of 4</div>
       Form Steps
-      {renderStep()}
+      {/*{renderStep()}*/}
+      <Form
+        onSubmit={onSubmit}
+        render={({ handleSubmit, pristine, invalid, values }) => (
+          <form onSubmit={handleSubmit}>
+            {renderStep(values)}
+
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
+
+            <button
+              type="submit"
+              className="button is-block is-info is-large is-fullwidth"
+            >
+              Login
+            </button>
+          </form>
+        )}
+      />
       <progress className="progress" value={step * 25} max="100">
         {step * 25}%
       </progress>
