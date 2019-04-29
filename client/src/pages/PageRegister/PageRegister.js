@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
-import { validateRegister } from '../../utils/finalFormValidate';
 import './PageRegister.scss';
 import { registerUser } from '../../ducks/auth';
+import { validateRegister } from '../../utils/finalFormValidation/validateRegisterForm';
 
 const PageRegister = ({ registerUser }) => {
   const onSubmit = (values, formApi) => {

@@ -2,9 +2,10 @@ import React, { useState, Suspense } from 'react';
 import { connect } from 'react-redux';
 
 import { Form } from 'react-final-form';
-import { validateMeetupCreateForm } from '../../../utils/finalFormValidate';
+
 import moment from 'moment';
 import Loader from '../../shared/Loader/Loader';
+import { validateMeetupCreateForm } from '../../../utils/finalFormValidation/validateMeetupCreateForm';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
 const MeetupConfirmation = React.lazy(() =>
@@ -16,6 +17,10 @@ const MeetupDescription = React.lazy(() =>
 const MeetupLocation = React.lazy(() =>
   import('../MeetupLocation/MeetupLocation')
 );
+
+const Hoc = ({ Component }) => {
+  return <Component />;
+};
 
 const MeetupCreateWizard = (props) => {
   const [step, setStep] = useState(1);
@@ -36,25 +41,26 @@ const MeetupCreateWizard = (props) => {
   };
 
   const renderStep = (values) => {
+    let renderComponent;
+
     switch (step) {
       case 1:
-        return <MeetupLocation />;
+        return (renderComponent = <MeetupLocation />);
       case 2:
-        return <MeetupDetail values={values} />;
+        return (renderComponent = <MeetupDetail values={values} />);
       case 3:
-        return <MeetupDescription />;
+        return (renderComponent = <MeetupDescription />);
       case 4:
-        return <MeetupConfirmation values={values} />;
+        return (renderComponent = <MeetupConfirmation values={values} />);
 
       default:
-        return null;
+        return (renderComponent = null);
     }
   };
 
   return (
     <div className="meetup-create-form">
       <div className="current-step is-pulled-right">{step} of 4</div>
-
       <Form
         validate={validateMeetupCreateForm}
         initialValues={{
@@ -63,7 +69,10 @@ const MeetupCreateWizard = (props) => {
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
           <form onSubmit={handleSubmit}>
-            <Suspense fallback={Loader}>{renderStep(values)}</Suspense>
+            <Suspense fallback={<Loader />}>
+              <React.Fragment>{renderStep(values)}</React.Fragment>
+            </Suspense>
+
             {step >= 4 ? (
               <button
                 style={{ marginTop: '25px' }}
