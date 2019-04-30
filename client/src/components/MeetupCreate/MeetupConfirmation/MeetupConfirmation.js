@@ -18,9 +18,7 @@ const MeetupConfirmation = ({ values }) => {
         </div>
         <div>
           <span className="result-title">Start Date</span>
-          <p>{values.startsAt}</p>
-          <p>{moment(values.startsAt).format()}</p>
-          <p>{moment(Date.now()).format()}</p>
+          <p>{moment(values.startDate).format()}</p>
         </div>
         <div>
           <span className="result-title">From</span>
@@ -36,7 +34,7 @@ const MeetupConfirmation = ({ values }) => {
         </div>
         <div>
           <span className="result-title">Image</span>
-          <p>{values.imageUrl}</p>
+          <p>{values.image}</p>
         </div>
         <div>
           <span className="result-title">Short Info</span>

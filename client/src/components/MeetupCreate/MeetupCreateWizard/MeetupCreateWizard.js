@@ -7,6 +7,8 @@ import moment from 'moment';
 import Loader from '../../shared/Loader/Loader';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidation/validateMeetupCreateForm';
 import { createMeetup } from '../../../ducks/meetups';
+import './MeetupCreateWizard.scss';
+import { allCategoriesSelector } from '../../../ducks/categories';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
 const MeetupConfirmation = React.lazy(() =>
@@ -19,7 +21,7 @@ const MeetupLocation = React.lazy(() =>
   import('../MeetupLocation/MeetupLocation')
 );
 
-const MeetupCreateWizard = ({ createMeetup }) => {
+const MeetupCreateWizard = ({ createMeetup, categories }) => {
   const [step, setStep] = useState(1);
 
   const onSubmit = (values, formApi) => {
@@ -27,6 +29,7 @@ const MeetupCreateWizard = ({ createMeetup }) => {
     const startDate = moment(values.startDate).format();
 
     console.log('ready form => ', { ...values, startDate });
+    createMeetup({ ...values, startDate });
     formApi.reset();
   };
 
@@ -44,7 +47,9 @@ const MeetupCreateWizard = ({ createMeetup }) => {
       case 1:
         return (renderComponent = <MeetupLocation />);
       case 2:
-        return (renderComponent = <MeetupDetail values={values} />);
+        return (renderComponent = (
+          <MeetupDetail values={values} categories={categories} />
+        ));
       case 3:
         return (renderComponent = <MeetupDescription />);
       case 4:
@@ -115,6 +120,8 @@ const MeetupCreateWizard = ({ createMeetup }) => {
 };
 
 export default connect(
-  (state) => ({}),
+  (state) => ({
+    categories: allCategoriesSelector(state)
+  }),
   { createMeetup }
 )(MeetupCreateWizard);

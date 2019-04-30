@@ -39,9 +39,9 @@ export const validateMeetupCreateForm = (values) => {
     errors.location = 'Location is required !';
   }
 
-  if (values.image && !checkURL(values.image)) {
-    errors.image = 'Invalid Image URL !';
-  }
+  // if (values.image && !checkURL(values.image)) {
+  //   errors.image = 'Invalid Image URL !';
+  // }
 
   if (values.image && !is_url(values.image)) {
     errors.image = 'Invalid Image URL !';

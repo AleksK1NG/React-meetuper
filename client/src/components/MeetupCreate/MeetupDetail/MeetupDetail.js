@@ -1,8 +1,9 @@
 import React from 'react';
 import './MeetupDetail.scss';
 import { Field } from 'react-final-form';
+import { capitalize } from '../../../utils/helpers';
 
-const MeetupDetail = ({ values }) => {
+const MeetupDetail = ({ categories }) => {
   return (
     <div>
       <Field name="title" component="input" type="text" label="Title">
@@ -73,24 +74,31 @@ const MeetupDetail = ({ values }) => {
         )}
       </Field>
 
-      <Field name="category" component="select" type="text" label="Categories">
-        {({ input, meta }) => (
-          <div className="select">
-            <select {...input}>
-              <option value="category">Category name</option>
-              <option value="chicken">🐓 Chicken</option>
-              <option value="ham">🐷 Ham</option>
-              <option value="mushrooms">🍄 Mushrooms</option>
-              <option value="cheese">🧀 Cheese</option>
-              <option value="tuna">🐟 Tuna</option>
-              <option value="pineapple">🍍 Pineapple</option>
-            </select>
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
-          </div>
-        )}
-      </Field>
+      {categories && (
+        <Field
+          name="category"
+          component="select"
+          type="text"
+          label="Categories"
+        >
+          {({ input, meta }) => (
+            <div className="select">
+              <select {...input}>
+                <option value="category">Category name</option>
+                {categories &&
+                  categories.map((category) => (
+                    <option value={category._id} key={category._id}>
+                      {capitalize(category.name)}
+                    </option>
+                  ))}
+              </select>
+              {meta.touched && meta.error && (
+                <span className="help is-danger">{meta.error}</span>
+              )}
+            </div>
+          )}
+        </Field>
+      )}
     </div>
   );
 };

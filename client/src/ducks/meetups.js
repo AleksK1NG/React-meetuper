@@ -1,9 +1,11 @@
 import { appName } from '../config';
-import { List, fromJS, Map } from 'immutable';
+import { List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all } from 'redux-saga/effects';
-import ApiService from '../services/api';
+import { takeEvery, call, put, all, select } from 'redux-saga/effects';
+import Api from '../services/api';
 import { replace } from 'connected-react-router';
+import { toast } from 'react-toastify';
+import { rejectError } from '../utils/rejectErrorHelper';
 
 export const moduleName = 'meetups';
 const prefix = `${appName}/${moduleName}`;
@@ -127,7 +129,10 @@ export const loadingMeetupsSelector = createSelector(
 );
 export const allMeetupsSelector = createSelector(
   stateSelector,
-  (state) => state.get('meetups').toJS()
+  (state) => {
+    const meetups = state.get('meetups');
+    return meetups ? meetups.toJS() : null;
+  }
 );
 export const meetupSelector = createSelector(
   stateSelector,
@@ -193,7 +198,7 @@ export function* fetchAllMeetupsSaga() {
       type: FETCH_MEETUPS_REQUEST
     });
 
-    const { data } = yield call(ApiService.getAllMeetups);
+    const { data } = yield call(Api.getAllMeetups);
 
     yield put({
       type: FETCH_MEETUPS_SUCCESS,
@@ -216,7 +221,7 @@ export function* fetchMeetupByIdSaga(action) {
       type: FETCH_MEETUP_BY_ID_REQUEST
     });
 
-    const { data } = yield call(ApiService.getMeetupById, payload.meetupId);
+    const { data } = yield call(Api.getMeetupById, payload.meetupId);
 
     yield put({
       type: FETCH_MEETUP_BY_ID_SUCCESS,
@@ -234,22 +239,41 @@ export function* fetchMeetupByIdSaga(action) {
 
 export function* createMeetupSaga(action) {
   const { payload } = action;
+  const state = yield select();
+
+  // const user = state.auth.get('user').toJS();
+  // const category = state.categories.get('categories').toJS().find(e => e._id === payload.meetup.category)
+
+  payload.meetup.category = state.categories
+    .get('categories')
+    .toJS()
+    .find((e) => e._id === payload.meetup.category);
+  payload.meetup.meetupCreator = state.auth.get('user').toJS();
+  payload.meetup.processedLocation = payload.meetup.location
+    .toLowerCase()
+    .replace(/[\s,]+/g, '')
+    .trim();
+
+  console.log('before request =>', payload.meetup);
+  debugger;
 
   try {
-    const { data } = yield call(ApiService.addBook, payload.meetup);
-
+    const { data } = yield call(Api.createMeetup, payload.meetup);
     yield put({
       type: CREATE_MEETUP_SUCCESS,
       payload: { data }
     });
+    debugger;
 
-    yield put(replace('/'));
+    yield put(replace(`/meetups/${data._id}`));
+    toast.success('Success, meetup created ! =D');
   } catch (err) {
     console.log(err);
     yield put({
       type: CREATE_MEETUP_ERROR,
       payload: { err }
     });
+    toast.error(rejectError(err));
   }
 }
 
@@ -259,7 +283,7 @@ export function* deleteBookSaga(action) {
   } = action;
 
   try {
-    yield call(ApiService.deleteBook, bookId);
+    yield call(Api.deleteBook, bookId);
 
     yield put({
       type: DELETE_BOOK_SUCCESS,
@@ -280,7 +304,7 @@ export function* updateBookSaga(action) {
   } = action;
 
   try {
-    const { data } = yield call(ApiService.updateBook, bookId, newBook);
+    const { data } = yield call(Api.updateBook, bookId, newBook);
 
     yield put({
       type: 'UPDATE_BOOK_SUCCESS',
