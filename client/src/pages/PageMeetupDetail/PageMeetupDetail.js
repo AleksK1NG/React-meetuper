@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, useState } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
 import {
@@ -15,7 +15,7 @@ import {
   loadingThreadsSelector,
   threadsSelector
 } from '../../ducks/threads';
-import { isAuthSelector, userSelector } from '../../ducks/auth';
+import { isAuthenticatedSelector, userSelector } from '../../ducks/auth';
 
 const MeetupDetailHeroSection = React.lazy(() =>
   import(
@@ -48,17 +48,6 @@ const PageMeetupDetail = ({
   }, []);
 
   if (loadingThreads || loading) return <Loader />;
-  //
-  // let isCreator = false;
-  // let isMember = false;
-  // let canJoin = false;
-  // if (user && meetup) {
-  //   isCreator = user._id === meetup.meetupCreator._id;
-  //   isMember = user['joinedMeetups'].includes(meetup._id);
-  //   canJoin = !isCreator && !isMember;
-  // }
-
-  console.log('PageMeetupDetail IS CAN JOIN =>', isCanJoinMeetup);
 
   return (
     <div className="meetup-detail-page">
@@ -69,8 +58,8 @@ const PageMeetupDetail = ({
         isAuthenticated={isAuthenticated}
       />
       <MeetupDetailMainSection
-        canJoin={isCanJoinMeetup}
-        isMember={isMeetupMember}
+        isCanJoinMeetup={isCanJoinMeetup}
+        isMeetupMember={isMeetupMember}
         meetup={meetup}
         threads={threads}
         isAuthenticated={isAuthenticated}
@@ -81,7 +70,7 @@ const PageMeetupDetail = ({
 };
 
 export default connect(
-  (state, { user }) => ({
+  (state) => ({
     isCanJoinMeetup: canJoinMeetupSelector(state),
     isMeetupCreator: mCreatorSelector(state),
     isMeetupMember: isMemberSelector(state),
@@ -89,7 +78,7 @@ export default connect(
     loading: loadingMeetupsSelector(state),
     threads: threadsSelector(state),
     loadingThreads: loadingThreadsSelector(state),
-    isAuthenticated: isAuthSelector(state),
+    isAuthenticated: isAuthenticatedSelector(state),
     user: userSelector(state)
   }),
   { fetchMeetupById, fetchThreadsById }

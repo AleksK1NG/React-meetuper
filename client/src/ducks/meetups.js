@@ -6,7 +6,12 @@ import Api from '../services/api';
 import { replace } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
-import { authUserSelector, userIdSelector, userSelector } from './auth';
+import {
+  authUserSelector,
+  isAuthenticatedSelector,
+  userIdSelector,
+  userSelector
+} from './auth';
 
 export const moduleName = 'meetups';
 const prefix = `${appName}/${moduleName}`;
@@ -123,7 +128,6 @@ export default function reducer(state = ReducerRecord, action) {
  * */
 
 export const stateSelector = (state) => state[moduleName];
-export const idSelector = (_, props) => props.id;
 
 export const loadingMeetupsSelector = createSelector(
   stateSelector,
@@ -153,36 +157,28 @@ export const mCreatorSelector = createSelector(
   [singleMeetupSelector, authUserSelector],
   (meetup, user) => {
     if (user && meetup) {
-      console.log('FROM SELECTOR => true');
       return user.toJS()._id === meetup.toJS().meetupCreator._id;
     }
-    console.log('FROM SELECTOR => false');
     return false;
   }
 );
 
-// user['joinedMeetups'].includes(meetup._id);
 export const isMemberSelector = createSelector(
   [singleMeetupSelector, authUserSelector],
   (meetup, user) => {
     if (user && meetup) {
-      console.log('FROM SELECTOR => true');
       return user.toJS()['joinedMeetups'].includes(meetup.toJS()._id);
     }
-    console.log('FROM SELECTOR => false');
     return false;
   }
 );
 
 export const canJoinMeetupSelector = createSelector(
-  [mCreatorSelector, isMemberSelector],
-  (isCreator, isMember) => {
-    if (!isCreator && !isMember) {
-      console.log('FROM CAN JOIN SELECTOR => false');
-      debugger;
+  [mCreatorSelector, isMemberSelector, isAuthenticatedSelector],
+  (isCreator, isMember, isAuthenticated) => {
+    if (!isCreator && !isMember && isAuthenticated) {
       return true;
     }
-    console.log('FROM CAN JOIN SELECTOR => true');
     return false;
   }
 );

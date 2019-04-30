@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isAuthSelector } from '../../../ducks/auth';
+import { isAuthenticatedSelector } from '../../../ducks/auth';
 import { Route, Redirect } from 'react-router-dom';
 import { checkTokenValidity } from '../../../utils/checkTokenValidity';
 
@@ -23,7 +23,7 @@ const ProtectedRoute = ({ isAuthorized, component: Component, ...rest }) => {
 
 export default connect(
   (state) => ({
-    isAuthorized: isAuthSelector(state)
+    isAuthorized: isAuthenticatedSelector(state)
   }),
   null,
   null,

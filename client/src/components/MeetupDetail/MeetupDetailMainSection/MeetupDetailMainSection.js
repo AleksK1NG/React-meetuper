@@ -2,7 +2,14 @@ import React from 'react';
 import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
 
-const MeetupDetailMainSection = ({ meetup, threads, user, canJoin }) => {
+const MeetupDetailMainSection = ({
+  meetup,
+  threads,
+  user,
+  isMeetupMember,
+  isCanJoinMeetup,
+  isAuthenticated
+}) => {
   return (
     <section className="section">
       <div className="container">
@@ -14,12 +21,15 @@ const MeetupDetailMainSection = ({ meetup, threads, user, canJoin }) => {
             <div className="content is-medium">
               <h3 className="title is-3">About the Meetup</h3>
               <p>{meetup.description}</p>
-              {canJoin ? (
+              {isCanJoinMeetup ? (
                 <button className="button is-primary">Join In</button>
               ) : null}
-              {/*  {meetup.meetupCreator._id !== user._id && (*/}
-              {/*    <button className="button is-primary">Join In</button>*/}
-              {/*  )}*/}
+
+              {!isAuthenticated ? (
+                <button className="button is-warning">
+                  You need authenticate in order to join
+                </button>
+              ) : null}
             </div>
             <div className="content is-medium">
               <h3 className="title is-3">Threads</h3>

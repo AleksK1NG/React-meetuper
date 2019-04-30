@@ -100,7 +100,7 @@ export const authErrorSelector = createSelector(
   (state) => state.error
 );
 
-export const isAuthSelector = createSelector(
+export const isAuthenticatedSelector = createSelector(
   stateSelector,
   (state) => state.get('isAuthenticated')
 );
