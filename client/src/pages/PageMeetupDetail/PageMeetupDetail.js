@@ -2,7 +2,9 @@ import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
 import {
+  canJoinMeetupSelector,
   fetchMeetupById,
+  isMemberSelector,
   loadingMeetupsSelector,
   mCreatorSelector,
   meetupSelector
@@ -27,6 +29,8 @@ const MeetupDetailMainSection = React.lazy(() =>
 );
 
 const PageMeetupDetail = ({
+  isCanJoinMeetup,
+  isMeetupMember,
   isMeetupCreator,
   match,
   meetup,
@@ -44,31 +48,29 @@ const PageMeetupDetail = ({
   }, []);
 
   if (loadingThreads || loading) return <Loader />;
+  //
+  // let isCreator = false;
+  // let isMember = false;
+  // let canJoin = false;
+  // if (user && meetup) {
+  //   isCreator = user._id === meetup.meetupCreator._id;
+  //   isMember = user['joinedMeetups'].includes(meetup._id);
+  //   canJoin = !isCreator && !isMember;
+  // }
 
-  let isCreator = false;
-  let isMember = false;
-  let canJoin = false;
-  if (user && meetup) {
-    isCreator = user._id === meetup.meetupCreator._id;
-    isMember = user['joinedMeetups'].includes(meetup._id);
-    canJoin = !isCreator && !isMember;
-  }
-
-  console.log('PageMeetupDetail CAN JOIN =>', isMeetupCreator);
+  console.log('PageMeetupDetail IS CAN JOIN =>', isCanJoinMeetup);
 
   return (
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />} />
       <MeetupDetailHeroSection
         isMeetupCreator={isMeetupCreator}
-        isCreator={isCreator}
         meetup={meetup}
         isAuthenticated={isAuthenticated}
-        user={user}
       />
       <MeetupDetailMainSection
-        canJoin={canJoin}
-        isMember={isMember}
+        canJoin={isCanJoinMeetup}
+        isMember={isMeetupMember}
         meetup={meetup}
         threads={threads}
         isAuthenticated={isAuthenticated}
@@ -80,7 +82,9 @@ const PageMeetupDetail = ({
 
 export default connect(
   (state, { user }) => ({
+    isCanJoinMeetup: canJoinMeetupSelector(state),
     isMeetupCreator: mCreatorSelector(state),
+    isMeetupMember: isMemberSelector(state),
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state),
     threads: threadsSelector(state),

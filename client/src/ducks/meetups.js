@@ -161,6 +161,32 @@ export const mCreatorSelector = createSelector(
   }
 );
 
+// user['joinedMeetups'].includes(meetup._id);
+export const isMemberSelector = createSelector(
+  [singleMeetupSelector, authUserSelector],
+  (meetup, user) => {
+    if (user && meetup) {
+      console.log('FROM SELECTOR => true');
+      return user.toJS()['joinedMeetups'].includes(meetup.toJS()._id);
+    }
+    console.log('FROM SELECTOR => false');
+    return false;
+  }
+);
+
+export const canJoinMeetupSelector = createSelector(
+  [mCreatorSelector, isMemberSelector],
+  (isCreator, isMember) => {
+    if (!isCreator && !isMember) {
+      console.log('FROM CAN JOIN SELECTOR => false');
+      debugger;
+      return true;
+    }
+    console.log('FROM CAN JOIN SELECTOR => true');
+    return false;
+  }
+);
+
 /**
  * Action Creators
  * */
