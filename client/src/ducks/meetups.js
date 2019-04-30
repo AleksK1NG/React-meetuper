@@ -136,7 +136,10 @@ export const allMeetupsSelector = createSelector(
 );
 export const meetupSelector = createSelector(
   stateSelector,
-  (state) => state.get('meetup').toJS()
+  (state) => {
+    const meetup = state.get('meetup');
+    return meetup ? meetup.toJS() : null;
+  }
 );
 
 export const meetupCreatorSelector = createSelector(
@@ -244,10 +247,10 @@ export function* createMeetupSaga(action) {
   // const user = state.auth.get('user').toJS();
   // const category = state.categories.get('categories').toJS().find(e => e._id === payload.meetup.category)
 
-  payload.meetup.category = state.categories
-    .get('categories')
-    .toJS()
-    .find((e) => e._id === payload.meetup.category);
+  // payload.meetup.category = state.categories
+  //   .get('categories')
+  //   .toJS()
+  //   .find((e) => e._id === payload.meetup.category);
   payload.meetup.meetupCreator = state.auth.get('user').toJS();
   payload.meetup.processedLocation = payload.meetup.location
     .toLowerCase()
