@@ -1,9 +1,10 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
 import {
   fetchMeetupById,
   loadingMeetupsSelector,
+  mCreatorSelector,
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
@@ -26,6 +27,7 @@ const MeetupDetailMainSection = React.lazy(() =>
 );
 
 const PageMeetupDetail = ({
+  isMeetupCreator,
   match,
   meetup,
   threads,
@@ -52,12 +54,13 @@ const PageMeetupDetail = ({
     canJoin = !isCreator && !isMember;
   }
 
-  console.log('PageMeetupDetail CAN JOIN =>', canJoin);
+  console.log('PageMeetupDetail CAN JOIN =>', isMeetupCreator);
 
   return (
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />} />
       <MeetupDetailHeroSection
+        isMeetupCreator={isMeetupCreator}
         isCreator={isCreator}
         meetup={meetup}
         isAuthenticated={isAuthenticated}
@@ -76,7 +79,8 @@ const PageMeetupDetail = ({
 };
 
 export default connect(
-  (state) => ({
+  (state, { user }) => ({
+    isMeetupCreator: mCreatorSelector(state),
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state),
     threads: threadsSelector(state),

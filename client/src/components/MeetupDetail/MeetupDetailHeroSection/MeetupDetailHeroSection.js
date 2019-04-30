@@ -1,7 +1,12 @@
 import React from 'react';
 import { formatDate } from '../../../utils/helpers';
 
-const MeetupDetailHeroSection = ({ meetup, user, isCreator }) => {
+const MeetupDetailHeroSection = ({
+  meetup,
+  user,
+  isCreator,
+  isMeetupCreator
+}) => {
   console.log('is creator =>', isCreator);
   return (
     <section className="hero">
@@ -35,7 +40,7 @@ const MeetupDetailHeroSection = ({ meetup, user, isCreator }) => {
         {/*  </div>*/}
         {/*) : null}*/}
 
-        {isCreator ? (
+        {isMeetupCreator ? (
           <div className="is-pulled-right">
             <button className="button is-danger">Leave Group</button>
           </div>

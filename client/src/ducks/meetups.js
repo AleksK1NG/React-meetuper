@@ -6,7 +6,7 @@ import Api from '../services/api';
 import { replace } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
-import { userIdSelector } from './auth';
+import { authUserSelector, userIdSelector, userSelector } from './auth';
 
 export const moduleName = 'meetups';
 const prefix = `${appName}/${moduleName}`;
@@ -49,7 +49,7 @@ export const ReducerRecord = fromJS({
   error: null,
   loading: true,
   meetups: new List([]),
-  meetup: {}
+  meetup: null
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -123,6 +123,7 @@ export default function reducer(state = ReducerRecord, action) {
  * */
 
 export const stateSelector = (state) => state[moduleName];
+export const idSelector = (_, props) => props.id;
 
 export const loadingMeetupsSelector = createSelector(
   stateSelector,
@@ -140,6 +141,23 @@ export const meetupSelector = createSelector(
   (state) => {
     const meetup = state.get('meetup');
     return meetup ? meetup.toJS() : null;
+  }
+);
+
+export const singleMeetupSelector = createSelector(
+  stateSelector,
+  (state) => state.get('meetup')
+);
+
+export const mCreatorSelector = createSelector(
+  [singleMeetupSelector, authUserSelector],
+  (meetup, user) => {
+    if (user && meetup) {
+      console.log('FROM SELECTOR => true');
+      return user.toJS()._id === meetup.toJS().meetupCreator._id;
+    }
+    console.log('FROM SELECTOR => false');
+    return false;
   }
 );
 

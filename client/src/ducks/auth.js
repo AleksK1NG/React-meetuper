@@ -129,6 +129,11 @@ export const userIdSelector = createSelector(
   }
 );
 
+export const authUserSelector = createSelector(
+  stateSelector,
+  (state) => state.get('user')
+);
+
 /**
  * Action Creators
  * */
