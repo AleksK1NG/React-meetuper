@@ -6,7 +6,6 @@ const MeetupDetailMainSection = ({
   meetup,
   threads,
   user,
-  isMeetupMember,
   isCanJoinMeetup,
   isAuthenticated
 }) => {
@@ -26,7 +25,7 @@ const MeetupDetailMainSection = ({
               ) : null}
 
               {!isAuthenticated ? (
-                <button className="button is-warning">
+                <button className="button is-warning" disabled>
                   You need authenticate in order to join
                 </button>
               ) : null}

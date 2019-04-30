@@ -53,13 +53,11 @@ const PageMeetupDetail = ({
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />} />
       <MeetupDetailHeroSection
-        isMeetupCreator={isMeetupCreator}
+        isMeetupMember={isMeetupMember}
         meetup={meetup}
-        isAuthenticated={isAuthenticated}
       />
       <MeetupDetailMainSection
         isCanJoinMeetup={isCanJoinMeetup}
-        isMeetupMember={isMeetupMember}
         meetup={meetup}
         threads={threads}
         isAuthenticated={isAuthenticated}
