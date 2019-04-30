@@ -6,6 +6,7 @@ import { Form } from 'react-final-form';
 import moment from 'moment';
 import Loader from '../../shared/Loader/Loader';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidation/validateMeetupCreateForm';
+import { createMeetup } from '../../../ducks/meetups';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
 const MeetupConfirmation = React.lazy(() =>
@@ -18,15 +19,11 @@ const MeetupLocation = React.lazy(() =>
   import('../MeetupLocation/MeetupLocation')
 );
 
-const Hoc = ({ Component }) => {
-  return <Component />;
-};
-
-const MeetupCreateWizard = (props) => {
+const MeetupCreateWizard = ({ createMeetup }) => {
   const [step, setStep] = useState(1);
 
   const onSubmit = (values, formApi) => {
-    console.log('Submit form ;D', values, props);
+    console.log('Submit form ;D', values);
     const startDate = moment(values.startDate).format();
 
     console.log('ready form => ', { ...values, startDate });
@@ -119,5 +116,5 @@ const MeetupCreateWizard = (props) => {
 
 export default connect(
   (state) => ({}),
-  {}
+  { createMeetup }
 )(MeetupCreateWizard);
