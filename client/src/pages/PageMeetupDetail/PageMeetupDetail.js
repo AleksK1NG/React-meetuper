@@ -41,18 +41,31 @@ const PageMeetupDetail = ({
     fetchThreadsById(match.params.id);
   }, []);
 
-  // if (!meetup.meetupCreator || !threads || loading) return <Loader />;
   if (loadingThreads || loading) return <Loader />;
+
+  let isCreator = false;
+  let isMember = false;
+  let canJoin = false;
+  if (user && meetup) {
+    isCreator = user._id === meetup.meetupCreator._id;
+    isMember = user['joinedMeetups'].includes(meetup._id);
+    canJoin = !isCreator && !isMember;
+  }
+
+  console.log('PageMeetupDetail CAN JOIN =>', canJoin);
 
   return (
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />} />
       <MeetupDetailHeroSection
+        isCreator={isCreator}
         meetup={meetup}
         isAuthenticated={isAuthenticated}
         user={user}
       />
       <MeetupDetailMainSection
+        canJoin={canJoin}
+        isMember={isMember}
         meetup={meetup}
         threads={threads}
         isAuthenticated={isAuthenticated}

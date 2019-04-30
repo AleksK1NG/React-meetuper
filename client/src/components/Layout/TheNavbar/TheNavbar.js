@@ -68,16 +68,18 @@ const TheNavbar = ({ user, logoutUser }) => {
             </div>
           )}
 
-          <div className="navbar-item">
-            <div className="buttons">
-              <Link to="/register" className="button is-primary">
-                <strong>Sign up</strong>
-              </Link>
-              <Link to="/login" className="button is-light">
-                Log in
-              </Link>
+          {!user && (
+            <div className="navbar-item">
+              <div className="buttons">
+                <Link to="/register" className="button is-primary">
+                  <strong>Sign up</strong>
+                </Link>
+                <Link to="/login" className="button is-light">
+                  Log in
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </nav>

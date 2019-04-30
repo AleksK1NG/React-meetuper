@@ -121,6 +121,14 @@ export const toastMessageSelector = createSelector(
   }
 );
 
+export const userIdSelector = createSelector(
+  stateSelector,
+  (state) => {
+    const user = state.get('user');
+    return user ? user.toJS()._id : null;
+  }
+);
+
 /**
  * Action Creators
  * */
