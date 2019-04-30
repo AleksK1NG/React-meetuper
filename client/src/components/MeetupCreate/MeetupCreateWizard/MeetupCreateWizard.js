@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Form } from 'react-final-form';
@@ -8,7 +8,10 @@ import Loader from '../../shared/Loader/Loader';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidation/validateMeetupCreateForm';
 import { createMeetup } from '../../../ducks/meetups';
 import './MeetupCreateWizard.scss';
-import { allCategoriesSelector } from '../../../ducks/categories';
+import {
+  allCategoriesSelector,
+  fetchAllCategories
+} from '../../../ducks/categories';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
 const MeetupConfirmation = React.lazy(() =>
@@ -21,8 +24,16 @@ const MeetupLocation = React.lazy(() =>
   import('../MeetupLocation/MeetupLocation')
 );
 
-const MeetupCreateWizard = ({ createMeetup, categories }) => {
+const MeetupCreateWizard = ({
+  createMeetup,
+  categories,
+  fetchAllCategories
+}) => {
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    fetchAllCategories();
+  }, []);
 
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values);
@@ -53,7 +64,9 @@ const MeetupCreateWizard = ({ createMeetup, categories }) => {
       case 3:
         return (renderComponent = <MeetupDescription />);
       case 4:
-        return (renderComponent = <MeetupConfirmation values={values} />);
+        return (renderComponent = (
+          <MeetupConfirmation values={values} categories={categories} />
+        ));
 
       default:
         return (renderComponent = null);
@@ -123,5 +136,5 @@ export default connect(
   (state) => ({
     categories: allCategoriesSelector(state)
   }),
-  { createMeetup }
+  { createMeetup, fetchAllCategories }
 )(MeetupCreateWizard);

@@ -27,8 +27,6 @@ export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
 
-export const SET_TOAST_MESSAGE = `${prefix}/SET_TOAST_MESSAGE`;
-
 /**
  * Reducer
  * */

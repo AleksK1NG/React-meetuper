@@ -2,7 +2,7 @@ import React from 'react';
 import './MeetupConfirmation.scss';
 import moment from 'moment';
 
-const MeetupConfirmation = ({ values }) => {
+const MeetupConfirmation = ({ values, categories }) => {
   return (
     <div>
       <h1 className="title m-b-sm">Please confirm entered data</h1>
@@ -29,16 +29,12 @@ const MeetupConfirmation = ({ values }) => {
           <p>{values.timeTo}</p>
         </div>
         <div>
-          <span className="result-title">Category</span>
-          <p>{values.category}</p>
-        </div>
-        <div>
           <span className="result-title">Image</span>
           <p>{values.image}</p>
         </div>
         <div>
           <span className="result-title">Short Info</span>
-          <p>{values.info}</p>
+          <p>{values.shortInfo}</p>
         </div>
         <div>
           <span className="result-title">Description</span>

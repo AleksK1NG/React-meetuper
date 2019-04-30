@@ -6,6 +6,7 @@ import Api from '../services/api';
 import { replace } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
+import { userSelector } from './auth';
 
 export const moduleName = 'meetups';
 const prefix = `${appName}/${moduleName}`;
@@ -140,11 +141,6 @@ export const meetupSelector = createSelector(
     const meetup = state.get('meetup');
     return meetup ? meetup.toJS() : null;
   }
-);
-
-export const meetupCreatorSelector = createSelector(
-  stateSelector,
-  (state) => state.get('meetup').toJS().meetupCreator
 );
 
 /**

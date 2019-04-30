@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatDate } from '../../../utils/helpers';
 
-const MeetupDetailHeroSection = ({ meetup }) => {
+const MeetupDetailHeroSection = ({ meetup, user }) => {
   return (
     <section className="hero">
       <div className="hero-body">
@@ -27,9 +27,16 @@ const MeetupDetailHeroSection = ({ meetup }) => {
             </div>
           </article>
         </div>
-        <div className="is-pulled-right">
-          <button className="button is-danger">Leave Group</button>
-        </div>
+
+        {user && meetup && user._id === meetup.meetupCreator._id ? (
+          <div className="is-pulled-right">
+            <button className="button is-danger">Leave Group</button>
+          </div>
+        ) : null}
+
+        {/*<div className="is-pulled-right">*/}
+        {/*  <button className="button is-danger">Leave Group</button>*/}
+        {/*</div>*/}
       </div>
     </section>
   );

@@ -12,8 +12,7 @@ import {
   loadingThreadsSelector,
   threadsSelector
 } from '../../ducks/threads';
-// import MeetupDetailHeroSection from '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection';
-// import MeetupDetailMainSection from '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection';
+import { isAuthSelector, userSelector } from '../../ducks/auth';
 
 const MeetupDetailHeroSection = React.lazy(() =>
   import(
@@ -33,7 +32,9 @@ const PageMeetupDetail = ({
   fetchMeetupById,
   fetchThreadsById,
   loading,
-  loadingThreads
+  loadingThreads,
+  isAuthenticated,
+  user
 }) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
@@ -46,8 +47,17 @@ const PageMeetupDetail = ({
   return (
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />} />
-      <MeetupDetailHeroSection meetup={meetup} />
-      <MeetupDetailMainSection meetup={meetup} threads={threads} />
+      <MeetupDetailHeroSection
+        meetup={meetup}
+        isAuthenticated={isAuthenticated}
+        user={user}
+      />
+      <MeetupDetailMainSection
+        meetup={meetup}
+        threads={threads}
+        isAuthenticated={isAuthenticated}
+        user={user}
+      />
     </div>
   );
 };
@@ -57,7 +67,9 @@ export default connect(
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state),
     threads: threadsSelector(state),
-    loadingThreads: loadingThreadsSelector(state)
+    loadingThreads: loadingThreadsSelector(state),
+    isAuthenticated: isAuthSelector(state),
+    user: userSelector(state)
   }),
   { fetchMeetupById, fetchThreadsById }
 )(PageMeetupDetail);
