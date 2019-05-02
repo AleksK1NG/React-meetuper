@@ -27,9 +27,7 @@ export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
 
-export const ADD_MEETUP_TO_USER_REQUEST = `${prefix}/ADD_MEETUP_TO_USER_REQUEST`;
 export const ADD_MEETUP_TO_USER_SUCCESS = `${prefix}/ADD_MEETUP_TO_USER_SUCCESS`;
-export const ADD_MEETUP_TO_USER_ERROR = `${prefix}/ADD_MEETUP_TO_USER_ERROR`;
 
 export const DELETE_MEETUP_FROM_USER_SUCCESS = `${prefix}/REMOVE_MEETUP_FROM_USER_SUCCESS`;
 
@@ -52,25 +50,18 @@ export default function reducer(state = ReducerRecord, action) {
       return state.set('isLoading', true);
 
     case SIGN_UP_SUCCESS:
-      return (
-        state
-          // .merge({ user: new Map(payload.user) })
-          .set('user', fromJS(payload.data))
-          .set('isLoading', false)
-          .set('isAuthenticated', true)
-          .set('error', null)
-      );
+      return state
+        .set('user', fromJS(payload.data))
+        .set('isLoading', false)
+        .set('isAuthenticated', true)
+        .set('error', null);
 
     case SIGN_IN_SUCCESS:
-      return (
-        state
-          // .set('user', payload.data)
-          // .merge({ user: new Map(payload.user) })
-          .set('user', fromJS(payload.data))
-          .set('error', null)
-          .set('isLoading', false)
-          .set('isAuthenticated', true)
-      );
+      return state
+        .set('user', fromJS(payload.data))
+        .set('error', null)
+        .set('isLoading', false)
+        .set('isAuthenticated', true);
 
     case LOAD_USER_SUCCESS:
       return state
@@ -91,7 +82,6 @@ export default function reducer(state = ReducerRecord, action) {
       return state.set('error', payload.error).set('isLoading', false);
 
     case ADD_MEETUP_TO_USER_SUCCESS:
-      // return state.getIn(['user', 'joinedMeetups']).push(payload.data);
       return state
         .updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
           joinedMeetups.push(payload.id)

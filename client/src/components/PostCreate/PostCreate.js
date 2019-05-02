@@ -7,7 +7,6 @@ import { createPost } from '../../ducks/threads';
 
 const PostCreate = ({ createPost, threadId }) => {
   const onSubmit = (values, formApi) => {
-    console.log('from create post => ', values.post, threadId);
     createPost(values.post, threadId);
     formApi.reset();
   };

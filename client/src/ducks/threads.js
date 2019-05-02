@@ -21,14 +21,12 @@ export const FETCH_THREADS_BY_ID_SUCCESS = `${prefix}/FETCH_THREADS_BY_ID_SUCCES
 export const FETCH_THREADS_BY_ID_ERROR = `${prefix}/FETCH_THREADS_BY_ID_ERROR`;
 
 export const CREATE_THREAD_REQUEST = `${prefix}/CREATE_THREAD_REQUEST`;
-export const CREATE_THREAD_SUCCESST = `${prefix}/CREATE_THREAD_SUCCESST`;
+export const CREATE_THREAD_SUCCESS = `${prefix}/CREATE_THREAD_SUCCESST`;
 export const CREATE_THREAD_ERROR = `${prefix}/CREATE_THREAD_ERROR`;
 
 export const CREATE_POST_REQUEST = `${prefix}/CREATE_POST_REQUEST`;
-export const CREATE_POST_SUCCESST = `${prefix}/CREATE_POST_SUCCESST`;
+export const CREATE_POST_SUCCESS = `${prefix}/CREATE_POST_SUCCESST`;
 export const CREATE_POST_ERROR = `${prefix}/CREATE_POST_ERROR`;
-
-export const ADD_POST_TO_THREAD = `${prefix}/ADD_POST_TO_THREAD`;
 
 /**
  * Reducer
@@ -62,24 +60,26 @@ export default function reducer(state = ReducerRecord, action) {
     case CREATE_THREAD_ERROR:
       return state.set('error', payload.err).set('loading', false);
 
-    case CREATE_THREAD_SUCCESST:
+    case CREATE_THREAD_SUCCESS:
       return state
         .update('threads', (threads) => threads.push(fromJS(payload.data)))
         .set('error', null)
         .set('loading', false);
 
-    case CREATE_POST_SUCCESST:
+    case CREATE_POST_SUCCESS:
       const threadIndex = state
         .get('threads')
         .findIndex((thread) => thread.get('_id') === payload.threadId);
 
-      return state.updateIn(['threads', threadIndex, 'posts'], (posts) => {
-        if (threadIndex > -1) {
-          debugger;
-          return posts.push(fromJS(payload.data));
-        }
-        return posts;
-      });
+      return state
+        .updateIn(['threads', threadIndex, 'posts'], (posts) => {
+          if (threadIndex > -1) {
+            return posts.push(fromJS(payload.data));
+          }
+          return posts;
+        })
+        .set('error', null)
+        .set('loading', false);
 
     default:
       return state;
@@ -190,10 +190,9 @@ export function* createThreadSaga(action) {
     const { data } = yield call(Api.createThread, thread);
 
     yield put({
-      type: CREATE_THREAD_SUCCESST,
+      type: CREATE_THREAD_SUCCESS,
       payload: { data }
     });
-    debugger;
 
     toast.success('Success, thread created ! =D');
   } catch (err) {
@@ -216,10 +215,9 @@ export function* createPostSaga(action) {
     const { data } = yield call(Api.createPost, post);
 
     yield put({
-      type: CREATE_POST_SUCCESST,
+      type: CREATE_POST_SUCCESS,
       payload: { data, threadId }
     });
-    debugger;
 
     toast.success('Success, post created ! =D');
   } catch (err) {

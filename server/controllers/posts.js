@@ -1,4 +1,5 @@
 const Thread = require('../models/threads');
+const Post = require('../models/posts');
 
 exports.getPosts = function(req, res) {
   const threadId = req.query.threadId;

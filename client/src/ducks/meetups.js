@@ -21,15 +21,6 @@ const prefix = `${appName}/${moduleName}`;
  * */
 export const FETCH_ALL_REQUEST = `${prefix}/FETCH_ALL_REQUEST`;
 
-export const FETCH_BOOK_BY_ID = `${prefix}/FETCH_BOOK_BY_ID`;
-export const FETCH_BOOK_BY_ID_REQUEST = `${prefix}/FETCH_BOOK_BY_ID_REQUEST`;
-
-export const ADD_BOOK_SUCCESS = `${prefix}/ADD_BOOK_SUCCESS`;
-
-export const DELETE_BOOK_REQUEST = `${prefix}/DELETE_BOOK_REQUEST`;
-export const DELETE_BOOK_SUCCESS = `${prefix}/DELETE_BOOK_SUCCESS`;
-export const DELETE_BOOK_ERROR = `${prefix}/DELETE_BOOK_ERROR`;
-
 export const FETCH_MEETUPS_REQUEST = `${prefix}/FETCH_MEETUPS_REQUEST`;
 export const FETCH_MEETUPS_SUCCESS = `${prefix}/FETCH_MEETUPS_SUCCESS`;
 export const FETCH_MEETUPS_ERROR = `${prefix}/FETCH_MEETUPS_ERROR`;
@@ -72,8 +63,6 @@ export default function reducer(state = ReducerRecord, action) {
     case CREATE_MEETUP_REQUEST:
     case FETCH_MEETUP_BY_ID_REQUEST:
     case FETCH_MEETUPS_REQUEST:
-    case FETCH_BOOK_BY_ID_REQUEST:
-    case FETCH_BOOK_BY_ID:
       return state.set('loading', true);
 
     case FETCH_MEETUPS_SUCCESS:
@@ -100,30 +89,6 @@ export default function reducer(state = ReducerRecord, action) {
         .set('meetup', fromJS(payload.meetup))
         .set('loading', false)
         .set('error', null);
-
-    case ADD_BOOK_SUCCESS:
-      return state
-        .set('error', null)
-        .set('loading', false)
-        .update('books', (books) => books.push(fromJS(payload.data)));
-
-    case DELETE_BOOK_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('error', null)
-        .update('books', (books) => {
-          return books.filter((book) => book.get('id') !== payload);
-        });
-
-    case 'UPDATE_MEETUP_SUCCESS':
-      return state
-        .set('error', null)
-        .set('loading', false)
-        .update('books', (books) =>
-          books.map((book) =>
-            book.get('id') === payload.data.id ? fromJS(payload.data) : book
-          )
-        );
 
     case JOIN_MEETUP_SUCCESS:
       return state
