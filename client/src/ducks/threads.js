@@ -77,6 +77,20 @@ export const threadsSelector = createSelector(
   (state) => state.get('threads').toJS()
 );
 
+export const threadsSortedSelector = createSelector(
+  stateSelector,
+  (state) =>
+    state
+      .get('threads')
+      .sort((thread, nextThread) => {
+        return (
+          new Date(nextThread.get('createdAt')) -
+          new Date(thread.get('createdAt'))
+        );
+      })
+      .toJS()
+);
+
 /**
  * Action Creators
  * */

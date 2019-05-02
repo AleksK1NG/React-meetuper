@@ -6,12 +6,11 @@ const ThreadCreateModal = ({ btnTitle, title, meetupId, createThread }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onSubmit = (values, formApi) => {
-    console.log('Submit form ;D', values.title, meetupId);
-
     createThread(values.title, meetupId);
     formApi.reset();
     setIsOpen(false);
   };
+
   return (
     <div>
       <button
@@ -62,18 +61,16 @@ const ThreadCreateModal = ({ btnTitle, title, meetupId, createThread }) => {
                     )}
                   </Field>
                   <button className="button is-success" type="submit">
-                    Save
+                    Create
+                  </button>
+                  <button onClick={() => setIsOpen(false)} className="button">
+                    Cancel
                   </button>
                 </form>
               )}
             />
           </section>
-          <footer className="modal-card-foot">
-            <button className="button is-success">Save changes</button>
-            <button onClick={() => setIsOpen(false)} className="button">
-              Cancel
-            </button>
-          </footer>
+          <footer className="modal-card-foot" />
         </div>
       </div>
     </div>
