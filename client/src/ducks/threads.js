@@ -1,9 +1,10 @@
 import { appName } from '../config';
 import { List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all, select } from 'redux-saga/effects';
+import { takeEvery, call, put, all } from 'redux-saga/effects';
 import Api from '../services/api';
-import { replace } from 'connected-react-router';
+import { toast } from 'react-toastify';
+import { rejectError } from '../utils/rejectErrorHelper';
 
 export const moduleName = 'threads';
 const prefix = `${appName}/${moduleName}`;
@@ -11,22 +12,6 @@ const prefix = `${appName}/${moduleName}`;
 /*
  * Constants
  * */
-export const FETCH_ALL_REQUEST = `${prefix}/FETCH_ALL_REQUEST`;
-
-export const FETCH_BOOK_BY_ID = `${prefix}/FETCH_BOOK_BY_ID`;
-export const FETCH_BOOK_BY_ID_REQUEST = `${prefix}/FETCH_BOOK_BY_ID_REQUEST`;
-
-export const ADD_BOOK_REQUEST = `${prefix}/ADD_BOOK_REQUEST`;
-export const ADD_BOOK_SUCCESS = `${prefix}/ADD_BOOK_SUCCESS`;
-export const ADD_BOOK_ERROR = `${prefix}/ADD_BOOK_ERROR`;
-
-export const DELETE_BOOK_REQUEST = `${prefix}/DELETE_BOOK_REQUEST`;
-export const DELETE_BOOK_SUCCESS = `${prefix}/DELETE_BOOK_SUCCESS`;
-export const DELETE_BOOK_ERROR = `${prefix}/DELETE_BOOK_ERROR`;
-
-export const FETCH_THREADS_REQUEST = `${prefix}/FETCH_THREADS_REQUEST`;
-export const FETCH_THREADS_SUCCESS = `${prefix}/FETCH_THREADS_SUCCESS`;
-export const FETCH_THREADS_ERROR = `${prefix}/FETCH_THREADS_ERROR`;
 
 export const FETCH_THREADS_BY_ID = `${prefix}/FETCH_MEETUP_BY_ID`;
 export const FETCH_THREADS_BY_ID_REQUEST = `${prefix}/FETCH_THREADS_BY_ID_REQUEST`;
@@ -54,16 +39,8 @@ export default function reducer(state = ReducerRecord, action) {
 
   switch (type) {
     case FETCH_THREADS_BY_ID_REQUEST:
-    case ADD_BOOK_REQUEST:
-    case FETCH_BOOK_BY_ID_REQUEST:
-    case FETCH_BOOK_BY_ID:
+    case CREATE_THREAD_REQUEST:
       return state.set('loading', true);
-
-    case 'FETCH_MEETUPS_SUCCESS':
-      return state
-        .set('meetups', fromJS(payload.data))
-        .set('loading', false)
-        .set('error', null);
 
     case FETCH_THREADS_BY_ID_SUCCESS:
       return state
@@ -79,30 +56,6 @@ export default function reducer(state = ReducerRecord, action) {
         .update('threads', (threads) => threads.push(fromJS(payload.data)))
         .set('error', null)
         .set('loading', false);
-
-    case ADD_BOOK_SUCCESS:
-      return state
-        .set('error', null)
-        .set('loading', false)
-        .update('books', (books) => books.push(fromJS(payload.data)));
-
-    case DELETE_BOOK_SUCCESS:
-      return state
-        .set('loading', false)
-        .set('error', null)
-        .update('books', (books) => {
-          return books.filter((book) => book.get('id') !== payload);
-        });
-
-    case 'UPDATE_MEETUP_SUCCESS':
-      return state
-        .set('error', null)
-        .set('loading', false)
-        .update('books', (books) =>
-          books.map((book) =>
-            book.get('id') === payload.data.id ? fromJS(payload.data) : book
-          )
-        );
 
     default:
       return state;
@@ -142,27 +95,6 @@ export const createThread = (title, meetupId) => {
   };
 };
 
-export const addBook = (book) => {
-  return {
-    type: ADD_BOOK_REQUEST,
-    payload: { book }
-  };
-};
-
-export const deleteBook = (bookId) => {
-  return {
-    type: DELETE_BOOK_REQUEST,
-    payload: { bookId }
-  };
-};
-
-export const updateBook = (bookId, newBook) => {
-  return {
-    type: 'UPDATE_BOOK_REQUEST',
-    payload: { bookId, newBook }
-  };
-};
-
 /**
  * Sagas
  */
@@ -184,15 +116,12 @@ export function* fetchAllThreadsSaga() {
       type: FETCH_THREADS_BY_ID_ERROR,
       payload: { err }
     });
+    toast.error(rejectError(err));
   }
 }
 
 export function* fetchThreadsByIdSaga(action) {
   const { payload } = action;
-
-  // const state = yield select();
-
-  // const meetups = state.meetups.get('meetups').toJS();
 
   try {
     yield put({
@@ -227,61 +156,19 @@ export function* createThreadSaga(action) {
     const { data } = yield call(Api.createThread, thread);
 
     yield put({
-      type: ADD_BOOK_SUCCESS,
+      type: CREATE_THREAD_SUCCESST,
       payload: { data }
     });
+    debugger;
 
-    yield put(replace('/'));
+    toast.success('Success, thread created ! =D');
   } catch (err) {
     console.log(err);
     yield put({
-      type: ADD_BOOK_ERROR,
+      type: CREATE_THREAD_ERROR,
       payload: { err }
     });
-  }
-}
-
-export function* deleteBookSaga(action) {
-  const {
-    payload: { bookId }
-  } = action;
-
-  try {
-    yield call(Api.deleteBook, bookId);
-
-    yield put({
-      type: DELETE_BOOK_SUCCESS,
-      payload: bookId
-    });
-  } catch (err) {
-    console.log(err);
-    yield put({
-      type: DELETE_BOOK_ERROR,
-      payload: { err }
-    });
-  }
-}
-
-export function* updateBookSaga(action) {
-  const {
-    payload: { bookId, newBook }
-  } = action;
-
-  try {
-    const { data } = yield call(Api.updateBook, bookId, newBook);
-
-    yield put({
-      type: 'UPDATE_BOOK_SUCCESS',
-      payload: { data }
-    });
-
-    yield put(replace('/'));
-  } catch (err) {
-    console.log(err);
-    yield put({
-      type: 'UPDATE_BOOK_ERROR',
-      payload: { err }
-    });
+    toast.error(rejectError(err));
   }
 }
 

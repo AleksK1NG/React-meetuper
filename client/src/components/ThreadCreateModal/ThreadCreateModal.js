@@ -8,7 +8,7 @@ const ThreadCreateModal = ({ btnTitle, title, meetupId, createThread }) => {
   const onSubmit = (values, formApi) => {
     console.log('Submit form ;D', values.title, meetupId);
 
-    // createThread(values.title, meetupId);
+    createThread(values.title, meetupId);
     formApi.reset();
     setIsOpen(false);
   };
