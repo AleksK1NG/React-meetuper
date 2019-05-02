@@ -1,5 +1,3 @@
-import { emailIsValid } from './validationHelpers';
-
 export const validateThreadsModalForm = (values) => {
   const errors = {};
 
