@@ -123,10 +123,11 @@ export default function reducer(state = ReducerRecord, action) {
 
     case JOIN_MEETUP_SUCCESS:
       return state
-        .getIn(['meetup', 'joinedPeople'])
-        .push(fromJS(payload.user))
-        .set('loading', false)
-        .set('error', null);
+        .updateIn(['meetup', 'joinedPeople'], (joinedPeople) =>
+          joinedPeople.push(fromJS(payload.user))
+        )
+        .set('error', null)
+        .set('loading', false);
 
     default:
       return state;
@@ -289,7 +290,6 @@ export function* createMeetupSaga(action) {
     .trim();
 
   console.log('before request =>', payload.meetup);
-  debugger;
 
   try {
     const { data } = yield call(Api.createMeetup, payload.meetup);
@@ -297,7 +297,6 @@ export function* createMeetupSaga(action) {
       type: CREATE_MEETUP_SUCCESS,
       payload: { data }
     });
-    debugger;
 
     yield put(replace(`/meetups/${data._id}`));
     toast.success('Success, meetup created ! =D');
@@ -322,7 +321,6 @@ export function* joinMeetupSaga(action) {
       type: ADD_MEETUP_TO_USER_SUCCESS,
       payload: { data }
     });
-    debugger;
     yield put({
       type: JOIN_MEETUP_SUCCESS,
       payload: { user }

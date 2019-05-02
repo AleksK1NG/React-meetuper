@@ -71,7 +71,7 @@ class ApiService {
   }
 
   joinMeetup(meetupId) {
-    return axiosInstance.post(`${meetupsURl}/${meetupId}/join`);
+    return axiosInstance.post(`/api/v1/meetups/${meetupId}/join`);
   }
 
   getThreadsById(meetupId) {

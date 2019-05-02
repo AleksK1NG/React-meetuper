@@ -89,10 +89,10 @@ export default function reducer(state = ReducerRecord, action) {
       return state.set('error', payload.error).set('isLoading', false);
 
     case ADD_MEETUP_TO_USER_SUCCESS:
-      return state.getIn(['user', 'joinedMeetups']).push(payload.data);
-    // return state.updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
-    //   joinedMeetups.push(payload.data)
-    // );
+      // return state.getIn(['user', 'joinedMeetups']).push(payload.data);
+      return state.updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
+        joinedMeetups.push(payload.data.id)
+      );
     default:
       return state;
   }
@@ -171,13 +171,6 @@ export const logoutUser = () => {
 export const loadUser = () => {
   return {
     type: LOAD_USER_REQUEST
-  };
-};
-
-export const addMeetupToUser = (meetupId) => {
-  return {
-    type: ADD_MEETUP_TO_USER_SUCCESS,
-    payload: { meetupId }
   };
 };
 
