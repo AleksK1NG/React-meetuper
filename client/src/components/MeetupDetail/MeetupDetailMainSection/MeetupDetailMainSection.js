@@ -1,8 +1,11 @@
 import React from 'react';
 import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
+import ThreadCreateModal from '../../ThreadCreateModal/ThreadCreateModal';
 
 const MeetupDetailMainSection = ({
+  isMeetupMember,
+  isMeetupCreator,
   joinMeetup,
   meetup,
   threads,
@@ -35,6 +38,13 @@ const MeetupDetailMainSection = ({
                   You need authenticate in order to join
                 </button>
               ) : null}
+
+              {(isMeetupMember || isMeetupCreator) && (
+                <ThreadCreateModal
+                  title="Create Thread"
+                  btnTitle={`Welcome ${user.username}, Start a new thread`}
+                />
+              )}
             </div>
             <div className="content is-medium">
               <h3 className="title is-3">Threads</h3>
