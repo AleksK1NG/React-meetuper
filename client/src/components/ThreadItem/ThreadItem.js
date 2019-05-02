@@ -8,7 +8,7 @@ const ThreadItem = ({ thread, isCanCreatePost }) => {
       <h4 id="const" className="title is-3">
         {thread.title}
       </h4>
-      {isCanCreatePost && <PostCreate />}
+      {isCanCreatePost && <PostCreate threadId={thread._id} />}
 
       {/**************************** Threads Posts ****************************/}
       {thread &&

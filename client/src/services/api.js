@@ -5,12 +5,13 @@ import axios from 'axios';
 
 const booksListURL = 'http://localhost:3001/booksList';
 const categoriesURL = '/api/v1/categories';
-const meetupsURl = '/api/v1/meetups';
+const meetupsURL = '/api/v1/meetups';
 const registerURL = '/api/v1/users/register';
 const loginURL = '/api/v1/users/login';
 const threadsURL = '/api/v1/threads';
 const currentUserURL = '/api/v1/users/me';
 const logoutURL = '/api/v1/users/logout';
+const postsURL = '/api/v1/posts';
 
 // Axios Instance
 const axiosInstance = axios.create({
@@ -59,23 +60,23 @@ class ApiService {
   }
 
   getAllMeetups() {
-    return axios.get(meetupsURl);
+    return axios.get(meetupsURL);
   }
 
   getMeetupById(id) {
-    return axios.get(`${meetupsURl}/${id}`);
+    return axios.get(`${meetupsURL}/${id}`);
   }
 
   createMeetup(meetup) {
-    return axiosInstance.post(meetupsURl, meetup);
+    return axiosInstance.post(meetupsURL, meetup);
   }
 
   joinMeetup(meetupId) {
-    return axiosInstance.post(`${meetupsURl}/${meetupId}/join`);
+    return axiosInstance.post(`${meetupsURL}/${meetupId}/join`);
   }
 
   leaveMeetup(meetupId) {
-    return axiosInstance.post(`${meetupsURl}/${meetupId}/leave`);
+    return axiosInstance.post(`${meetupsURL}/${meetupId}/leave`);
   }
 
   getThreadsById(meetupId) {
@@ -84,6 +85,10 @@ class ApiService {
 
   createThread(thread) {
     return axiosInstance.post(threadsURL, thread);
+  }
+
+  createPost(post) {
+    return axiosInstance.post(postsURL, post);
   }
 
   registerUser(userData) {

@@ -24,6 +24,12 @@ export const CREATE_THREAD_REQUEST = `${prefix}/CREATE_THREAD_REQUEST`;
 export const CREATE_THREAD_SUCCESST = `${prefix}/CREATE_THREAD_SUCCESST`;
 export const CREATE_THREAD_ERROR = `${prefix}/CREATE_THREAD_ERROR`;
 
+export const CREATE_POST_REQUEST = `${prefix}/CREATE_POST_REQUEST`;
+export const CREATE_POST_SUCCESST = `${prefix}/CREATE_POST_SUCCESST`;
+export const CREATE_POST_ERROR = `${prefix}/CREATE_POST_ERROR`;
+
+export const ADD_POST_TO_THREAD = `${prefix}/ADD_POST_TO_THREAD`;
+
 /**
  * Reducer
  * */
@@ -41,6 +47,7 @@ export default function reducer(state = ReducerRecord, action) {
 
   switch (type) {
     case FETCH_THREADS_BY_ID_REQUEST:
+    case CREATE_POST_REQUEST:
     case CREATE_THREAD_REQUEST:
       return state.set('loading', true);
 
@@ -51,6 +58,8 @@ export default function reducer(state = ReducerRecord, action) {
         .set('error', null);
 
     case FETCH_THREADS_BY_ID_ERROR:
+    case CREATE_POST_ERROR:
+    case CREATE_THREAD_ERROR:
       return state.set('error', payload.err).set('loading', false);
 
     case CREATE_THREAD_SUCCESST:
@@ -58,6 +67,19 @@ export default function reducer(state = ReducerRecord, action) {
         .update('threads', (threads) => threads.push(fromJS(payload.data)))
         .set('error', null)
         .set('loading', false);
+
+    case CREATE_POST_SUCCESST:
+      const threadIndex = state
+        .get('threads')
+        .findIndex((thread) => thread.get('_id') === payload.threadId);
+
+      return state.updateIn(['threads', threadIndex, 'posts'], (posts) => {
+        if (threadIndex > -1) {
+          debugger;
+          return posts.push(fromJS(payload.data));
+        }
+        return posts;
+      });
 
     default:
       return state;
@@ -121,30 +143,16 @@ export const createThread = (title, meetupId) => {
   };
 };
 
+export const createPost = (text, threadId) => {
+  return {
+    type: CREATE_POST_REQUEST,
+    payload: { text, threadId }
+  };
+};
+
 /**
  * Sagas
  */
-export function* fetchAllThreadsSaga() {
-  try {
-    yield put({
-      type: FETCH_THREADS_BY_ID_REQUEST
-    });
-
-    const { data } = yield call(Api.getAllMeetups);
-
-    yield put({
-      type: FETCH_THREADS_BY_ID_SUCCESS,
-      payload: { data }
-    });
-  } catch (err) {
-    console.log(err);
-    yield put({
-      type: FETCH_THREADS_BY_ID_ERROR,
-      payload: { err }
-    });
-    toast.error(rejectError(err));
-  }
-}
 
 export function* fetchThreadsByIdSaga(action) {
   const { payload } = action;
@@ -198,9 +206,36 @@ export function* createThreadSaga(action) {
   }
 }
 
+export function* createPostSaga(action) {
+  const {
+    payload: { text, threadId }
+  } = action;
+  const post = { text, thread: threadId };
+
+  try {
+    const { data } = yield call(Api.createPost, post);
+
+    yield put({
+      type: CREATE_POST_SUCCESST,
+      payload: { data, threadId }
+    });
+    debugger;
+
+    toast.success('Success, post created ! =D');
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: CREATE_POST_ERROR,
+      payload: { err }
+    });
+    toast.error(rejectError(err));
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(FETCH_THREADS_BY_ID, fetchThreadsByIdSaga),
-    takeEvery(CREATE_THREAD_REQUEST, createThreadSaga)
+    takeEvery(CREATE_THREAD_REQUEST, createThreadSaga),
+    takeEvery(CREATE_POST_REQUEST, createPostSaga)
   ]);
 }

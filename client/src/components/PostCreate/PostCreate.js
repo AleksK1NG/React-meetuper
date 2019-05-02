@@ -1,11 +1,14 @@
 import React from 'react';
 import './PostCreate.scss';
 import { Field, Form } from 'react-final-form';
+import { connect } from 'react-redux';
 import { validatePostForm } from '../../utils/finalFormValidation/validatePostForm';
+import { createPost } from '../../ducks/threads';
 
-const PostCreate = () => {
+const PostCreate = ({ createPost, threadId }) => {
   const onSubmit = (values, formApi) => {
-    // createThread(values.title, meetupId);
+    console.log('from create post => ', values.post, threadId);
+    createPost(values.post, threadId);
     formApi.reset();
   };
 
@@ -50,4 +53,7 @@ const PostCreate = () => {
   );
 };
 
-export default PostCreate;
+export default connect(
+  null,
+  { createPost }
+)(PostCreate);

@@ -339,8 +339,6 @@ export function* joinMeetupSaga(action) {
       payload: { user }
     });
 
-    debugger;
-    // yield put(replace(`/meetups/${data._id}`));
     toast.success('Success, you have joined meetup ! =D');
   } catch (err) {
     console.log(err);
@@ -370,8 +368,6 @@ export function* leaveMeetupSaga(action) {
       payload: { user }
     });
 
-    debugger;
-    // yield put(replace(`/meetups/${data._id}`));
     toast.success('Success, you have left meetup ! =D');
   } catch (err) {
     console.log(err);
