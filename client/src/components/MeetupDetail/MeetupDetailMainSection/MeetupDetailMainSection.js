@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
 import ThreadCreateModal from '../../ThreadCreateModal/ThreadCreateModal';
-import { createThread, threadsSortedSelector } from '../../../ducks/threads';
+import {
+  canCratePostSelector,
+  createThread,
+  threadsSortedSelector
+} from '../../../ducks/threads';
 
 const MeetupDetailMainSection = ({
+  isCanCreatePost,
   sortedThreads,
   createThread,
   isMeetupMember,
@@ -60,7 +65,11 @@ const MeetupDetailMainSection = ({
               {/*  ))}*/}
               {sortedThreads &&
                 sortedThreads.map((thread) => (
-                  <ThreadItem thread={thread} key={thread._id} />
+                  <ThreadItem
+                    thread={thread}
+                    key={thread._id}
+                    isCanCreatePost={isCanCreatePost}
+                  />
                 ))}
             </div>
           </div>
@@ -72,7 +81,8 @@ const MeetupDetailMainSection = ({
 
 export default connect(
   (state) => ({
-    sortedThreads: threadsSortedSelector(state)
+    sortedThreads: threadsSortedSelector(state),
+    isCanCreatePost: canCratePostSelector(state)
   }),
   { createThread }
 )(MeetupDetailMainSection);

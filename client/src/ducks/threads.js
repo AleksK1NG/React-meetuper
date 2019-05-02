@@ -5,6 +5,8 @@ import { takeEvery, call, put, all } from 'redux-saga/effects';
 import Api from '../services/api';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
+import { isAuthenticatedSelector } from './auth';
+import { isMemberSelector, meetupCreatorSelector } from './meetups';
 
 export const moduleName = 'threads';
 const prefix = `${appName}/${moduleName}`;
@@ -89,6 +91,16 @@ export const threadsSortedSelector = createSelector(
         );
       })
       .toJS()
+);
+
+export const canCratePostSelector = createSelector(
+  [meetupCreatorSelector, isMemberSelector, isAuthenticatedSelector],
+  (isCreator, isMember, isAuthenticated) => {
+    if (isAuthenticated && (isCreator || isMember)) {
+      return true;
+    }
+    return false;
+  }
 );
 
 /**
