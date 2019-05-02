@@ -9,6 +9,7 @@ import { rejectError } from '../utils/rejectErrorHelper';
 import {
   ADD_MEETUP_TO_USER_SUCCESS,
   authUserSelector,
+  DELETE_MEETUP_FROM_USER_SUCCESS,
   isAuthenticatedSelector
 } from './auth';
 
@@ -23,9 +24,7 @@ export const FETCH_ALL_REQUEST = `${prefix}/FETCH_ALL_REQUEST`;
 export const FETCH_BOOK_BY_ID = `${prefix}/FETCH_BOOK_BY_ID`;
 export const FETCH_BOOK_BY_ID_REQUEST = `${prefix}/FETCH_BOOK_BY_ID_REQUEST`;
 
-export const ADD_BOOK_REQUEST = `${prefix}/ADD_BOOK_REQUEST`;
 export const ADD_BOOK_SUCCESS = `${prefix}/ADD_BOOK_SUCCESS`;
-export const ADD_BOOK_ERROR = `${prefix}/ADD_BOOK_ERROR`;
 
 export const DELETE_BOOK_REQUEST = `${prefix}/DELETE_BOOK_REQUEST`;
 export const DELETE_BOOK_SUCCESS = `${prefix}/DELETE_BOOK_SUCCESS`;
@@ -48,6 +47,10 @@ export const JOIN_MEETUP_REQUEST = `${prefix}/JOIN_MEETUP_REQUEST`;
 export const JOIN_MEETUP_SUCCESS = `${prefix}/JOIN_MEETUP_SUCCESS`;
 export const JOIN_MEETUP_ERROR = `${prefix}/JOIN_MEETUP_ERROR`;
 
+export const LEAVE_MEETUP_REQUEST = `${prefix}/LEAVE_MEETUP_REQUEST`;
+export const LEAVE_MEETUP_SUCCESS = `${prefix}/LEAVE_MEETUP_SUCCESS`;
+export const LEAVE_MEETUP_ERROR = `${prefix}/LEAVE_MEETUP_ERROR`;
+
 /**
  * Reducer
  * */
@@ -64,10 +67,11 @@ export default function reducer(state = ReducerRecord, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case JOIN_MEETUP_REQUEST:
+    case LEAVE_MEETUP_REQUEST:
     case CREATE_MEETUP_REQUEST:
     case FETCH_MEETUP_BY_ID_REQUEST:
     case FETCH_MEETUPS_REQUEST:
-    case ADD_BOOK_REQUEST:
     case FETCH_BOOK_BY_ID_REQUEST:
     case FETCH_BOOK_BY_ID:
       return state.set('loading', true);
@@ -86,8 +90,8 @@ export default function reducer(state = ReducerRecord, action) {
 
     case FETCH_MEETUPS_ERROR:
     case FETCH_MEETUP_BY_ID_ERROR:
-    case ADD_BOOK_ERROR:
-    case DELETE_BOOK_ERROR:
+    case LEAVE_MEETUP_ERROR:
+    case JOIN_MEETUP_ERROR:
     case CREATE_MEETUP_ERROR:
       return state.set('error', payload.err).set('loading', false);
 
@@ -125,6 +129,14 @@ export default function reducer(state = ReducerRecord, action) {
       return state
         .updateIn(['meetup', 'joinedPeople'], (joinedPeople) =>
           joinedPeople.push(fromJS(payload.user))
+        )
+        .set('error', null)
+        .set('loading', false);
+
+    case LEAVE_MEETUP_SUCCESS:
+      return state
+        .updateIn(['meetup', 'joinedPeople'], (joinedPeople) =>
+          joinedPeople.filter((user) => user._id !== payload.id)
         )
         .set('error', null)
         .set('loading', false);
@@ -217,9 +229,17 @@ export const createMeetup = (meetup) => {
     payload: { meetup }
   };
 };
+
 export const joinMeetup = (meetupId) => {
   return {
     type: JOIN_MEETUP_REQUEST,
+    payload: { meetupId }
+  };
+};
+
+export const leaveMeetup = (meetupId) => {
+  return {
+    type: LEAVE_MEETUP_REQUEST,
     payload: { meetupId }
   };
 };
@@ -316,10 +336,12 @@ export function* joinMeetupSaga(action) {
   const user = state.auth.get('user').toJS();
 
   try {
-    const { data } = yield call(Api.joinMeetup, payload.meetupId);
+    const {
+      data: { id }
+    } = yield call(Api.joinMeetup, payload.meetupId);
     yield put({
       type: ADD_MEETUP_TO_USER_SUCCESS,
-      payload: { data }
+      payload: { id }
     });
     yield put({
       type: JOIN_MEETUP_SUCCESS,
@@ -333,6 +355,37 @@ export function* joinMeetupSaga(action) {
     console.log(err);
     yield put({
       type: CREATE_MEETUP_ERROR,
+      payload: { err }
+    });
+    toast.error(rejectError(err));
+  }
+}
+
+export function* leaveMeetupSaga(action) {
+  const { payload } = action;
+  const state = yield select();
+  const user = state.auth.get('user').toJS();
+
+  try {
+    const {
+      data: { id }
+    } = yield call(Api.leaveMeetup, payload.meetupId);
+    yield put({
+      type: DELETE_MEETUP_FROM_USER_SUCCESS,
+      payload: { id }
+    });
+    yield put({
+      type: LEAVE_MEETUP_SUCCESS,
+      payload: { user }
+    });
+
+    debugger;
+    // yield put(replace(`/meetups/${data._id}`));
+    toast.success('Success, you have left meetup ! =D');
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: LEAVE_MEETUP_ERROR,
       payload: { err }
     });
     toast.error(rejectError(err));
@@ -388,6 +441,7 @@ export function* saga() {
     takeEvery(FETCH_ALL_REQUEST, fetchAllMeetupsSaga),
     takeEvery(FETCH_MEETUP_BY_ID, fetchMeetupByIdSaga),
     takeEvery(CREATE_MEETUP_REQUEST, createMeetupSaga),
-    takeEvery(JOIN_MEETUP_REQUEST, joinMeetupSaga)
+    takeEvery(JOIN_MEETUP_REQUEST, joinMeetupSaga),
+    takeEvery(LEAVE_MEETUP_REQUEST, leaveMeetupSaga)
   ]);
 }

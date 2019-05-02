@@ -74,6 +74,10 @@ class ApiService {
     return axiosInstance.post(`/api/v1/meetups/${meetupId}/join`);
   }
 
+  leaveMeetup(meetupId) {
+    return axiosInstance.post(`/api/v1/meetups/${meetupId}/leave`);
+  }
+
   getThreadsById(meetupId) {
     return axios.get(`${threadsURL}?meetupId=${meetupId}`);
   }

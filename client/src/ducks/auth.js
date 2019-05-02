@@ -31,6 +31,8 @@ export const ADD_MEETUP_TO_USER_REQUEST = `${prefix}/ADD_MEETUP_TO_USER_REQUEST`
 export const ADD_MEETUP_TO_USER_SUCCESS = `${prefix}/ADD_MEETUP_TO_USER_SUCCESS`;
 export const ADD_MEETUP_TO_USER_ERROR = `${prefix}/ADD_MEETUP_TO_USER_ERROR`;
 
+export const DELETE_MEETUP_FROM_USER_SUCCESS = `${prefix}/REMOVE_MEETUP_FROM_USER_SUCCESS`;
+
 /**
  * Reducer
  * */
@@ -90,9 +92,21 @@ export default function reducer(state = ReducerRecord, action) {
 
     case ADD_MEETUP_TO_USER_SUCCESS:
       // return state.getIn(['user', 'joinedMeetups']).push(payload.data);
-      return state.updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
-        joinedMeetups.push(payload.data.id)
-      );
+      return state
+        .updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
+          joinedMeetups.push(payload.id)
+        )
+        .set('error', null)
+        .set('isLoading', false);
+
+    case DELETE_MEETUP_FROM_USER_SUCCESS:
+      return state
+        .updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
+          joinedMeetups.filter((meetupId) => meetupId !== payload.id)
+        )
+        .set('error', null)
+        .set('isLoading', false);
+
     default:
       return state;
   }
