@@ -71,11 +71,11 @@ class ApiService {
   }
 
   joinMeetup(meetupId) {
-    return axiosInstance.post(`/api/v1/meetups/${meetupId}/join`);
+    return axiosInstance.post(`${meetupsURl}/${meetupId}/join`);
   }
 
   leaveMeetup(meetupId) {
-    return axiosInstance.post(`/api/v1/meetups/${meetupId}/leave`);
+    return axiosInstance.post(`${meetupsURl}/${meetupId}/leave`);
   }
 
   getThreadsById(meetupId) {

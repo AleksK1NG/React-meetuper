@@ -136,7 +136,7 @@ export default function reducer(state = ReducerRecord, action) {
     case LEAVE_MEETUP_SUCCESS:
       return state
         .updateIn(['meetup', 'joinedPeople'], (joinedPeople) =>
-          joinedPeople.filter((user) => user._id !== payload.id)
+          joinedPeople.filter((user) => user.get('_id') !== payload.user._id)
         )
         .set('error', null)
         .set('loading', false);
@@ -389,50 +389,6 @@ export function* leaveMeetupSaga(action) {
       payload: { err }
     });
     toast.error(rejectError(err));
-  }
-}
-
-export function* deleteBookSaga(action) {
-  const {
-    payload: { bookId }
-  } = action;
-
-  try {
-    yield call(Api.deleteBook, bookId);
-
-    yield put({
-      type: DELETE_BOOK_SUCCESS,
-      payload: bookId
-    });
-  } catch (err) {
-    console.log(err);
-    yield put({
-      type: DELETE_BOOK_ERROR,
-      payload: { err }
-    });
-  }
-}
-
-export function* updateBookSaga(action) {
-  const {
-    payload: { bookId, newBook }
-  } = action;
-
-  try {
-    const { data } = yield call(Api.updateBook, bookId, newBook);
-
-    yield put({
-      type: 'UPDATE_BOOK_SUCCESS',
-      payload: { data }
-    });
-
-    yield put(replace('/'));
-  } catch (err) {
-    console.log(err);
-    yield put({
-      type: 'UPDATE_BOOK_ERROR',
-      payload: { err }
-    });
   }
 }
 
