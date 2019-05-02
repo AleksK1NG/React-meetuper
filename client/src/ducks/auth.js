@@ -27,6 +27,10 @@ export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`;
 
+export const ADD_MEETUP_TO_USER_REQUEST = `${prefix}/ADD_MEETUP_TO_USER_REQUEST`;
+export const ADD_MEETUP_TO_USER_SUCCESS = `${prefix}/ADD_MEETUP_TO_USER_SUCCESS`;
+export const ADD_MEETUP_TO_USER_ERROR = `${prefix}/ADD_MEETUP_TO_USER_ERROR`;
+
 /**
  * Reducer
  * */
@@ -84,6 +88,11 @@ export default function reducer(state = ReducerRecord, action) {
     case LOAD_USER_ERROR:
       return state.set('error', payload.error).set('isLoading', false);
 
+    case ADD_MEETUP_TO_USER_SUCCESS:
+      return state.getIn(['user', 'joinedMeetups']).push(payload.data);
+    // return state.updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
+    //   joinedMeetups.push(payload.data)
+    // );
     default:
       return state;
   }
@@ -164,6 +173,14 @@ export const loadUser = () => {
     type: LOAD_USER_REQUEST
   };
 };
+
+export const addMeetupToUser = (meetupId) => {
+  return {
+    type: ADD_MEETUP_TO_USER_SUCCESS,
+    payload: { meetupId }
+  };
+};
+
 /**
  * Sagas
  */

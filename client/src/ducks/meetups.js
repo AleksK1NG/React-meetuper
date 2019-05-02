@@ -7,10 +7,9 @@ import { replace } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
 import {
+  ADD_MEETUP_TO_USER_SUCCESS,
   authUserSelector,
-  isAuthenticatedSelector,
-  userIdSelector,
-  userSelector
+  isAuthenticatedSelector
 } from './auth';
 
 export const moduleName = 'meetups';
@@ -44,6 +43,10 @@ export const FETCH_MEETUP_BY_ID_ERROR = `${prefix}/FETCH_MEETUP_BY_ID_ERROR`;
 export const CREATE_MEETUP_REQUEST = `${prefix}/CREATE_MEETUP_REQUEST`;
 export const CREATE_MEETUP_SUCCESS = `${prefix}/CREATE_MEETUP_SUCCESS`;
 export const CREATE_MEETUP_ERROR = `${prefix}/CREATE_MEETUP_ERROR`;
+
+export const JOIN_MEETUP_REQUEST = `${prefix}/JOIN_MEETUP_REQUEST`;
+export const JOIN_MEETUP_SUCCESS = `${prefix}/JOIN_MEETUP_SUCCESS`;
+export const JOIN_MEETUP_ERROR = `${prefix}/JOIN_MEETUP_ERROR`;
 
 /**
  * Reducer
@@ -118,6 +121,13 @@ export default function reducer(state = ReducerRecord, action) {
           )
         );
 
+    case JOIN_MEETUP_SUCCESS:
+      return state
+        .getIn(['meetup', 'joinedPeople'])
+        .push(fromJS(payload.user))
+        .set('loading', false)
+        .set('error', null);
+
     default:
       return state;
   }
@@ -153,11 +163,11 @@ export const singleMeetupSelector = createSelector(
   (state) => state.get('meetup')
 );
 
-export const mCreatorSelector = createSelector(
+export const meetupCreatorSelector = createSelector(
   [singleMeetupSelector, authUserSelector],
   (meetup, user) => {
     if (user && meetup) {
-      return user.toJS()._id === meetup.toJS().meetupCreator._id;
+      return user.get('_id') === meetup.getIn(['meetupCreator', '_id']);
     }
     return false;
   }
@@ -167,14 +177,14 @@ export const isMemberSelector = createSelector(
   [singleMeetupSelector, authUserSelector],
   (meetup, user) => {
     if (user && meetup) {
-      return user.toJS()['joinedMeetups'].includes(meetup.toJS()._id);
+      return user.get('joinedMeetups').includes(meetup.get('_id'));
     }
     return false;
   }
 );
 
 export const canJoinMeetupSelector = createSelector(
-  [mCreatorSelector, isMemberSelector, isAuthenticatedSelector],
+  [meetupCreatorSelector, isMemberSelector, isAuthenticatedSelector],
   (isCreator, isMember, isAuthenticated) => {
     if (!isCreator && !isMember && isAuthenticated) {
       return true;
@@ -206,25 +216,10 @@ export const createMeetup = (meetup) => {
     payload: { meetup }
   };
 };
-
-export const addBook = (book) => {
+export const joinMeetup = (meetupId) => {
   return {
-    type: ADD_BOOK_REQUEST,
-    payload: { book }
-  };
-};
-
-export const deleteBook = (bookId) => {
-  return {
-    type: DELETE_BOOK_REQUEST,
-    payload: { bookId }
-  };
-};
-
-export const updateBook = (bookId, newBook) => {
-  return {
-    type: 'UPDATE_BOOK_REQUEST',
-    payload: { bookId, newBook }
+    type: JOIN_MEETUP_REQUEST,
+    payload: { meetupId }
   };
 };
 
@@ -316,6 +311,36 @@ export function* createMeetupSaga(action) {
   }
 }
 
+export function* joinMeetupSaga(action) {
+  const { payload } = action;
+  const state = yield select();
+  const user = state.auth.get('user').toJS();
+
+  try {
+    const { data } = yield call(Api.joinMeetup, payload.meetupId);
+    yield put({
+      type: ADD_MEETUP_TO_USER_SUCCESS,
+      payload: { data }
+    });
+    debugger;
+    yield put({
+      type: JOIN_MEETUP_SUCCESS,
+      payload: { user }
+    });
+
+    debugger;
+    // yield put(replace(`/meetups/${data._id}`));
+    toast.success('Success, you have joined meetup ! =D');
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: CREATE_MEETUP_ERROR,
+      payload: { err }
+    });
+    toast.error(rejectError(err));
+  }
+}
+
 export function* deleteBookSaga(action) {
   const {
     payload: { bookId }
@@ -365,6 +390,6 @@ export function* saga() {
     takeEvery(FETCH_ALL_REQUEST, fetchAllMeetupsSaga),
     takeEvery(FETCH_MEETUP_BY_ID, fetchMeetupByIdSaga),
     takeEvery(CREATE_MEETUP_REQUEST, createMeetupSaga),
-    takeEvery(DELETE_BOOK_REQUEST, deleteBookSaga)
+    takeEvery(JOIN_MEETUP_REQUEST, joinMeetupSaga)
   ]);
 }

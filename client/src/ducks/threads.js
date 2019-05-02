@@ -13,10 +13,6 @@ const prefix = `${appName}/${moduleName}`;
  * */
 export const FETCH_ALL_REQUEST = `${prefix}/FETCH_ALL_REQUEST`;
 
-export const FETCH_BOOKS_REQUEST = `${prefix}/FETCH_BOOKS_REQUEST`;
-export const FETCH_BOOKS_SUCCESS = `${prefix}/FETCH_BOOKS_SUCCESS`;
-export const FETCH_BOOKS_ERROR = `${prefix}/FETCH_BOOKS_ERROR`;
-
 export const FETCH_BOOK_BY_ID = `${prefix}/FETCH_BOOK_BY_ID`;
 export const FETCH_BOOK_BY_ID_REQUEST = `${prefix}/FETCH_BOOK_BY_ID_REQUEST`;
 export const FETCH_BOOK_BY_ID_SUCCESS = `${prefix}/FETCH_BOOK_BY_ID_SUCCESS`;
@@ -118,15 +114,6 @@ export const loadingThreadsSelector = createSelector(
 export const threadsSelector = createSelector(
   stateSelector,
   (state) => state.get('threads').toJS()
-);
-export const meetupSelector = createSelector(
-  stateSelector,
-  (state) => state.get('thread').toJS()
-);
-
-export const meetupCreatorSelector = createSelector(
-  stateSelector,
-  (state) => state.get('meetup').toJS().meetupCreator
 );
 
 /**

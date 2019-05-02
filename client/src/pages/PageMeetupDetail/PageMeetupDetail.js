@@ -5,8 +5,8 @@ import {
   canJoinMeetupSelector,
   fetchMeetupById,
   isMemberSelector,
+  joinMeetup,
   loadingMeetupsSelector,
-  mCreatorSelector,
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
@@ -29,9 +29,9 @@ const MeetupDetailMainSection = React.lazy(() =>
 );
 
 const PageMeetupDetail = ({
+  joinMeetup,
   isCanJoinMeetup,
   isMeetupMember,
-  isMeetupCreator,
   match,
   meetup,
   threads,
@@ -57,6 +57,7 @@ const PageMeetupDetail = ({
         meetup={meetup}
       />
       <MeetupDetailMainSection
+        joinMeetup={joinMeetup}
         isCanJoinMeetup={isCanJoinMeetup}
         meetup={meetup}
         threads={threads}
@@ -70,7 +71,6 @@ const PageMeetupDetail = ({
 export default connect(
   (state) => ({
     isCanJoinMeetup: canJoinMeetupSelector(state),
-    isMeetupCreator: mCreatorSelector(state),
     isMeetupMember: isMemberSelector(state),
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state),
@@ -79,5 +79,5 @@ export default connect(
     isAuthenticated: isAuthenticatedSelector(state),
     user: userSelector(state)
   }),
-  { fetchMeetupById, fetchThreadsById }
+  { fetchMeetupById, fetchThreadsById, joinMeetup }
 )(PageMeetupDetail);

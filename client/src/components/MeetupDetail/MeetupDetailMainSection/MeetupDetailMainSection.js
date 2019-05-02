@@ -3,6 +3,7 @@ import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
 
 const MeetupDetailMainSection = ({
+  joinMeetup,
   meetup,
   threads,
   user,
@@ -21,7 +22,12 @@ const MeetupDetailMainSection = ({
               <h3 className="title is-3">About the Meetup</h3>
               <p>{meetup.description}</p>
               {isCanJoinMeetup ? (
-                <button className="button is-primary">Join In</button>
+                <button
+                  onClick={() => joinMeetup(meetup._id)}
+                  className="button is-primary"
+                >
+                  Join In
+                </button>
               ) : null}
 
               {!isAuthenticated ? (
