@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
 import ThreadCreateModal from '../../ThreadCreateModal/ThreadCreateModal';
+import { createThread } from '../../../ducks/threads';
 
 const MeetupDetailMainSection = ({
+  createThread,
   isMeetupMember,
   isMeetupCreator,
   joinMeetup,
@@ -41,6 +44,8 @@ const MeetupDetailMainSection = ({
 
               {(isMeetupMember || isMeetupCreator) && (
                 <ThreadCreateModal
+                  meetupId={meetup._id}
+                  createThread={createThread}
                   title="Create Thread"
                   btnTitle={`Welcome ${user.username}, Start a new thread`}
                 />
@@ -60,4 +65,7 @@ const MeetupDetailMainSection = ({
   );
 };
 
-export default MeetupDetailMainSection;
+export default connect(
+  null,
+  { createThread }
+)(MeetupDetailMainSection);

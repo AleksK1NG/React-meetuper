@@ -2,7 +2,7 @@ import { appName } from '../config';
 import { List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put, all, select } from 'redux-saga/effects';
-import ApiService from '../services/api';
+import Api from '../services/api';
 import { replace } from 'connected-react-router';
 
 export const moduleName = 'threads';
@@ -15,8 +15,6 @@ export const FETCH_ALL_REQUEST = `${prefix}/FETCH_ALL_REQUEST`;
 
 export const FETCH_BOOK_BY_ID = `${prefix}/FETCH_BOOK_BY_ID`;
 export const FETCH_BOOK_BY_ID_REQUEST = `${prefix}/FETCH_BOOK_BY_ID_REQUEST`;
-export const FETCH_BOOK_BY_ID_SUCCESS = `${prefix}/FETCH_BOOK_BY_ID_SUCCESS`;
-export const FETCH_BOOK_BY_ID_ERROR = `${prefix}/FETCH_BOOK_BY_ID_ERROR`;
 
 export const ADD_BOOK_REQUEST = `${prefix}/ADD_BOOK_REQUEST`;
 export const ADD_BOOK_SUCCESS = `${prefix}/ADD_BOOK_SUCCESS`;
@@ -34,6 +32,10 @@ export const FETCH_THREADS_BY_ID = `${prefix}/FETCH_MEETUP_BY_ID`;
 export const FETCH_THREADS_BY_ID_REQUEST = `${prefix}/FETCH_THREADS_BY_ID_REQUEST`;
 export const FETCH_THREADS_BY_ID_SUCCESS = `${prefix}/FETCH_THREADS_BY_ID_SUCCESS`;
 export const FETCH_THREADS_BY_ID_ERROR = `${prefix}/FETCH_THREADS_BY_ID_ERROR`;
+
+export const CREATE_THREAD_REQUEST = `${prefix}/CREATE_THREAD_REQUEST`;
+export const CREATE_THREAD_SUCCESST = `${prefix}/CREATE_THREAD_SUCCESST`;
+export const CREATE_THREAD_ERROR = `${prefix}/CREATE_THREAD_ERROR`;
 
 /**
  * Reducer
@@ -71,6 +73,12 @@ export default function reducer(state = ReducerRecord, action) {
 
     case FETCH_THREADS_BY_ID_ERROR:
       return state.set('error', payload.err).set('loading', false);
+
+    case CREATE_THREAD_SUCCESST:
+      return state
+        .update('threads', (threads) => threads.push(fromJS(payload.data)))
+        .set('error', null)
+        .set('loading', false);
 
     case ADD_BOOK_SUCCESS:
       return state
@@ -120,16 +128,17 @@ export const threadsSelector = createSelector(
  * Action Creators
  * */
 
-export const fetchAllThreads = () => {
-  return {
-    type: FETCH_ALL_REQUEST
-  };
-};
-
 export const fetchThreadsById = (meetupId) => {
   return {
     type: FETCH_THREADS_BY_ID,
     payload: { meetupId }
+  };
+};
+
+export const createThread = (title, meetupId) => {
+  return {
+    type: CREATE_THREAD_REQUEST,
+    payload: { title, meetupId }
   };
 };
 
@@ -163,7 +172,7 @@ export function* fetchAllThreadsSaga() {
       type: FETCH_THREADS_BY_ID_REQUEST
     });
 
-    const { data } = yield call(ApiService.getAllMeetups);
+    const { data } = yield call(Api.getAllMeetups);
 
     yield put({
       type: FETCH_THREADS_BY_ID_SUCCESS,
@@ -190,7 +199,7 @@ export function* fetchThreadsByIdSaga(action) {
       type: FETCH_THREADS_BY_ID_REQUEST
     });
 
-    const { data } = yield call(ApiService.getThreadsById, payload.meetupId);
+    const { data } = yield call(Api.getThreadsById, payload.meetupId);
 
     yield put({
       type: FETCH_THREADS_BY_ID_SUCCESS,
@@ -206,11 +215,16 @@ export function* fetchThreadsByIdSaga(action) {
   }
 }
 
-export function* addBookSaga(action) {
-  const { payload } = action;
+export function* createThreadSaga(action) {
+  const {
+    payload: { title, meetupId }
+  } = action;
+  const thread = {};
+  thread.title = title;
+  thread.meetup = meetupId;
 
   try {
-    const { data } = yield call(ApiService.addBook, payload.book);
+    const { data } = yield call(Api.createThread, thread);
 
     yield put({
       type: ADD_BOOK_SUCCESS,
@@ -233,7 +247,7 @@ export function* deleteBookSaga(action) {
   } = action;
 
   try {
-    yield call(ApiService.deleteBook, bookId);
+    yield call(Api.deleteBook, bookId);
 
     yield put({
       type: DELETE_BOOK_SUCCESS,
@@ -254,7 +268,7 @@ export function* updateBookSaga(action) {
   } = action;
 
   try {
-    const { data } = yield call(ApiService.updateBook, bookId, newBook);
+    const { data } = yield call(Api.updateBook, bookId, newBook);
 
     yield put({
       type: 'UPDATE_BOOK_SUCCESS',
@@ -274,7 +288,6 @@ export function* updateBookSaga(action) {
 export function* saga() {
   yield all([
     takeEvery(FETCH_THREADS_BY_ID, fetchThreadsByIdSaga),
-    takeEvery(ADD_BOOK_REQUEST, addBookSaga),
-    takeEvery(DELETE_BOOK_REQUEST, deleteBookSaga)
+    takeEvery(CREATE_THREAD_REQUEST, createThreadSaga)
   ]);
 }

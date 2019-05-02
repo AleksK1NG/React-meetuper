@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
+import { Field, Form } from 'react-final-form';
+import { validateThreadsModalForm } from '../../utils/finalFormValidation/validateThreadsModalForm';
 
-const ThreadCreateModal = ({ btnTitle, title }) => {
+const ThreadCreateModal = ({ btnTitle, title, meetupId, createThread }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const onSubmit = (values, formApi) => {
+    console.log('Submit form ;D', values.title, meetupId);
+
+    // createThread(values.title, meetupId);
+    formApi.reset();
+    setIsOpen(false);
+  };
   return (
     <div>
       <button
@@ -23,16 +33,40 @@ const ThreadCreateModal = ({ btnTitle, title }) => {
             />
           </header>
           <section className="modal-card-body">
-            <form>
-              <div className="field">
-                <label className="title">What would you like to ask?</label>
-                <textarea
-                  className="textarea"
-                  placeholder="Just write something that interest you (:"
-                  rows="10"
-                />
-              </div>
-            </form>
+            <Form
+              onSubmit={onSubmit}
+              validate={validateThreadsModalForm}
+              render={({ handleSubmit, pristine, invalid }) => (
+                <form onSubmit={handleSubmit}>
+                  <Field
+                    name="title"
+                    component="textarea"
+                    type="text"
+                    label="Additional Info"
+                  >
+                    {({ input, meta }) => (
+                      <div className="field">
+                        <label className="title">
+                          What would you like to ask?
+                        </label>
+                        <textarea
+                          {...input}
+                          className="textarea"
+                          placeholder="Just write something that interest you :)"
+                          rows="10"
+                        />
+                        {meta.touched && meta.error && (
+                          <span className="help is-danger">{meta.error}</span>
+                        )}
+                      </div>
+                    )}
+                  </Field>
+                  <button className="button is-success" type="submit">
+                    Save
+                  </button>
+                </form>
+              )}
+            />
           </section>
           <footer className="modal-card-foot">
             <button className="button is-success">Save changes</button>
