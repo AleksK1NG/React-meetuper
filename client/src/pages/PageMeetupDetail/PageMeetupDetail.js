@@ -55,22 +55,23 @@ const PageMeetupDetail = ({
 
   return (
     <div className="meetup-detail-page">
-      <Suspense fallback={<Loader />} />
-      <MeetupDetailHeroSection
-        leaveMeetup={leaveMeetup}
-        isMeetupMember={isMeetupMember}
-        meetup={meetup}
-      />
-      <MeetupDetailMainSection
-        isMeetupCreator={isMeetupCreator}
-        isMeetupMember={isMeetupMember}
-        joinMeetup={joinMeetup}
-        isCanJoinMeetup={isCanJoinMeetup}
-        meetup={meetup}
-        threads={threads}
-        isAuthenticated={isAuthenticated}
-        user={user}
-      />
+      <Suspense fallback={<Loader />}>
+        <MeetupDetailHeroSection
+          leaveMeetup={leaveMeetup}
+          isMeetupMember={isMeetupMember}
+          meetup={meetup}
+        />
+        <MeetupDetailMainSection
+          isMeetupCreator={isMeetupCreator}
+          isMeetupMember={isMeetupMember}
+          joinMeetup={joinMeetup}
+          isCanJoinMeetup={isCanJoinMeetup}
+          meetup={meetup}
+          threads={threads}
+          isAuthenticated={isAuthenticated}
+          user={user}
+        />
+      </Suspense>
     </div>
   );
 };

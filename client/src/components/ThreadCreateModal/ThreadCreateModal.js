@@ -60,7 +60,11 @@ const ThreadCreateModal = ({ btnTitle, title, meetupId, createThread }) => {
                       </div>
                     )}
                   </Field>
-                  <button className="button is-success" type="submit">
+                  <button
+                    disabled={invalid || pristine}
+                    className="button is-success"
+                    type="submit"
+                  >
                     Create
                   </button>
                   <button onClick={() => setIsOpen(false)} className="button">

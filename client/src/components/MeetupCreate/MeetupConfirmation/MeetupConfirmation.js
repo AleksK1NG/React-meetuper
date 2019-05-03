@@ -2,7 +2,7 @@ import React from 'react';
 import './MeetupConfirmation.scss';
 import moment from 'moment';
 
-const MeetupConfirmation = ({ values, categories }) => {
+const MeetupConfirmation = ({ values }) => {
   return (
     <div>
       <h1 className="title m-b-sm">Please confirm entered data</h1>

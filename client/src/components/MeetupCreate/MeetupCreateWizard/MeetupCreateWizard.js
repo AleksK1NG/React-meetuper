@@ -36,10 +36,8 @@ const MeetupCreateWizard = ({
   }, []);
 
   const onSubmit = (values, formApi) => {
-    console.log('Submit form ;D', values);
     const startDate = moment(values.startDate).format();
 
-    console.log('ready form => ', { ...values, startDate });
     createMeetup({ ...values, startDate });
     formApi.reset();
   };
@@ -47,8 +45,6 @@ const MeetupCreateWizard = ({
   const setFormStep = (stepValue) => {
     if (step < 1 || step > 4) return;
     setStep(stepValue);
-
-    console.log('step form is =>', step);
   };
 
   const renderStep = (values) => {
