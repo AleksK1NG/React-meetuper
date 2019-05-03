@@ -21,9 +21,9 @@ const HeaderSection = ({
           <p>
             <span className="title is-bold">{user.name}</span>
             <br />
-            <UserUpdateModal />
-            <br />
           </p>
+          <UserUpdateModal />
+          <br />
           <p className="tagline">{user.info}</p>
         </div>
         <div
