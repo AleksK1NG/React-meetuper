@@ -12,6 +12,7 @@ const threadsURL = '/api/v1/threads';
 const currentUserURL = '/api/v1/users/me';
 const logoutURL = '/api/v1/users/logout';
 const postsURL = '/api/v1/posts';
+const userStats = '/api/v1/users/me/activity';
 
 // Axios Instance
 const axiosInstance = axios.create({
@@ -105,6 +106,10 @@ class ApiService {
 
   logoutUser() {
     return axios.post(logoutURL);
+  }
+
+  getUserStats() {
+    return axiosInstance.get(userStats);
   }
 }
 

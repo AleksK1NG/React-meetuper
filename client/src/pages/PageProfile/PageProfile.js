@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import {
+  fetchUserStats,
+  meetupsCountSelector,
+  postsCountSelector,
+  threadsCountSelector,
+  userMeetupsSelector,
+  userPostsSelector,
+  userThreadsSelector
+} from '../../ducks/user';
 
-const PageProfile = () => {
+const PageProfile = ({
+  userPosts,
+  userThreads,
+  userMeetups,
+  fetchUserStats,
+  meetupsCount,
+  postsCount,
+  threadsCount
+}) => {
+  useEffect(() => {
+    fetchUserStats();
+  }, []);
+
   return (
     <div className="columns">
       <div className="container profile">
@@ -111,4 +133,14 @@ const PageProfile = () => {
   );
 };
 
-export default PageProfile;
+export default connect(
+  (state) => ({
+    userPosts: userPostsSelector(state),
+    userThreads: userThreadsSelector(state),
+    userMeetups: userMeetupsSelector(state),
+    meetupsCount: meetupsCountSelector(state),
+    postsCount: postsCountSelector(state),
+    threadsCount: threadsCountSelector(state)
+  }),
+  { fetchUserStats }
+)(PageProfile);

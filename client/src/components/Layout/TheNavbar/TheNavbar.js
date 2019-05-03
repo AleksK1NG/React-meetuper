@@ -57,9 +57,9 @@ const TheNavbar = ({ user, logoutUser }) => {
             <div className="navbar-item has-dropdown is-hoverable">
               <a className="navbar-link">Account</a>
               <div className="navbar-dropdown">
-                <a href="#" className="navbar-item">
+                <Link to="/profile" className="navbar-item">
                   Profile
-                </a>
+                </Link>
                 <hr className="navbar-divider" />
                 <a onClick={() => logoutUser()} className="navbar-item">
                   Logout
