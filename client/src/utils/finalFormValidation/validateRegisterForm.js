@@ -38,9 +38,9 @@ export const validateRegister = (values) => {
     errors.email = 'Invalid email !';
   }
 
-  if (values.avatar && !checkURL(values.avatar)) {
-    errors.avatar = 'Invalid avatar URL !';
-  }
+  // if (values.avatar && !checkURL(values.avatar)) {
+  //   errors.avatar = 'Invalid avatar URL !';
+  // }
 
   if (values.avatar && !is_url(values.avatar)) {
     errors.avatar = 'Invalid avatar URL !';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
-
+import { validateUserUpdateModalForm } from '../../utils/finalFormValidation/validateUserUpdateModalForm';
 const UserUpdateModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,6 +31,7 @@ const UserUpdateModal = () => {
           </header>
           <section className="modal-card-body">
             <Form
+              validate={validateUserUpdateModalForm}
               onSubmit={onSubmit}
               render={({ handleSubmit, pristine, invalid }) => (
                 <form onSubmit={handleSubmit}>
@@ -107,7 +108,11 @@ const UserUpdateModal = () => {
                       </div>
                     )}
                   </Field>
-                  <button className="button is-success" type="submit">
+                  <button
+                    disabled={invalid || pristine}
+                    className="button is-success"
+                    type="submit"
+                  >
                     Save changes
                   </button>
                   <button onClick={() => setIsOpen(false)} className="button">
