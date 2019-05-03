@@ -35,4 +35,4 @@ const UserMeetupsItem = ({ meetup }) => {
   );
 };
 
-export default UserMeetupsItem;
+export default React.memo(UserMeetupsItem);

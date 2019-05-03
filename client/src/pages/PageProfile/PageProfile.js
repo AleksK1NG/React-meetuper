@@ -12,6 +12,9 @@ import {
 import { userSelector } from '../../ducks/auth';
 import Loader from '../../components/shared/Loader/Loader';
 import UserMeetupsItem from '../../components/UserProfile/UserMeetupsItem/UserMeetupsItem';
+import UserThreadsItem from '../../components/UserProfile/UserThreadsItem/UserThreadsItem';
+import UserPostsItem from '../../components/UserProfile/UserPostsItem/UserPostsItem';
+import HeaderSection from '../../components/UserProfile/HeaderSection/HeaderSection';
 
 const PageProfile = ({
   user,
@@ -33,38 +36,12 @@ const PageProfile = ({
     <div className="columns">
       <div className="container profile">
         {user ? (
-          <div className="section profile-heading">
-            <div className="columns is-mobile is-multiline">
-              <div className="column is-2">
-                <figure className="image  header-icon user-profile-image">
-                  <img className="is-rounded" src={user.avatar} />
-                </figure>
-              </div>
-              <div className="column is-4-tablet is-10-mobile name">
-                <p>
-                  <span className="title is-bold">{user.name}</span>
-                  <br />
-                  <button className="button is-primary is-outlined m-t-sm">
-                    Update Info
-                  </button>
-                  <br />
-                </p>
-                <p className="tagline">{user.info}</p>
-              </div>
-              <div className="stats-tab column is-2-tablet is-4-mobile has-text-centered">
-                <p className="stat-val">{meetupsCount}</p>
-                <p className="stat-key">Meetups</p>
-              </div>
-              <div className="stats-tab column is-2-tablet is-4-mobile has-text-centered">
-                <p className="stat-val">{threadsCount}</p>
-                <p className="stat-key">Threads</p>
-              </div>
-              <div className="stats-tab column is-2-tablet is-4-mobile has-text-centered">
-                <p className="stat-val">{postsCount}</p>
-                <p className="stat-key">Posts</p>
-              </div>
-            </div>
-          </div>
+          <HeaderSection
+            user={user}
+            meetupsCount={meetupsCount}
+            postsCount={postsCount}
+            threadsCount={threadsCount}
+          />
         ) : (
           <Loader />
         )}
@@ -75,42 +52,17 @@ const PageProfile = ({
             ))}
         </div>
         <div className="columns is-mobile is-multiline">
-          {/*Threads map*/}
-          <div className="column is-3-tablet is-6-mobile">
-            <div className="card">
-              <div className="card-content">
-                <div className="media">
-                  <div className="media-content">
-                    <p className="title is-4">Some title</p>
-                  </div>
-                </div>
-              </div>
-              <footer className="card-footer">
-                <a className="card-footer-item">Share</a>
-                <a className="card-footer-item">Delete</a>
-              </footer>
-            </div>
-            <br />
-          </div>
+          {userThreads &&
+            userThreads.map((thread) => (
+              <UserThreadsItem thread={thread} key={thread._id} />
+            ))}
         </div>
         <div className="columns is-mobile is-multiline">
           {/*Posts map*/}
-          <div className="column is-3-tablet is-6-mobile">
-            <div className="card">
-              <div className="card-content">
-                <div className="media">
-                  <div className="media-content">
-                    <p className="title is-4">Some Text</p>
-                  </div>
-                </div>
-              </div>
-              <footer className="card-footer">
-                <a className="card-footer-item">Share</a>
-                <a className="card-footer-item">Delete</a>
-              </footer>
-            </div>
-            <br />
-          </div>
+          {userPosts &&
+            userPosts.map((post) => (
+              <UserPostsItem post={post} key={post._id} />
+            ))}
         </div>
       </div>
     </div>

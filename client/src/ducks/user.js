@@ -133,7 +133,6 @@ export function* fetchUserStatsSaga() {
       type: FETCH_USER_STATS_SUCCESS,
       payload: { meetups, threads, posts }
     });
-    debugger;
   } catch (err) {
     console.log(err);
 
