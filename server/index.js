@@ -6,7 +6,6 @@ const config = require('./config/dev');
 const session = require('express-session');
 const passport = require('passport');
 
-
 //*********************** Only For Session Authentication ***********************
 // const MongoDBStore = require('connect-mongodb-session')(session);
 //
@@ -16,7 +15,6 @@ const passport = require('passport');
 // });
 //
 // store.on('error', (error) => console.log(error));
-
 
 require('./models/meetups');
 require('./models/users');
@@ -39,8 +37,13 @@ mongoose
 
 const app = express();
 
-app.use(bodyParser.json());
+// For Socket
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server, { pingTimeout: 60000 });
+//
+// require('./socket')(io);
 
+app.use(bodyParser.json());
 
 //*********************** Only For Session Authentication ***********************
 // app.use(
