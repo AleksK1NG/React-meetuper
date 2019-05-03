@@ -1,4 +1,5 @@
 import React from 'react';
+import UserUpdateModal from '../../UserUpdateModal/UserUpdateModal';
 
 const HeaderSection = ({
   user,
@@ -20,9 +21,7 @@ const HeaderSection = ({
           <p>
             <span className="title is-bold">{user.name}</span>
             <br />
-            <button className="button is-primary is-outlined m-t-sm">
-              Update Info
-            </button>
+            <UserUpdateModal />
             <br />
           </p>
           <p className="tagline">{user.info}</p>
