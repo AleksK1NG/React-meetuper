@@ -29,6 +29,7 @@ const PageRegister = React.lazy(() =>
 const PageMeetupCreate = React.lazy(() =>
   import('./pages/PageMeetupCreate/PageMeetupCreate')
 );
+const PageProfile = React.lazy(() => import('./pages/PageProfile/PageProfile'));
 
 const App = ({ loadUser }) => {
   useEffect(() => {
@@ -46,6 +47,7 @@ const App = ({ loadUser }) => {
             <ProtectedRoute exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
+            <Route exact path="/profile" component={PageProfile} />
             <Route path="/secret" component={PageSecret} />
             <Route path="/create" component={PageMeetupCreate} />
             <Route path="*" exact component={PageNotFound} />
