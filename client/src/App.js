@@ -47,7 +47,7 @@ const App = ({ loadUser }) => {
             <ProtectedRoute exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
-            <Route exact path="/profile" component={PageProfile} />
+            <ProtectedRoute exact path="/profile" component={PageProfile} />
             <Route path="/secret" component={PageSecret} />
             <Route path="/create" component={PageMeetupCreate} />
             <Route path="*" exact component={PageNotFound} />

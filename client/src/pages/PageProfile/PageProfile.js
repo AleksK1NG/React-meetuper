@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   fetchUserStats,
@@ -11,10 +11,19 @@ import {
 } from '../../ducks/user';
 import { userSelector } from '../../ducks/auth';
 import Loader from '../../components/shared/Loader/Loader';
-import UserMeetupsItem from '../../components/UserProfile/UserMeetupsItem/UserMeetupsItem';
-import UserThreadsItem from '../../components/UserProfile/UserThreadsItem/UserThreadsItem';
-import UserPostsItem from '../../components/UserProfile/UserPostsItem/UserPostsItem';
-import HeaderSection from '../../components/UserProfile/HeaderSection/HeaderSection';
+
+const UserMeetupsItem = React.lazy(() =>
+  import('../../components/UserProfile/UserMeetupsItem/UserMeetupsItem')
+);
+const UserPostsItem = React.lazy(() =>
+  import('../../components/UserProfile/UserPostsItem/UserPostsItem')
+);
+const UserThreadsItem = React.lazy(() =>
+  import('../../components/UserProfile/UserThreadsItem/UserThreadsItem')
+);
+const HeaderSection = React.lazy(() =>
+  import('../../components/UserProfile/HeaderSection/HeaderSection')
+);
 
 const PageProfile = ({
   user,
@@ -26,6 +35,7 @@ const PageProfile = ({
   postsCount,
   threadsCount
 }) => {
+  const [activeTab, setActiveTab] = useState('meetups');
   useEffect(() => {
     fetchUserStats();
   }, []);
@@ -35,35 +45,43 @@ const PageProfile = ({
   return (
     <div className="columns">
       <div className="container profile">
-        {user ? (
-          <HeaderSection
-            user={user}
-            meetupsCount={meetupsCount}
-            postsCount={postsCount}
-            threadsCount={threadsCount}
-          />
-        ) : (
-          <Loader />
-        )}
-        <div className="columns is-mobile is-multiline">
-          {userMeetups &&
-            userMeetups.map((meetup) => (
-              <UserMeetupsItem meetup={meetup} key={meetup._id} />
-            ))}
-        </div>
-        <div className="columns is-mobile is-multiline">
-          {userThreads &&
-            userThreads.map((thread) => (
-              <UserThreadsItem thread={thread} key={thread._id} />
-            ))}
-        </div>
-        <div className="columns is-mobile is-multiline">
-          {/*Posts map*/}
-          {userPosts &&
-            userPosts.map((post) => (
-              <UserPostsItem post={post} key={post._id} />
-            ))}
-        </div>
+        <Suspense fallback={<Loader />}>
+          {user && (
+            <HeaderSection
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              user={user}
+              meetupsCount={meetupsCount}
+              postsCount={postsCount}
+              threadsCount={threadsCount}
+            />
+          )}
+          {activeTab === 'meetups' && (
+            <div className="columns is-mobile is-multiline">
+              {userMeetups &&
+                userMeetups.map((meetup) => (
+                  <UserMeetupsItem meetup={meetup} key={meetup._id} />
+                ))}
+            </div>
+          )}
+          {activeTab === 'threads' && (
+            <div className="columns is-mobile is-multiline">
+              {userThreads &&
+                userThreads.map((thread) => (
+                  <UserThreadsItem thread={thread} key={thread._id} />
+                ))}
+            </div>
+          )}
+          {activeTab === 'posts' && (
+            <div className="columns is-mobile is-multiline">
+              {/*Posts map*/}
+              {userPosts &&
+                userPosts.map((post) => (
+                  <UserPostsItem post={post} key={post._id} />
+                ))}
+            </div>
+          )}
+        </Suspense>
       </div>
     </div>
   );
