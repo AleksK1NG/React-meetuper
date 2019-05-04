@@ -13,6 +13,7 @@ const currentUserURL = '/api/v1/users/me';
 const logoutURL = '/api/v1/users/logout';
 const postsURL = '/api/v1/posts';
 const userStats = '/api/v1/users/me/activity';
+const updateUserURL = '/api/v1/users';
 
 // Axios Instance
 const axiosInstance = axios.create({
@@ -106,6 +107,10 @@ class ApiService {
 
   logoutUser() {
     return axios.post(logoutURL);
+  }
+
+  updateUser(user) {
+    return axiosInstance.patch(`${updateUserURL}/${user._id}`, user);
   }
 
   getUserStats() {

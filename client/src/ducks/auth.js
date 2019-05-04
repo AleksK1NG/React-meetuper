@@ -31,6 +31,10 @@ export const ADD_MEETUP_TO_USER_SUCCESS = `${prefix}/ADD_MEETUP_TO_USER_SUCCESS`
 
 export const DELETE_MEETUP_FROM_USER_SUCCESS = `${prefix}/REMOVE_MEETUP_FROM_USER_SUCCESS`;
 
+export const UPDATE_USER_REQUEST = `${prefix}/UPDATE_USER_REQUEST`;
+export const UPDATE_USER_SUCCESS = `${prefix}/UPDATE_USER_SUCCESS`;
+export const UPDATE_USER_ERROR = `${prefix}/UPDATE_USER_ERROR`;
+
 /**
  * Reducer
  * */
@@ -45,6 +49,7 @@ export default function reducer(state = ReducerRecord, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_USER_REQUEST:
     case SIGN_IN_REQUEST:
     case SIGN_UP_REQUEST:
       return state.set('isLoading', true);
@@ -76,6 +81,7 @@ export default function reducer(state = ReducerRecord, action) {
         .set('isAuthenticated', false)
         .set('user', null);
 
+    case UPDATE_USER_ERROR:
     case SIGN_IN_ERROR:
     case SIGN_UP_ERROR:
     case LOAD_USER_ERROR:
@@ -94,6 +100,12 @@ export default function reducer(state = ReducerRecord, action) {
         .updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
           joinedMeetups.filter((meetupId) => meetupId !== payload.id)
         )
+        .set('error', null)
+        .set('isLoading', false);
+
+    case UPDATE_USER_SUCCESS:
+      return state
+        .merge({ user: fromJS(payload.data) })
         .set('error', null)
         .set('isLoading', false);
 
@@ -167,6 +179,13 @@ export const logoutUser = () => {
 export const loadUser = () => {
   return {
     type: LOAD_USER_REQUEST
+  };
+};
+
+export const updateUser = (user) => {
+  return {
+    type: UPDATE_USER_REQUEST,
+    payload: { user }
   };
 };
 
@@ -262,11 +281,36 @@ export function* logoutSaga() {
   }
 }
 
+export function* updateUserSaga(action) {
+  const {
+    payload: { user }
+  } = action;
+
+  try {
+    const { data } = yield call(api.updateUser, user);
+    yield put({
+      type: UPDATE_USER_SUCCESS,
+      payload: { data }
+    });
+    debugger;
+    yield put(replace('/profile'));
+    toast.success('Your profile successfully has been updated =D');
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: UPDATE_USER_ERROR,
+      payload: { error }
+    });
+    toast.error(rejectError(error));
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(SIGN_UP_REQUEST, registerSaga),
     takeEvery(LOAD_USER_REQUEST, loadUserSaga),
     takeEvery(SIGN_IN_REQUEST, loginSaga),
-    takeEvery(SIGN_OUT_REQUEST, logoutSaga)
+    takeEvery(SIGN_OUT_REQUEST, logoutSaga),
+    takeEvery(UPDATE_USER_REQUEST, updateUserSaga)
   ]);
 }
