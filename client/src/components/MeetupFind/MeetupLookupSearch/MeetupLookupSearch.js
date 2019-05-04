@@ -16,6 +16,7 @@ const MeetupLookupSearch = ({
         .replace(/[\s,]+/g, '')
         .trim();
     }
+
     if (e.key === 'Enter') {
       fetchAllMeetups({ filter: filter });
     }

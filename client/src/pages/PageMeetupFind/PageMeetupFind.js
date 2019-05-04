@@ -19,6 +19,7 @@ const MeetupFindMainSection = React.lazy(() =>
 );
 
 const PageMeetupFind = ({
+  match,
   fetchAllMeetups,
   meetups,
   loading,
@@ -27,8 +28,15 @@ const PageMeetupFind = ({
 }) => {
   const [userLocation, setUserLocation] = useState(() => location || '');
   useEffect(() => {
-    fetchAllMeetups();
     getMetaData();
+  }, []);
+
+  useEffect(() => {
+    const filter = {};
+    if (match.params.category) {
+      filter['category'] = match.params.category;
+    }
+    fetchAllMeetups({ filter: filter });
   }, []);
 
   if (loading) return <Loader />;

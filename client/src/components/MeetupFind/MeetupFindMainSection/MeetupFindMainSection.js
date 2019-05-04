@@ -18,9 +18,11 @@ const MeetupFindMainSection = ({ meetups }) => {
           ))}
       </div>
       <div>
-        <span className="tag is-warning is-large">
-          No meetups found :( You might try to change search criteria :)
-        </span>
+        {meetups.length === 0 && (
+          <span className="tag is-warning is-large">
+            No meetups found :( You might try to change search criteria :)
+          </span>
+        )}
       </div>
     </section>
   );

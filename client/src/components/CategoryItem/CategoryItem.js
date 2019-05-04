@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { capitalize } from '../../utils/helpers';
 
 const CategoryItem = ({ category }) => {
   console.log('reander category item');
   return (
     <div className="column is-one-quarter" style={{ minHeight: '160px' }}>
-      <a href="#">
+      <Link to={`/find/${category.name}`}>
         <span className="is-primary is-top is-medium tooltip">
           <figure className="image is-4by3 imageFade">
             <img className="is-rounded" src={category.image} />
@@ -14,7 +15,7 @@ const CategoryItem = ({ category }) => {
             {capitalize(category.name)}
           </div>
         </span>
-      </a>
+      </Link>
     </div>
   );
 };

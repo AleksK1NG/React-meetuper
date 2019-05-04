@@ -46,11 +46,12 @@ const App = ({ loadUser, getMetaData }) => {
           <Switch>
             <Route exact path="/" component={PageHome} />
             <Route exact path="/meetups/:id" component={PageMeetupDetail} />
-            <ProtectedRoute exact path="/find" component={PageMeetupFind} />
+            <Route exact path="/find/:category" component={PageMeetupFind} />
+            <Route exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
             <ProtectedRoute exact path="/profile" component={PageProfile} />
-            <Route path="/secret" component={PageSecret} />
+            <ProtectedRoute path="/secret" component={PageSecret} />
             <Route path="/create" component={PageMeetupCreate} />
             <Route path="*" exact component={PageNotFound} />
           </Switch>
