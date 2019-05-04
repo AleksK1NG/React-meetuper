@@ -10,6 +10,7 @@ import Loader from '../../components/shared/Loader/Loader';
 import './PageMeetupFind.scss';
 // import MeetupFindMainSection from '../../components/MeetupFind/MeetupFindMainSection/MeetupFindMainSection';
 import MeetupLookupSearch from '../../components/MeetupFind/MeetupLookupSearch/MeetupLookupSearch';
+import { getMetaData, locationSelector } from '../../ducks/meta';
 
 const MeetupFindMainSection = React.lazy(() =>
   import(
@@ -17,9 +18,16 @@ const MeetupFindMainSection = React.lazy(() =>
   )
 );
 
-const PageMeetupFind = ({ fetchAllMeetups, meetups, loading }) => {
+const PageMeetupFind = ({
+  fetchAllMeetups,
+  meetups,
+  loading,
+  location,
+  getMetaData
+}) => {
   useEffect(() => {
     fetchAllMeetups();
+    getMetaData();
   }, []);
 
   // if (!meetups) return <Loader />;
@@ -29,7 +37,7 @@ const PageMeetupFind = ({ fetchAllMeetups, meetups, loading }) => {
     <div>
       <div className="lookup-prebody">
         <AppHero />
-        <MeetupLookupSearch />
+        <MeetupLookupSearch location={location} />
       </div>
       <div className="container">
         <Suspense fallback={<Loader />}>
@@ -42,8 +50,9 @@ const PageMeetupFind = ({ fetchAllMeetups, meetups, loading }) => {
 
 export default connect(
   (state) => ({
+    location: locationSelector(state),
     meetups: allMeetupsSelector(state),
     loading: loadingMeetupsSelector(state)
   }),
-  { fetchAllMeetups }
+  { fetchAllMeetups, getMetaData }
 )(PageMeetupFind);

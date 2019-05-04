@@ -60,7 +60,7 @@ export const loadingThreadsSelector = createSelector(
   (state) => state.get('loading')
 );
 
-export const metaDataSelector = createSelector(
+export const locationSelector = createSelector(
   stateSelector,
   (state) => {
     const city = state.getIn(['metaData', 'city']);
@@ -92,7 +92,6 @@ export function* fetchMetaDataSaga() {
       type: FETCH_META_DATA_SUCCESS,
       payload: { data }
     });
-    debugger;
   } catch (err) {
     console.log(err);
 
