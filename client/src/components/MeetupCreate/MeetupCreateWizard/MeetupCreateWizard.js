@@ -12,6 +12,7 @@ import {
   allCategoriesSelector,
   fetchAllCategories
 } from '../../../ducks/categories';
+import { locationSelector } from '../../../ducks/meta';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
 const MeetupConfirmation = React.lazy(() =>
@@ -25,6 +26,7 @@ const MeetupLocation = React.lazy(() =>
 );
 
 const MeetupCreateWizard = ({
+  location,
   createMeetup,
   categories,
   fetchAllCategories
@@ -52,7 +54,7 @@ const MeetupCreateWizard = ({
 
     switch (step) {
       case 1:
-        return (renderComponent = <MeetupLocation />);
+        return (renderComponent = <MeetupLocation location={location} />);
       case 2:
         return (renderComponent = (
           <MeetupDetail values={values} categories={categories} />
@@ -75,7 +77,8 @@ const MeetupCreateWizard = ({
       <Form
         validate={validateMeetupCreateForm}
         initialValues={{
-          startDate: moment(Date.now()).format('YYYY-MM-DD')
+          startDate: moment(Date.now()).format('YYYY-MM-DD'),
+          location: location
         }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => (
@@ -130,6 +133,7 @@ const MeetupCreateWizard = ({
 
 export default connect(
   (state) => ({
+    location: locationSelector(state),
     categories: allCategoriesSelector(state)
   }),
   { createMeetup, fetchAllCategories }
