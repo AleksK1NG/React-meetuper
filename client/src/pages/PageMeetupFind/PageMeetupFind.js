@@ -26,7 +26,6 @@ const PageMeetupFind = ({
   getMetaData
 }) => {
   const [userLocation, setUserLocation] = useState(() => location || '');
-  const [filter, setFilter] = useState({});
   useEffect(() => {
     fetchAllMeetups();
     getMetaData();
