@@ -4,6 +4,7 @@ import { saga as meetupsSaga } from '../ducks/meetups';
 import { saga as threadsSaga } from '../ducks/threads';
 import { saga as authSaga } from '../ducks/auth';
 import { saga as userSaga } from '../ducks/user';
+import { saga as metaSaga } from '../ducks/meta';
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     meetupsSaga(),
     threadsSaga(),
     authSaga(),
-    userSaga()
+    userSaga(),
+    metaSaga()
   ]);
 }

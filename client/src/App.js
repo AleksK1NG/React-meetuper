@@ -11,6 +11,7 @@ import PageSecret from './pages/PageSecret/PageSecret';
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
 import 'react-dates/lib/css/_datepicker.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { getMetaData } from './ducks/meta';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() =>
@@ -31,9 +32,10 @@ const PageMeetupCreate = React.lazy(() =>
 );
 const PageProfile = React.lazy(() => import('./pages/PageProfile/PageProfile'));
 
-const App = ({ loadUser }) => {
+const App = ({ loadUser, getMetaData }) => {
   useEffect(() => {
     loadUser();
+    getMetaData();
   }, []);
 
   return (
@@ -62,5 +64,5 @@ const App = ({ loadUser }) => {
 
 export default connect(
   null,
-  { loadUser }
+  { loadUser, getMetaData }
 )(App);

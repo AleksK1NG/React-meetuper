@@ -5,6 +5,7 @@ import meetupsReducer from '../ducks/meetups';
 import threadsReducer from '../ducks/threads';
 import authReducer from '../ducks/auth';
 import userReducer from '../ducks/user';
+import metaReducer from '../ducks/meta';
 import history from '../history';
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   threads: threadsReducer,
   auth: authReducer,
   user: userReducer,
+  meta: metaReducer,
   router: connectRouter(history)
 });

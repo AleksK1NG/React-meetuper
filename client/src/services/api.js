@@ -14,6 +14,7 @@ const logoutURL = '/api/v1/users/logout';
 const postsURL = '/api/v1/posts';
 const userStats = '/api/v1/users/me/activity';
 const updateUserURL = '/api/v1/users';
+const metaDataURL = '/api/v1';
 
 // Axios Instance
 const axiosInstance = axios.create({
@@ -115,6 +116,10 @@ class ApiService {
 
   getUserStats() {
     return axiosInstance.get(userStats);
+  }
+
+  getMetaData() {
+    return axiosInstance.get(metaDataURL);
   }
 }
 

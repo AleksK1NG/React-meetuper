@@ -1,10 +1,8 @@
 import { appName } from '../config';
-import { List, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import { createSelector } from 'reselect';
 import { takeEvery, call, put, all } from 'redux-saga/effects';
 import Api from '../services/api';
-import { toast } from 'react-toastify';
-import { rejectError } from '../utils/rejectErrorHelper';
 
 export const moduleName = 'user';
 const prefix = `${appName}/${moduleName}`;
