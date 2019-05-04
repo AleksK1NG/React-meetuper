@@ -7,7 +7,7 @@ const MeetupLookupSearch = ({
   fetchAllMeetups
 }) => {
   const fetchMeetups = (e) => {
-    setUserLocation(e.target.value);
+    // setUserLocation(e.target.value);
 
     const filter = {};
     if (userLocation) {
@@ -16,7 +16,9 @@ const MeetupLookupSearch = ({
         .replace(/[\s,]+/g, '')
         .trim();
     }
-    fetchAllMeetups({ filter: filter });
+    if (e.key === 'Enter') {
+      fetchAllMeetups({ filter: filter });
+    }
   };
 
   return (
@@ -30,7 +32,8 @@ const MeetupLookupSearch = ({
                 className="input"
                 placeholder="New York"
                 value={userLocation}
-                onChange={(e) => fetchMeetups(e)}
+                onChange={(e) => setUserLocation(e.target.value)}
+                onKeyUp={(e) => fetchMeetups(e)}
               />
             </div>
             <div className="level-item">
