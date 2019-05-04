@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { applyFilters } from '../utils/meetupsFindFilters';
 /*
  * Api Service
  * */
@@ -38,32 +39,14 @@ axiosInstance.interceptors.request.use(
 );
 
 class ApiService {
-  getAllBooks() {
-    return axios.get(booksListURL);
-  }
-
-  getBookById(id) {
-    return axios.get(`${booksListURL}/${id}`);
-  }
-
-  addBook(book) {
-    return axios.post(booksListURL, book);
-  }
-
-  deleteBook(bookId) {
-    return axios.delete(`${booksListURL}/${bookId}`);
-  }
-
-  updateBook(bookId, newBook) {
-    return axios.put(`${booksListURL}/${bookId}`, newBook);
-  }
-
   getAllCategories() {
     return axios.get(categoriesURL);
   }
 
-  getAllMeetups() {
-    return axios.get(meetupsURL);
+  getAllMeetups(options) {
+    const url = applyFilters(meetupsURL, options.filter);
+
+    return axios.get(url);
   }
 
   getMeetupById(id) {

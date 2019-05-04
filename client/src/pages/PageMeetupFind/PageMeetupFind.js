@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   allMeetupsSelector,
@@ -25,19 +25,25 @@ const PageMeetupFind = ({
   location,
   getMetaData
 }) => {
+  const [userLocation, setUserLocation] = useState(() => location || '');
+  const [filter, setFilter] = useState({});
   useEffect(() => {
     fetchAllMeetups();
     getMetaData();
   }, []);
 
-  // if (!meetups) return <Loader />;
   if (loading) return <Loader />;
 
   return (
     <div>
       <div className="lookup-prebody">
         <AppHero />
-        <MeetupLookupSearch location={location} />
+        <MeetupLookupSearch
+          fetchAllMeetups={fetchAllMeetups}
+          location={location}
+          userLocation={userLocation}
+          setUserLocation={setUserLocation}
+        />
       </div>
       <div className="container">
         <Suspense fallback={<Loader />}>

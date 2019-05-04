@@ -175,9 +175,10 @@ export const canJoinMeetupSelector = createSelector(
  * Action Creators
  * */
 
-export const fetchAllMeetups = () => {
+export const fetchAllMeetups = (options = {}) => {
   return {
-    type: FETCH_ALL_REQUEST
+    type: FETCH_ALL_REQUEST,
+    payload: { options }
   };
 };
 
@@ -212,13 +213,13 @@ export const leaveMeetup = (meetupId) => {
 /**
  * Sagas
  */
-export function* fetchAllMeetupsSaga() {
-  try {
-    yield put({
-      type: FETCH_MEETUPS_REQUEST
-    });
+export function* fetchAllMeetupsSaga(action) {
+  const {
+    payload: { options }
+  } = action;
 
-    const { data } = yield call(Api.getAllMeetups);
+  try {
+    const { data } = yield call(Api.getAllMeetups, options);
 
     yield put({
       type: FETCH_MEETUPS_SUCCESS,
