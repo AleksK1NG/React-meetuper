@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MeetupLookupSearch = ({
+  history,
+  category,
   location,
   userLocation,
   setUserLocation,
@@ -22,6 +25,11 @@ const MeetupLookupSearch = ({
     }
   };
 
+  const cancelCategorySearch = () => {
+    history.push('/find');
+    fetchAllMeetups();
+  };
+
   return (
     <div className="meetup-lookup-wrap">
       <div className="meetup-lookup centered">
@@ -40,6 +48,16 @@ const MeetupLookupSearch = ({
             <div className="level-item">
               <span>Meetups {location !== '' && `in ${location}`}</span>
             </div>
+            {category && (
+              <div className="level-item">
+                <button
+                  onClick={cancelCategorySearch}
+                  className="button is-danger"
+                >
+                  {category} X
+                </button>
+              </div>
+            )}
           </div>
           <div className="level-right">
             <div className="level-item">

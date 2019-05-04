@@ -19,6 +19,7 @@ const MeetupFindMainSection = React.lazy(() =>
 );
 
 const PageMeetupFind = ({
+  history,
   match,
   fetchAllMeetups,
   meetups,
@@ -39,6 +40,8 @@ const PageMeetupFind = ({
     fetchAllMeetups({ filter: filter });
   }, []);
 
+  console.log('HISTORY', match, history);
+
   if (loading) return <Loader />;
 
   return (
@@ -46,6 +49,8 @@ const PageMeetupFind = ({
       <div className="lookup-prebody">
         <AppHero />
         <MeetupLookupSearch
+          history={history}
+          category={match.params.category}
           fetchAllMeetups={fetchAllMeetups}
           location={location}
           userLocation={userLocation}
