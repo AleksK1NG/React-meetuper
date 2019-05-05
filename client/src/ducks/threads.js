@@ -37,7 +37,8 @@ export const ReducerRecord = fromJS({
   error: null,
   loading: true,
   threads: new List([]),
-  thread: {}
+  thread: {},
+  isAllDataLoaded: false
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -51,7 +52,8 @@ export default function reducer(state = ReducerRecord, action) {
 
     case FETCH_THREADS_BY_ID_SUCCESS:
       return state
-        .set('threads', fromJS(payload.data))
+        .set('threads', fromJS(payload.threads))
+        .set('isAllDataLoaded', payload.isAllDataLoaded)
         .set('loading', false)
         .set('error', null);
 
@@ -162,11 +164,13 @@ export function* fetchThreadsByIdSaga(action) {
       type: FETCH_THREADS_BY_ID_REQUEST
     });
 
-    const { data } = yield call(Api.getThreadsById, payload.meetupId);
-
+    const {
+      data: { threads, isAllDataLoaded }
+    } = yield call(Api.getThreadsById, payload.meetupId);
+    debugger;
     yield put({
       type: FETCH_THREADS_BY_ID_SUCCESS,
-      payload: { data }
+      payload: { threads, isAllDataLoaded }
     });
   } catch (err) {
     console.log(err);
