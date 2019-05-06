@@ -65,6 +65,11 @@ class ApiService {
     return axiosInstance.post(`${meetupsURL}/${meetupId}/leave`);
   }
 
+  updateMeetup(meetupData) {
+    debugger;
+    return axiosInstance.patch(`${meetupsURL}/${meetupData._id}`, meetupData);
+  }
+
   getThreadsById({ meetupId, filter }) {
     const url = applyFilters(`/api/v1/threads?meetupId=${meetupId}`, filter);
     return axiosInstance.get(url);

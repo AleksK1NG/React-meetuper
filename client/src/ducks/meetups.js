@@ -42,6 +42,10 @@ export const LEAVE_MEETUP_REQUEST = `${prefix}/LEAVE_MEETUP_REQUEST`;
 export const LEAVE_MEETUP_SUCCESS = `${prefix}/LEAVE_MEETUP_SUCCESS`;
 export const LEAVE_MEETUP_ERROR = `${prefix}/LEAVE_MEETUP_ERROR`;
 
+export const UPDATE_MEETUP_REQUEST = `${prefix}/UPDATE_MEETUP_REQUEST`;
+export const UPDATE_MEETUP_SUCCESS = `${prefix}/UPDATE_MEETUP_SUCCESS`;
+export const UPDATE_MEETUP_ERROR = `${prefix}/UPDATE_MEETUP_ERROR`;
+
 /**
  * Reducer
  * */
@@ -58,6 +62,7 @@ export default function reducer(state = ReducerRecord, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case UPDATE_MEETUP_REQUEST:
     case JOIN_MEETUP_REQUEST:
     case LEAVE_MEETUP_REQUEST:
     case CREATE_MEETUP_REQUEST:
@@ -77,6 +82,7 @@ export default function reducer(state = ReducerRecord, action) {
         .set('loading', false)
         .set('error', null);
 
+    case UPDATE_MEETUP_ERROR:
     case FETCH_MEETUPS_ERROR:
     case FETCH_MEETUP_BY_ID_ERROR:
     case LEAVE_MEETUP_ERROR:
@@ -103,6 +109,12 @@ export default function reducer(state = ReducerRecord, action) {
         .updateIn(['meetup', 'joinedPeople'], (joinedPeople) =>
           joinedPeople.filter((user) => user.get('_id') !== payload.user._id)
         )
+        .set('error', null)
+        .set('loading', false);
+
+    case UPDATE_MEETUP_SUCCESS:
+      return state
+        .set('meetup', fromJS(payload.data))
         .set('error', null)
         .set('loading', false);
 
@@ -171,10 +183,6 @@ export const canJoinMeetupSelector = createSelector(
   }
 );
 
-// export const canEditMeetupSelector = createSelector([meetupCreatorSelector, authUserSelector], (meetup, user) => {
-//
-// })
-
 /**
  * Action Creators
  * */
@@ -211,6 +219,17 @@ export const leaveMeetup = (meetupId) => {
   return {
     type: LEAVE_MEETUP_REQUEST,
     payload: { meetupId }
+  };
+};
+
+export const updateMeetup = (meetupData) => {
+  meetupData.processedLocation = meetupData.location
+    .toLowerCase()
+    .replace(/[\s,]+/g, '')
+    .trim();
+  return {
+    type: UPDATE_MEETUP_REQUEST,
+    payload: { meetupData }
   };
 };
 
@@ -349,12 +368,43 @@ export function* leaveMeetupSaga(action) {
   }
 }
 
+export function* updateMeetupSaga(action) {
+  const {
+    payload: { meetupData }
+  } = action;
+
+  try {
+    yield put({
+      type: FETCH_MEETUP_BY_ID_REQUEST
+    });
+
+    const { data } = yield call(Api.updateMeetup, meetupData);
+
+    yield put({
+      type: UPDATE_MEETUP_SUCCESS,
+      payload: { data }
+    });
+    debugger;
+    yield put(replace(`/meetups/${data._id}`));
+    toast.success('Success, meetup has been updated ! =D');
+  } catch (err) {
+    console.log(err);
+
+    yield put({
+      type: UPDATE_MEETUP_ERROR,
+      payload: { err }
+    });
+    toast.error(rejectError(err));
+  }
+}
+
 export function* saga() {
   yield all([
     takeEvery(FETCH_ALL_REQUEST, fetchAllMeetupsSaga),
     takeEvery(FETCH_MEETUP_BY_ID, fetchMeetupByIdSaga),
     takeEvery(CREATE_MEETUP_REQUEST, createMeetupSaga),
     takeEvery(JOIN_MEETUP_REQUEST, joinMeetupSaga),
-    takeEvery(LEAVE_MEETUP_REQUEST, leaveMeetupSaga)
+    takeEvery(LEAVE_MEETUP_REQUEST, leaveMeetupSaga),
+    takeEvery(UPDATE_MEETUP_REQUEST, updateMeetupSaga)
   ]);
 }

@@ -5,7 +5,8 @@ import {
   fetchMeetupById,
   loadingMeetupsSelector,
   meetupCreatorSelector,
-  meetupSelector
+  meetupSelector,
+  updateMeetup
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 import { Form } from 'react-final-form';
@@ -16,6 +17,7 @@ import MeetupEditHeroSection from '../../components/MeetupEdit/MeetupEditHeroSec
 import MeetupEditMainSection from '../../components/MeetupEdit/MeetupEditMainSection/MeetupEditMainSection';
 
 const PageMeetupEdit = ({
+  updateMeetup,
   meetup,
   loading,
   match,
@@ -29,7 +31,7 @@ const PageMeetupEdit = ({
   const onSubmit = (values, formApi) => {
     const startDate = moment(values.startDate).format();
 
-    // updateMeetup({ ...values, startDate });
+    updateMeetup({ ...meetup, ...values, startDate });
 
     console.log('PageMeetupEdit =>', { ...values, startDate });
 
@@ -81,5 +83,5 @@ export default connect(
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state)
   }),
-  { fetchMeetupById }
+  { fetchMeetupById, updateMeetup }
 )(PageMeetupEdit);
