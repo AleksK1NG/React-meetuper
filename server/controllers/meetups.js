@@ -6,8 +6,7 @@ exports.getSecret = function(req, res) {
 };
 
 exports.getMeetups = function(req, res) {
-  const { category } = req.query || {};
-  const { location } = req.query || {};
+  const { category, location } = req.query;
 
   const findQuery = location
     ? Meetup.find({ processedLocation: { $regex: '.*' + location + '.*' } })
@@ -103,4 +102,27 @@ exports.leaveMeetup = function(req, res) {
   ])
     .then((result) => res.json({ id }))
     .catch((errors) => res.status(422).send({ errors }));
+};
+
+exports.updateMeetup = function(req, res) {
+  const meetupData = req.body;
+  const { id } = req.params;
+  const user = req.user;
+
+  if (user.id === meetupData.meetupCreator._id) {
+    Meetup.findByIdAndUpdate(
+      id,
+      { $set: meetupData },
+      { new: true },
+      (errors, updatedMeetup) => {
+        if (errors) {
+          return res.status(422).send({ errors });
+        }
+
+        return res.json(updatedMeetup);
+      }
+    );
+  } else {
+    return res.status(401).send({ errors: { message: 'Not Authorized!' } });
+  }
 };

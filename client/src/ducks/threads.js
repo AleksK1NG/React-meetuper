@@ -1,7 +1,7 @@
 import { appName } from '../config';
 import { List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all, select } from 'redux-saga/effects';
+import { takeEvery, call, put, all } from 'redux-saga/effects';
 import Api from '../services/api';
 import { toast } from 'react-toastify';
 import { rejectError } from '../utils/rejectErrorHelper';
@@ -27,7 +27,6 @@ export const CREATE_POST_REQUEST = `${prefix}/CREATE_POST_REQUEST`;
 export const CREATE_POST_SUCCESS = `${prefix}/CREATE_POST_SUCCESST`;
 export const CREATE_POST_ERROR = `${prefix}/CREATE_POST_ERROR`;
 
-export const INCREMENT_PAGE_NUM = `${prefix}/INCREMENT_PAGE_NUM`;
 export const INIT_THREADS_SUCCESS = `${prefix}/INIT_THREADS_SUCCESS`;
 
 /**
@@ -40,9 +39,7 @@ export const ReducerRecord = fromJS({
   loading: true,
   threads: new List([]),
   thread: {},
-  isAllDataLoaded: false,
-  threadPageNum: 1,
-  threadPageSize: 5
+  isAllDataLoaded: false
 });
 
 export default function reducer(state = ReducerRecord, action) {
@@ -91,10 +88,6 @@ export default function reducer(state = ReducerRecord, action) {
         })
         .set('error', null)
         .set('loading', false);
-
-    case INCREMENT_PAGE_NUM:
-      let page = state.get('threadPageNum');
-      return state.set('threadPageNum', page++);
 
     case INIT_THREADS_SUCCESS:
       return state.set('threads', new List([]));
@@ -184,8 +177,6 @@ export function* fetchThreadsByIdSaga(action) {
   const {
     payload: { meetupId, filter, init }
   } = action;
-  // const state = yield select();
-  // let page = state.threads.get('threadPageNum');
   if (init) {
     yield put({
       type: INIT_THREADS_SUCCESS
@@ -200,18 +191,6 @@ export function* fetchThreadsByIdSaga(action) {
       type: FETCH_THREADS_BY_ID_SUCCESS,
       payload: { threads, isAllDataLoaded }
     });
-    debugger;
-    // yield put({
-    //   type: INCREMENT_PAGE_NUM
-    // });
-    // if (!isAllDataLoaded) {
-    //   console.log('Data Loaded => ', page);
-    //   yield put({
-    //     type: INCREMENT_PAGE_NUM
-    //   });
-    //   yield call(fetchThreadsById, meetupId, filter);
-    //   debugger;
-    // }
   } catch (err) {
     console.log(err);
 
@@ -221,32 +200,6 @@ export function* fetchThreadsByIdSaga(action) {
     });
   }
 }
-
-// export function* fetchThreadsByIdSaga(action) {
-//   const { payload, filter } = action;
-//
-//   try {
-//     yield put({
-//       type: FETCH_THREADS_BY_ID_REQUEST
-//     });
-//
-//     const {
-//       data: { threads, isAllDataLoaded }
-//     } = yield call(Api.getThreadsById, {meetupId: payload.meetupId || payload.meetupId, filter});
-//     debugger;
-//     yield put({
-//       type: FETCH_THREADS_BY_ID_SUCCESS,
-//       payload: { threads, isAllDataLoaded }
-//     });
-//   } catch (err) {
-//     console.log(err);
-//
-//     yield put({
-//       type: FETCH_THREADS_BY_ID_ERROR,
-//       payload: { err }
-//     });
-//   }
-// }
 
 export function* createThreadSaga(action) {
   const {
