@@ -10,6 +10,8 @@ import {
 } from '../../../ducks/threads';
 
 const MeetupDetailMainSection = ({
+  isAllDataLoaded,
+  getMoreThreadPages,
   isCanCreatePost,
   sortedThreads,
   createThread,
@@ -72,6 +74,14 @@ const MeetupDetailMainSection = ({
                   />
                 ))}
             </div>
+            {!isAllDataLoaded && (
+              <button
+                className="button is-primary"
+                onClick={getMoreThreadPages}
+              >
+                Load more
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
 import {
@@ -14,6 +14,7 @@ import {
 import Loader from '../../components/shared/Loader/Loader';
 import {
   fetchThreadsById,
+  isAllDataLoadedSelector,
   loadingThreadsSelector,
   threadsSelector
 } from '../../ducks/threads';
@@ -31,6 +32,7 @@ const MeetupDetailMainSection = React.lazy(() =>
 );
 
 const PageMeetupDetail = ({
+  isAllDataLoaded,
   isMeetupCreator,
   leaveMeetup,
   joinMeetup,
@@ -46,10 +48,18 @@ const PageMeetupDetail = ({
   isAuthenticated,
   user
 }) => {
+  const [threadPageNum, setThreadPageNum] = useState(2);
+
   useEffect(() => {
     fetchMeetupById(match.params.id);
-    fetchThreadsById(match.params.id);
+    fetchThreadsById(match.params.id, 1, true);
   }, []);
+
+  const getMoreThreadPages = () => {
+    console.log('page is ==>', threadPageNum);
+    fetchThreadsById(match.params.id, threadPageNum, false);
+    setThreadPageNum(threadPageNum + 1);
+  };
 
   if (loadingThreads || loading) return <Loader />;
 
@@ -62,6 +72,8 @@ const PageMeetupDetail = ({
           meetup={meetup}
         />
         <MeetupDetailMainSection
+          isAllDataLoaded={isAllDataLoaded}
+          getMoreThreadPages={getMoreThreadPages}
           isMeetupCreator={isMeetupCreator}
           isMeetupMember={isMeetupMember}
           joinMeetup={joinMeetup}
@@ -78,6 +90,7 @@ const PageMeetupDetail = ({
 
 export default connect(
   (state) => ({
+    isAllDataLoaded: isAllDataLoadedSelector(state),
     isMeetupCreator: meetupCreatorSelector(state),
     isCanJoinMeetup: canJoinMeetupSelector(state),
     isMeetupMember: isMemberSelector(state),
