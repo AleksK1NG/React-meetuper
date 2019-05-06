@@ -31,6 +31,9 @@ const PageMeetupCreate = React.lazy(() =>
   import('./pages/PageMeetupCreate/PageMeetupCreate')
 );
 const PageProfile = React.lazy(() => import('./pages/PageProfile/PageProfile'));
+const PageMeetupEdit = React.lazy(() =>
+  import('./pages/PageMeetupEdit/PageMeetupEdit')
+);
 
 const App = ({ loadUser, getMetaData }) => {
   useEffect(() => {
@@ -46,6 +49,11 @@ const App = ({ loadUser, getMetaData }) => {
           <Switch>
             <Route exact path="/" component={PageHome} />
             <Route exact path="/meetups/:id" component={PageMeetupDetail} />
+            <ProtectedRoute
+              exact
+              path="/meetups/:id/edit"
+              component={PageMeetupEdit}
+            />
             <Route exact path="/find/:category" component={PageMeetupFind} />
             <Route exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />
