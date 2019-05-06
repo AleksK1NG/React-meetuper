@@ -171,6 +171,10 @@ export const canJoinMeetupSelector = createSelector(
   }
 );
 
+// export const canEditMeetupSelector = createSelector([meetupCreatorSelector, authUserSelector], (meetup, user) => {
+//
+// })
+
 /**
  * Action Creators
  * */

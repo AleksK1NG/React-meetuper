@@ -4,13 +4,22 @@ import './PageMeetupEdit.scss';
 import {
   fetchMeetupById,
   loadingMeetupsSelector,
+  meetupCreatorSelector,
   meetupSelector
 } from '../../ducks/meetups';
 import Loader from '../../components/shared/Loader/Loader';
 import { Field, Form } from 'react-final-form';
 import moment from 'moment';
+import { validateMeetupEditForm } from '../../utils/finalFormValidation/validateMeetupEditForm';
+import { Redirect } from 'react-router-dom';
 
-const PageMeetupEdit = ({ meetup, loading, match, fetchMeetupById }) => {
+const PageMeetupEdit = ({
+  meetup,
+  loading,
+  match,
+  fetchMeetupById,
+  isMeetupCreator
+}) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
   }, []);
@@ -26,14 +35,15 @@ const PageMeetupEdit = ({ meetup, loading, match, fetchMeetupById }) => {
   };
 
   if (loading || !meetup) return <Loader />;
+  if (!loading && meetup && !isMeetupCreator) return <Redirect to="/" />;
 
   let submit;
 
   return (
     <div className="meetup-detail-page">
       <Form
+        validate={validateMeetupEditForm}
         initialValues={{
-          // startDate: meetup.startDate,
           startDate: moment(meetup.startDate).format('YYYY-MM-DD'),
           title: meetup.title,
           timeFrom: meetup.timeFrom,
@@ -295,6 +305,7 @@ const PageMeetupEdit = ({ meetup, loading, match, fetchMeetupById }) => {
 
 export default connect(
   (state) => ({
+    isMeetupCreator: meetupCreatorSelector(state),
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state)
   }),
