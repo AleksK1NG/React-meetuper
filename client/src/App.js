@@ -7,9 +7,7 @@ import Loader from './components/shared/Loader/Loader';
 import TheNavbar from './components/Layout/TheNavbar/TheNavbar';
 import TheFooter from './components/Layout/TheFooter/TheFooter';
 import { loadUser } from './ducks/auth';
-import PageSecret from './pages/PageSecret/PageSecret';
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
-import 'react-dates/lib/css/_datepicker.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { getMetaData } from './ducks/meta';
 
@@ -59,7 +57,6 @@ const App = ({ loadUser, getMetaData }) => {
             <Route exact path="/login" component={PageLogin} />
             <Route exact path="/register" component={PageRegister} />
             <ProtectedRoute exact path="/profile" component={PageProfile} />
-            <ProtectedRoute path="/secret" component={PageSecret} />
             <Route path="/create" component={PageMeetupCreate} />
             <Route path="*" exact component={PageNotFound} />
           </Switch>

@@ -12,7 +12,7 @@ const threadsURL = '/api/v1/threads';
 const currentUserURL = '/api/v1/users/me';
 const logoutURL = '/api/v1/users/logout';
 const postsURL = '/api/v1/posts';
-const userStats = '/api/v1/users/me/activity';
+const userStatsURL = '/api/v1/users/me/activity';
 const updateUserURL = '/api/v1/users';
 const metaDataURL = '/api/v1';
 
@@ -70,7 +70,7 @@ class ApiService {
   }
 
   getThreadsById({ meetupId, filter }) {
-    const url = applyFilters(`/api/v1/threads?meetupId=${meetupId}`, filter);
+    const url = applyFilters(`${threadsURL}?meetupId=${meetupId}`, filter);
     return axiosInstance.get(url);
   }
 
@@ -103,7 +103,7 @@ class ApiService {
   }
 
   getUserStats() {
-    return axiosInstance.get(userStats);
+    return axiosInstance.get(userStatsURL);
   }
 
   getMetaData() {
