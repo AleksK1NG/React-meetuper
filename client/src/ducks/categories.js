@@ -60,11 +60,6 @@ export const loadingCatSelector = createSelector(
   (state) => state.get('loadingCategories')
 );
 
-// export const allCategoriesSelector = createSelector(
-//   stateSelector,
-//   (state) => state.get('categories').toJS()
-// );
-
 export const allCategoriesSelector = createSelector(
   stateSelector,
   (state) => {

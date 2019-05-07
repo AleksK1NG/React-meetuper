@@ -53,15 +53,11 @@ export default function reducer(state = ReducerRecord, action) {
 
     case FETCH_THREADS_BY_ID_SUCCESS:
       const newThreads = fromJS(payload.threads);
-      return (
-        state
-          // .set('threads', fromJS(payload.threads))
-          .update('threads', (threads) => threads.concat(newThreads))
-          // .merge({ threads: fromJS(payload.threads) })
-          .set('isAllDataLoaded', payload.isAllDataLoaded)
-          .set('loading', false)
-          .set('error', null)
-      );
+      return state
+        .update('threads', (threads) => threads.concat(newThreads))
+        .set('isAllDataLoaded', payload.isAllDataLoaded)
+        .set('loading', false)
+        .set('error', null);
 
     case FETCH_THREADS_BY_ID_ERROR:
     case CREATE_POST_ERROR:
