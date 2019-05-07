@@ -4,14 +4,13 @@ import { formatDate } from '../../utils/helpers';
 import './MeetupItem.scss';
 
 const MeetupItem = ({ meetup }) => {
-  console.log('render meetup item');
   return (
     <div className="column is-one-third">
-      <div className="card large">
+      <div className="card large is-hoverable">
         <Link to={`/meetups/${meetup._id}`} className="card-meetup-link">
           <div className="card-image">
             <figure className="image is-4by3">
-              <img src={meetup.image} alt="Image" />
+              <img src={meetup.image} alt={meetup.title} />
             </figure>
           </div>
           <div className="card-content">

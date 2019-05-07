@@ -8,8 +8,6 @@ import { validateLogin } from '../../utils/finalFormValidation/validateLoginForm
 
 const PageLogin = ({ loginUser }) => {
   const onSubmit = (values, formApi) => {
-    console.log('Submit form ;D', values);
-
     loginUser(values);
     formApi.reset();
   };
@@ -23,7 +21,7 @@ const PageLogin = ({ loginUser }) => {
             <p className="subtitle has-text-grey">Please login to proceed.</p>
             <div className="box">
               <figure className="avatar">
-                <img src="https://placehold.it/128x128" />
+                <img src="https://placehold.it/128x128" alt="Avatar" />
               </figure>
               <Form
                 onSubmit={onSubmit}

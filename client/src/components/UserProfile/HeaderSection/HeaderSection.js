@@ -14,7 +14,7 @@ const HeaderSection = ({
       <div className="columns is-mobile is-multiline">
         <div className="column is-2">
           <figure className="image  header-icon user-profile-image">
-            <img className="is-rounded" src={user.avatar} />
+            <img className="is-rounded" src={user.avatar} alt={user.name} />
           </figure>
         </div>
         <div className="column is-4-tablet is-10-mobile name">

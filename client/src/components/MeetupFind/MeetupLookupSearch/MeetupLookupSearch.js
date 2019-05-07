@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const MeetupLookupSearch = ({
   history,
@@ -46,7 +45,7 @@ const MeetupLookupSearch = ({
               />
             </div>
             <div className="level-item">
-              <span>Meetups {location !== '' && `in ${location}`}</span>
+              <span>{location && `Your current location is ${location}`}</span>
             </div>
             {category && (
               <div className="level-item">

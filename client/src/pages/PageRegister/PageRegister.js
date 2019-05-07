@@ -8,11 +8,10 @@ import { validateRegister } from '../../utils/finalFormValidation/validateRegist
 
 const PageRegister = ({ registerUser }) => {
   const onSubmit = (values, formApi) => {
-    console.log('Submit form ;D', values);
-
     registerUser(values);
     formApi.reset();
   };
+
   return (
     <section className="hero is-success is-fullheight">
       <div className="hero-body">
@@ -22,7 +21,7 @@ const PageRegister = ({ registerUser }) => {
             <p className="subtitle has-text-grey">Please login to proceed.</p>
             <div className="box">
               <figure className="avatar">
-                <img src="https://placehold.it/128x128" />
+                <img src="https://placehold.it/128x128" alt="Avatar" />
               </figure>
               <Form
                 onSubmit={onSubmit}
@@ -207,7 +206,7 @@ const PageRegister = ({ registerUser }) => {
               />
             </div>
             <p className="has-text-grey">
-              <a>Sign In With Google</a> &nbsp;·&nbsp;
+              <a href="foo">Sign In With Google</a> &nbsp;·&nbsp;
               <Link to="/register">Login</Link> &nbsp;·&nbsp;
               <a href="../">Need Help?</a>
             </p>

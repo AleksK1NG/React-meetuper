@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { capitalize } from '../../../utils/helpers';
 
 const UserMeetupsItem = ({ meetup }) => {
   return (
@@ -7,7 +9,7 @@ const UserMeetupsItem = ({ meetup }) => {
       <div className="card">
         <div className="card-image">
           <figure className="image is-4by3">
-            <img src={meetup.image} />
+            <img src={meetup.image} alt={meetup.title} />
           </figure>
         </div>
         <div className="card-content">
@@ -16,7 +18,7 @@ const UserMeetupsItem = ({ meetup }) => {
               <p className="title is-4">{meetup.title}</p>
               <p className="subtitle is-6">
                 <span className="tag is-dark subtitle">
-                  {meetup.category.name}
+                  {capitalize(meetup.category.name)}
                 </span>
               </p>
             </div>
@@ -26,8 +28,12 @@ const UserMeetupsItem = ({ meetup }) => {
           </div>
         </div>
         <footer className="card-footer">
-          <a className="card-footer-item">Share</a>
-          <a className="card-footer-item">Delete</a>
+          <Link to={`/meetups/${meetup._id}/edit`} className="card-footer-item">
+            Edit
+          </Link>
+          <Link to={`/meetups/${meetup._id}`} className="card-footer-item">
+            Look
+          </Link>
         </footer>
       </div>
       <br />

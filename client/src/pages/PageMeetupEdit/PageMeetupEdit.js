@@ -15,8 +15,14 @@ import { validateMeetupEditForm } from '../../utils/finalFormValidation/validate
 import { Redirect } from 'react-router-dom';
 import MeetupEditHeroSection from '../../components/MeetupEdit/MeetupEditHeroSection/MeetupEditHeroSection';
 import MeetupEditMainSection from '../../components/MeetupEdit/MeetupEditMainSection/MeetupEditMainSection';
+import {
+  allCategoriesSelector,
+  fetchAllCategories
+} from '../../ducks/categories';
 
 const PageMeetupEdit = ({
+  fetchAllCategories,
+  categories,
   updateMeetup,
   meetup,
   loading,
@@ -26,23 +32,19 @@ const PageMeetupEdit = ({
 }) => {
   useEffect(() => {
     fetchMeetupById(match.params.id);
+    fetchAllCategories();
   }, []);
 
   const onSubmit = (values, formApi) => {
     const startDate = moment(values.startDate).format();
-
     updateMeetup({ ...meetup, ...values, startDate });
-
-    console.log('PageMeetupEdit =>', { ...values, startDate });
-
     formApi.reset();
   };
 
-  if (loading || !meetup) return <Loader />;
+  if (loading || !meetup || !categories) return <Loader />;
   if (!loading && meetup && !isMeetupCreator) return <Redirect to="/" />;
 
   let submit;
-
   return (
     <div className="meetup-detail-page">
       <Form
@@ -54,7 +56,8 @@ const PageMeetupEdit = ({
           timeTo: meetup.timeTo,
           location: meetup.location,
           shortInfo: meetup.shortInfo,
-          description: meetup.description
+          description: meetup.description,
+          category: meetup.category._id
         }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => {
@@ -68,7 +71,7 @@ const PageMeetupEdit = ({
                 invalid={invalid}
                 pristine={pristine}
               />
-              <MeetupEditMainSection />
+              <MeetupEditMainSection categories={categories} meetup={meetup} />
             </form>
           );
         }}
@@ -79,9 +82,10 @@ const PageMeetupEdit = ({
 
 export default connect(
   (state) => ({
+    categories: allCategoriesSelector(state),
     isMeetupCreator: meetupCreatorSelector(state),
     meetup: meetupSelector(state),
     loading: loadingMeetupsSelector(state)
   }),
-  { fetchMeetupById, updateMeetup }
+  { fetchMeetupById, updateMeetup, fetchAllCategories }
 )(PageMeetupEdit);

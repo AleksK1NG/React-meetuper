@@ -5,7 +5,5 @@ export const validatePostForm = (values) => {
     errors.post = "You need write some text, it's required !";
   }
 
-  console.log('validate errors =>', errors);
-
   return errors;
 };

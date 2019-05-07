@@ -14,7 +14,7 @@ const MeetupDetailHeroSection = ({ meetup, isMeetupMember, leaveMeetup }) => {
                 <img
                   className="is-rounded"
                   src={meetup.meetupCreator.avatar}
-                  alt="image"
+                  alt={meetup.meetupCreator.name}
                 />
               </p>
             </figure>

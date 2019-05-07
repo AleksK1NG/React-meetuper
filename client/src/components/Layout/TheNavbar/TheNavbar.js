@@ -15,6 +15,7 @@ const TheNavbar = ({ user, logoutUser }) => {
           <h1 className="title is-4">React Meetuper</h1>
         </Link>
         <a
+          href="/"
           role="button"
           className="navbar-burger burger"
           aria-label="menu"
@@ -38,14 +39,24 @@ const TheNavbar = ({ user, logoutUser }) => {
           </Link>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">More</a>
+            <a href="https://github.com/AleksK1NG" className="navbar-link">
+              More
+            </a>
 
             <div className="navbar-dropdown">
-              <a className="navbar-item">About</a>
-              <a className="navbar-item">Jobs</a>
-              <a className="navbar-item">Contact</a>
+              <a href="https://github.com/AleksK1NG" className="navbar-item">
+                About
+              </a>
+              <a href="https://github.com/AleksK1NG" className="navbar-item">
+                Jobs
+              </a>
+              <a href="https://github.com/AleksK1NG" className="navbar-item">
+                Contact
+              </a>
               <hr className="navbar-divider" />
-              <a className="navbar-item">Report an issue</a>
+              <a href="https://github.com/AleksK1NG" className="navbar-item">
+                Report an issue
+              </a>
             </div>
           </div>
         </div>
@@ -55,15 +66,21 @@ const TheNavbar = ({ user, logoutUser }) => {
 
           {user && (
             <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">Account</a>
+              <div style={{ cursor: 'pointer' }} className="navbar-link">
+                Account
+              </div>
               <div className="navbar-dropdown">
                 <Link to="/profile" className="navbar-item">
                   Profile
                 </Link>
                 <hr className="navbar-divider" />
-                <a onClick={() => logoutUser()} className="navbar-item">
+                <div
+                  onClick={() => logoutUser()}
+                  className="navbar-item"
+                  style={{ cursor: 'pointer' }}
+                >
                   Logout
-                </a>
+                </div>
               </div>
             </div>
           )}

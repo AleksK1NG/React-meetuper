@@ -1,3 +1,11 @@
 .card-meetup-link {
   color: black;
 }
+.is-hoverable {
+  transition: 0.3s;
+  &:hover {
+    -webkit-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
+  }
+}

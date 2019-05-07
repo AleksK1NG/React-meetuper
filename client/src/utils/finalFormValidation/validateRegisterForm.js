@@ -1,4 +1,4 @@
-import { checkURL, emailIsValid, is_url } from './validationHelpers';
+import { emailIsValid, is_url } from './validationHelpers';
 
 export const validateRegister = (values) => {
   const errors = {};
@@ -45,8 +45,6 @@ export const validateRegister = (values) => {
   if (values.avatar && !is_url(values.avatar)) {
     errors.avatar = 'Invalid avatar URL !';
   }
-
-  console.log('validate errors =>', errors);
 
   return errors;
 };

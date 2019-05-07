@@ -35,7 +35,7 @@ const MeetupDetailAside = ({ meetup, threads }) => {
         <img
           src="https://cnet2.cbsistatic.com/img/H_zPLL8-QTZOLxJvgHQ1Jkz0EgY=/830x467/2013/07/10/f0bcef02-67c2-11e3-a665-14feb5ca9861/maps_routemap.png"
           className="venueMap-mapImg span--100"
-          alt="Location image of meetup venue"
+          alt={meetup.title}
         />
       </div>
 

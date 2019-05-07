@@ -7,13 +7,13 @@ const MeetupLocation = ({ location }) => {
   return (
     <div>
       <h2 className="title m-b-sm">What's your new Meetup location?</h2>
-      <div className="m-b-lg">
+      <a href="foo" className="m-b-lg">
         {location !== '' && (
           <React.Fragment>
             <span className="subtitle">{location}</span>
-            <a onClick={() => setChangeUserLocation(!changeUserLocation)}>
+            <span onClick={() => setChangeUserLocation(!changeUserLocation)}>
               (change location)
-            </a>
+            </span>
           </React.Fragment>
         )}
         <hr />
@@ -40,7 +40,7 @@ const MeetupLocation = ({ location }) => {
             )}
           </Field>
         )}
-      </div>
+      </a>
     </div>
   );
 };

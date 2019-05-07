@@ -23,7 +23,5 @@ export const validateUserUpdateModalForm = (values) => {
     errors.avatar = 'Invalid Avatar URL !';
   }
 
-  console.log('validate errors =>', errors);
-
   return errors;
 };

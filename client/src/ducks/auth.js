@@ -1,7 +1,7 @@
 import { appName } from '../config';
 import { fromJS } from 'immutable';
 import { createSelector } from 'reselect';
-import { takeEvery, call, put, all, select } from 'redux-saga/effects';
+import { takeEvery, call, put, all } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
 import api from '../services/api';
 
@@ -119,11 +119,6 @@ export default function reducer(state = ReducerRecord, action) {
  * */
 
 export const stateSelector = (state) => state[moduleName];
-
-export const authErrorSelector = createSelector(
-  stateSelector,
-  (state) => state.error
-);
 
 export const isAuthenticatedSelector = createSelector(
   stateSelector,

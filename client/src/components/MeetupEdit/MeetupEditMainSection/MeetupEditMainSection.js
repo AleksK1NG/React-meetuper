@@ -1,7 +1,8 @@
 import React from 'react';
 import { Field } from 'react-final-form';
+import { capitalize } from '../../../utils/helpers';
 
-const MeetupEditMainSection = () => {
+const MeetupEditMainSection = ({ categories, meetup }) => {
   return (
     <div className="section">
       <div className="container">
@@ -66,6 +67,32 @@ const MeetupEditMainSection = () => {
                     )}
                   </Field>
                 </div>
+                <Field
+                  name="category"
+                  component="select"
+                  type="input"
+                  label="Categories"
+                >
+                  {({ input, meta }) => (
+                    <div className="select">
+                      <select {...input}>
+                        <option value={meetup.category._id}>
+                          {capitalize(meetup.category.name)}
+                        </option>
+                        {categories &&
+                          categories.map((category) => (
+                            <option value={category._id} key={category._id}>
+                              {capitalize(category.name)}
+                            </option>
+                          ))}
+                      </select>
+                      {meta.touched && meta.error && (
+                        <span className="help is-danger">{meta.error}</span>
+                      )}
+                    </div>
+                  )}
+                </Field>
+
                 <div className="meetup-side-box-place m-b-sm">
                   <p>
                     <b>How to find us</b>
@@ -123,7 +150,7 @@ const MeetupEditMainSection = () => {
                 <img
                   src="https://cnet2.cbsistatic.com/img/H_zPLL8-QTZOLxJvgHQ1Jkz0EgY=/830x467/2013/07/10/f0bcef02-67c2-11e3-a665-14feb5ca9861/maps_routemap.png"
                   className="venueMap-mapImg span--100"
-                  alt="Location image of meetup venue"
+                  alt={meetup.title}
                 />
               </div>
             </aside>

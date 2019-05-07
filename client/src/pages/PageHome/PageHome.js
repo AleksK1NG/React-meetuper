@@ -16,6 +16,7 @@ import {
   fetchAllMeetups,
   loadingMeetupsSelector
 } from '../../ducks/meetups';
+import { locationSelector } from '../../ducks/meta';
 
 const CategoryItem = React.lazy(() =>
   import('../../components/CategoryItem/CategoryItem')
@@ -26,6 +27,7 @@ const MeetupItem = React.lazy(() =>
 );
 
 const PageHome = ({
+  ipLocation,
   fetchAllCategories,
   fetchAllMeetups,
   categories,
@@ -44,7 +46,10 @@ const PageHome = ({
       <div className="container">
         <section className="section">
           <div className="m-b-lg">
-            <h1 className="title is-inline">Featured Meetups in "Location"</h1>
+            <h1 className="title is-inline">
+              Featured Meetups
+              {ipLocation && `, Your current location is ${ipLocation}`}
+            </h1>
             <AppDropdown />
             <Link
               to="/create"
@@ -102,6 +107,7 @@ const PageHome = ({
 
 export default connect(
   (state) => ({
+    ipLocation: locationSelector(state),
     categories: allCategoriesSelector(state),
     loadingCategories: loadingCatSelector(state),
     meetups: allMeetupsSelector(state),

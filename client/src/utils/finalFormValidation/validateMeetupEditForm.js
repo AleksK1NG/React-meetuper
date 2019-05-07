@@ -29,7 +29,9 @@ export const validateMeetupEditForm = (values) => {
     errors.location = 'Location is required !';
   }
 
-  console.log('validate errors =>', errors);
+  if (!values.category) {
+    errors.category = 'Category is required !';
+  }
 
   return errors;
 };

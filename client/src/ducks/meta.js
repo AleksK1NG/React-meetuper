@@ -55,11 +55,6 @@ export default function reducer(state = ReducerRecord, action) {
 
 export const stateSelector = (state) => state[moduleName];
 
-export const loadingThreadsSelector = createSelector(
-  stateSelector,
-  (state) => state.get('loading')
-);
-
 export const locationSelector = createSelector(
   stateSelector,
   (state) => {

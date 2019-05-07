@@ -1,4 +1,4 @@
-import { checkURL, is_url } from './validationHelpers';
+import { is_url } from './validationHelpers';
 
 export const validateMeetupCreateForm = (values) => {
   const errors = {};
@@ -46,8 +46,6 @@ export const validateMeetupCreateForm = (values) => {
   if (values.image && !is_url(values.image)) {
     errors.image = 'Invalid Image URL !';
   }
-
-  console.log('validate errors =>', errors);
 
   return errors;
 };

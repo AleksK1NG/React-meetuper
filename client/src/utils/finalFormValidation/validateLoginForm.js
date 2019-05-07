@@ -19,7 +19,5 @@ export const validateLogin = (values) => {
     errors.email = 'Invalid email !';
   }
 
-  console.log('validate errors =>', errors);
-
   return errors;
 };

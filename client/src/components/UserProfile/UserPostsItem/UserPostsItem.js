@@ -12,8 +12,12 @@ const UserPostsItem = ({ post }) => {
           </div>
         </div>
         <footer className="card-footer">
-          <a className="card-footer-item">Share</a>
-          <a className="card-footer-item">Delete</a>
+          <a href="foo" className="card-footer-item">
+            Share
+          </a>
+          <a href="foo" className="card-footer-item">
+            Delete
+          </a>
         </footer>
       </div>
       <br />

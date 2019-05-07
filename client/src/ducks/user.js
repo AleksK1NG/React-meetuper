@@ -65,11 +65,6 @@ export default function reducer(state = ReducerRecord, action) {
 
 export const stateSelector = (state) => state[moduleName];
 
-export const loadingThreadsSelector = createSelector(
-  stateSelector,
-  (state) => state.get('loading')
-);
-
 export const userThreadsSelector = createSelector(
   stateSelector,
   (state) => {
@@ -98,10 +93,12 @@ export const meetupsCountSelector = createSelector(
   stateSelector,
   (state) => state.get('meetupsCount')
 );
+
 export const threadsCountSelector = createSelector(
   stateSelector,
   (state) => state.get('threadsCount')
 );
+
 export const postsCountSelector = createSelector(
   stateSelector,
   (state) => state.get('postsCount')

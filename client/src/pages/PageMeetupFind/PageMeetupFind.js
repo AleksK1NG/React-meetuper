@@ -8,7 +8,6 @@ import {
 import AppHero from '../../components/Layout/AppHero/AppHero';
 import Loader from '../../components/shared/Loader/Loader';
 import './PageMeetupFind.scss';
-// import MeetupFindMainSection from '../../components/MeetupFind/MeetupFindMainSection/MeetupFindMainSection';
 import MeetupLookupSearch from '../../components/MeetupFind/MeetupLookupSearch/MeetupLookupSearch';
 import { getMetaData, locationSelector } from '../../ducks/meta';
 
@@ -39,8 +38,6 @@ const PageMeetupFind = ({
     }
     fetchAllMeetups({ filter: filter });
   }, []);
-
-  console.log('HISTORY', match, history);
 
   if (loading) return <Loader />;
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Field } from 'react-final-form';
 
 const MeetupEditHeroSection = ({ meetup, submit, invalid, pristine }) => {
-  console.log('RENDER MeetupEditHeroSection =>');
   return (
     <div className="hero">
       <div className="hero-body">
@@ -28,7 +27,11 @@ const MeetupEditHeroSection = ({ meetup, submit, invalid, pristine }) => {
           <article className="media v-center">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img className="is-rounded" src={meetup.meetupCreator.avatar} />
+                <img
+                  className="is-rounded"
+                  src={meetup.meetupCreator.avatar}
+                  alt={meetup.meetupCreator.name}
+                />
               </p>
             </figure>
             <div className="media-content">

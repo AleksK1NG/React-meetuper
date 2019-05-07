@@ -5,7 +5,5 @@ export const validateThreadsModalForm = (values) => {
     errors.title = "You need write some text, it's required !";
   }
 
-  console.log('validate errors =>', errors);
-
   return errors;
 };

@@ -4,7 +4,6 @@ import { applyFilters } from '../utils/meetupsFindFilters';
  * Api Service
  * */
 
-const booksListURL = 'http://localhost:3001/booksList';
 const categoriesURL = '/api/v1/categories';
 const meetupsURL = '/api/v1/meetups';
 const registerURL = '/api/v1/users/register';

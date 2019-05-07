@@ -6,7 +6,11 @@ const PostItem = ({ post }) => {
     <article className="media post-item" key={post._id}>
       <figure className="media-left is-rounded user-image">
         <p className="image is-32x32">
-          <img className="is-rounded" src={post.user.avatar} />
+          <img
+            className="is-rounded"
+            src={post.user.avatar}
+            alt={post.user.name}
+          />
         </p>
       </figure>
       <div className="media-content">
