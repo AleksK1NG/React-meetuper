@@ -5,6 +5,7 @@ const config = require('./config/dev');
 
 const session = require('express-session');
 const passport = require('passport');
+const path = require('path');
 
 //*********************** Only For Session Authentication ***********************
 // const MongoDBStore = require('connect-mongodb-session')(session);
@@ -66,6 +67,18 @@ app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/posts', postsRoutes);
 app.use('/api/v1/threads', threadsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
+
+// if (process.env.NODE_ENV === 'production') {
+//   const appPath = path.join(__dirname, '..', 'build');
+//   app.use(express.static(appPath));
+//
+//   app.get('*', function(req, res) {
+//     res.sendFile(path.resolve(appPath, 'index.html'));
+//   });
+// }
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3001;
 

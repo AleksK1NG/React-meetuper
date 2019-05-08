@@ -23,7 +23,7 @@
 
 
 
-
+npm uninstall bootstrap --save
 
 
 
