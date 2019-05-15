@@ -12,26 +12,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getMetaData } from './ducks/meta';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
-const PageMeetupDetail = React.lazy(() =>
-  import('./pages/PageMeetupDetail/PageMeetupDetail')
-);
-const PageMeetupFind = React.lazy(() =>
-  import('./pages/PageMeetupFind/PageMeetupFind')
-);
-const PageNotFound = React.lazy(() =>
-  import('./pages/PageNotFound/PageNotFound')
-);
+const PageMeetupDetail = React.lazy(() => import('./pages/PageMeetupDetail/PageMeetupDetail'));
+const PageMeetupFind = React.lazy(() => import('./pages/PageMeetupFind/PageMeetupFind'));
+const PageNotFound = React.lazy(() => import('./pages/PageNotFound/PageNotFound'));
 const PageLogin = React.lazy(() => import('./pages/PageLogin/PageLogin'));
-const PageRegister = React.lazy(() =>
-  import('./pages/PageRegister/PageRegister')
-);
-const PageMeetupCreate = React.lazy(() =>
-  import('./pages/PageMeetupCreate/PageMeetupCreate')
-);
+const PageRegister = React.lazy(() => import('./pages/PageRegister/PageRegister'));
+const PageMeetupCreate = React.lazy(() => import('./pages/PageMeetupCreate/PageMeetupCreate'));
 const PageProfile = React.lazy(() => import('./pages/PageProfile/PageProfile'));
-const PageMeetupEdit = React.lazy(() =>
-  import('./pages/PageMeetupEdit/PageMeetupEdit')
-);
+const PageMeetupEdit = React.lazy(() => import('./pages/PageMeetupEdit/PageMeetupEdit'));
 
 const App = ({ loadUser, getMetaData }) => {
   useEffect(() => {
@@ -47,11 +35,7 @@ const App = ({ loadUser, getMetaData }) => {
           <Switch>
             <Route exact path="/" component={PageHome} />
             <Route exact path="/meetups/:id" component={PageMeetupDetail} />
-            <ProtectedRoute
-              exact
-              path="/meetups/:id/edit"
-              component={PageMeetupEdit}
-            />
+            <ProtectedRoute exact path="/meetups/:id/edit" component={PageMeetupEdit} />
             <Route exact path="/find/:category" component={PageMeetupFind} />
             <Route exact path="/find" component={PageMeetupFind} />
             <Route exact path="/login" component={PageLogin} />

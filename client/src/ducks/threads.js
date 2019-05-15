@@ -46,7 +46,6 @@ export default function reducer(state = ReducerRecord, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case FETCH_THREADS_BY_ID_REQUEST:
     case CREATE_POST_REQUEST:
     case CREATE_THREAD_REQUEST:
       return state.set('loading', true);
@@ -71,9 +70,7 @@ export default function reducer(state = ReducerRecord, action) {
         .set('loading', false);
 
     case CREATE_POST_SUCCESS:
-      const threadIndex = state
-        .get('threads')
-        .findIndex((thread) => thread.get('_id') === payload.threadId);
+      const threadIndex = state.get('threads').findIndex((thread) => thread.get('_id') === payload.threadId);
 
       return state
         .updateIn(['threads', threadIndex, 'posts'], (posts) => {
@@ -114,10 +111,7 @@ export const threadsSortedSelector = createSelector(
     state
       .get('threads')
       .sort((thread, nextThread) => {
-        return (
-          new Date(nextThread.get('createdAt')) -
-          new Date(thread.get('createdAt'))
-        );
+        return new Date(nextThread.get('createdAt')) - new Date(thread.get('createdAt'));
       })
       .toJS()
 );

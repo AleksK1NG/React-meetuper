@@ -89,9 +89,7 @@ export default function reducer(state = ReducerRecord, action) {
 
     case ADD_MEETUP_TO_USER_SUCCESS:
       return state
-        .updateIn(['user', 'joinedMeetups'], (joinedMeetups) =>
-          joinedMeetups.push(payload.id)
-        )
+        .updateIn(['user', 'joinedMeetups'], (joinedMeetups) => joinedMeetups.push(payload.id))
         .set('error', null)
         .set('isLoading', false);
 
