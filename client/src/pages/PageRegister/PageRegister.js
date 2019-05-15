@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, Form } from 'react-final-form';
 import './PageRegister.scss';
-import { registerUser } from '../../ducks/auth';
+import { registerUser } from '../../ducks/authModule/authActions';
 import { validateRegister } from '../../utils/finalFormValidation/validateRegisterForm';
 
 const PageRegister = ({ registerUser }) => {
@@ -30,26 +30,12 @@ const PageRegister = ({ registerUser }) => {
                   <form onSubmit={handleSubmit}>
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="username"
-                          component="input"
-                          type="text"
-                          label="Username"
-                        >
+                        <Field name="username" component="input" type="text" label="Username">
                           {({ input, meta }) => (
                             <div>
                               <label>Username</label>
-                              <input
-                                className="input is-large"
-                                type="text"
-                                {...input}
-                                placeholder="Username"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="text" {...input} placeholder="Username" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -58,26 +44,12 @@ const PageRegister = ({ registerUser }) => {
 
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="name"
-                          component="input"
-                          type="text"
-                          label="Name"
-                        >
+                        <Field name="name" component="input" type="text" label="Name">
                           {({ input, meta }) => (
                             <div>
                               <label>Name</label>
-                              <input
-                                className="input is-large"
-                                type="text"
-                                {...input}
-                                placeholder="Name"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="text" {...input} placeholder="Name" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -86,26 +58,12 @@ const PageRegister = ({ registerUser }) => {
 
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="avatar"
-                          component="input"
-                          type="text"
-                          label="Avatar URL"
-                        >
+                        <Field name="avatar" component="input" type="text" label="Avatar URL">
                           {({ input, meta }) => (
                             <div>
                               <label>User Avatar URL</label>
-                              <input
-                                className="input is-large"
-                                type="text"
-                                {...input}
-                                placeholder="Avatar URL"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="text" {...input} placeholder="Avatar URL" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -114,26 +72,12 @@ const PageRegister = ({ registerUser }) => {
 
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="email"
-                          component="input"
-                          type="email"
-                          label="Email"
-                        >
+                        <Field name="email" component="input" type="email" label="Email">
                           {({ input, meta }) => (
                             <div>
                               <label>Email</label>
-                              <input
-                                className="input is-large"
-                                type="text"
-                                {...input}
-                                placeholder="Email"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="text" {...input} placeholder="Email" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -142,25 +86,12 @@ const PageRegister = ({ registerUser }) => {
 
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="password"
-                          component="input"
-                          label="Password"
-                        >
+                        <Field name="password" component="input" label="Password">
                           {({ input, meta }) => (
                             <div>
                               <label>Password</label>
-                              <input
-                                className="input is-large"
-                                type="password"
-                                {...input}
-                                placeholder="Password"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="password" {...input} placeholder="Password" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -169,11 +100,7 @@ const PageRegister = ({ registerUser }) => {
 
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="passwordConfirmation"
-                          component="input"
-                          label="Password Confirmation"
-                        >
+                        <Field name="passwordConfirmation" component="input" label="Password Confirmation">
                           {({ input, meta }) => (
                             <div>
                               <label>Password</label>
@@ -183,11 +110,7 @@ const PageRegister = ({ registerUser }) => {
                                 {...input}
                                 placeholder="Password Confirmation"
                               />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>

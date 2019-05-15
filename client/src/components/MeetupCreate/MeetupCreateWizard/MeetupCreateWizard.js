@@ -6,31 +6,18 @@ import { Form } from 'react-final-form';
 import moment from 'moment';
 import Loader from '../../shared/Loader/Loader';
 import { validateMeetupCreateForm } from '../../../utils/finalFormValidation/validateMeetupCreateForm';
-import { createMeetup } from '../../../ducks/meetups';
+import { createMeetup } from '../../../ducks/meetupsModule/meetupsActions';
 import './MeetupCreateWizard.scss';
-import {
-  allCategoriesSelector,
-  fetchAllCategories
-} from '../../../ducks/categories';
-import { locationSelector } from '../../../ducks/meta';
+import { allCategoriesSelector } from '../../../ducks/categoriesModule/categoriesSelectors';
+import { locationSelector } from '../../../ducks/metaModule/metaSelectors';
+import { fetchAllCategories } from '../../../ducks/categoriesModule/categoriesActions';
 
 const MeetupDetail = React.lazy(() => import('../MeetupDetail/MeetupDetail'));
-const MeetupConfirmation = React.lazy(() =>
-  import('../MeetupConfirmation/MeetupConfirmation')
-);
-const MeetupDescription = React.lazy(() =>
-  import('../MeetupDescription/MeetupDescription')
-);
-const MeetupLocation = React.lazy(() =>
-  import('../MeetupLocation/MeetupLocation')
-);
+const MeetupConfirmation = React.lazy(() => import('../MeetupConfirmation/MeetupConfirmation'));
+const MeetupDescription = React.lazy(() => import('../MeetupDescription/MeetupDescription'));
+const MeetupLocation = React.lazy(() => import('../MeetupLocation/MeetupLocation'));
 
-const MeetupCreateWizard = ({
-  location,
-  createMeetup,
-  categories,
-  fetchAllCategories
-}) => {
+const MeetupCreateWizard = ({ location, createMeetup, categories, fetchAllCategories }) => {
   const [step, setStep] = useState(1);
 
   useEffect(() => {
@@ -56,15 +43,11 @@ const MeetupCreateWizard = ({
       case 1:
         return (renderComponent = <MeetupLocation location={location} />);
       case 2:
-        return (renderComponent = (
-          <MeetupDetail values={values} categories={categories} />
-        ));
+        return (renderComponent = <MeetupDetail values={values} categories={categories} />);
       case 3:
         return (renderComponent = <MeetupDescription />);
       case 4:
-        return (renderComponent = (
-          <MeetupConfirmation values={values} categories={categories} />
-        ));
+        return (renderComponent = <MeetupConfirmation values={values} categories={categories} />);
 
       default:
         return (renderComponent = null);
@@ -81,49 +64,29 @@ const MeetupCreateWizard = ({
           location: location
         }}
         onSubmit={onSubmit}
-        render={({ handleSubmit, pristine, invalid, values }) => (
+        render={({ handleSubmit, invalid, values }) => (
           <form onSubmit={handleSubmit}>
             <Suspense fallback={<Loader />}>
               <React.Fragment>{renderStep(values)}</React.Fragment>
             </Suspense>
 
             {step >= 4 ? (
-              <button
-                style={{ marginTop: '25px' }}
-                disabled={invalid}
-                type="submit"
-                className="button is-primary"
-              >
+              <button style={{ marginTop: '25px' }} disabled={invalid} type="submit" className="button is-primary">
                 Submit
               </button>
             ) : null}
-
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />
 
-      <progress
-        className="progress"
-        value={step * 25}
-        max="100"
-        style={{ marginTop: '25px' }}
-      >
+      <progress className="progress" value={step * 25} max="100" style={{ marginTop: '25px' }}>
         {step * 25}%
       </progress>
       <div className="controll-btns m-b-md">
-        <button
-          disabled={step <= 1}
-          className="button is-primary m-r-sm"
-          onClick={() => setFormStep(step - 1)}
-        >
+        <button disabled={step <= 1} className="button is-primary m-r-sm" onClick={() => setFormStep(step - 1)}>
           Back
         </button>
-        <button
-          disabled={step >= 4}
-          className="button is-primary"
-          onClick={() => setFormStep(step + 1)}
-        >
+        <button disabled={step >= 4} className="button is-primary" onClick={() => setFormStep(step + 1)}>
           Next
         </button>
       </div>

@@ -11,11 +11,7 @@ const MeetupDetailHeroSection = ({ meetup, isMeetupMember, leaveMeetup }) => {
           <article className="media v-center">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  className="is-rounded"
-                  src={meetup.meetupCreator.avatar}
-                  alt={meetup.meetupCreator.name}
-                />
+                <img className="is-rounded" src={meetup.meetupCreator.avatar} alt={meetup.meetupCreator.name} />
               </p>
             </figure>
             <div className="media-content">
@@ -30,10 +26,7 @@ const MeetupDetailHeroSection = ({ meetup, isMeetupMember, leaveMeetup }) => {
 
         {isMeetupMember ? (
           <div className="is-pulled-right">
-            <button
-              onClick={() => leaveMeetup(meetup._id)}
-              className="button is-danger"
-            >
+            <button onClick={() => leaveMeetup(meetup._id)} className="button is-danger">
               Leave Meetup
             </button>
           </div>

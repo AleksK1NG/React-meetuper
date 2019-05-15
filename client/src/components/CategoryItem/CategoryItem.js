@@ -8,15 +8,9 @@ const CategoryItem = ({ category }) => {
       <Link to={`/find/${category.name}`}>
         <span className="is-primary is-top is-medium tooltip">
           <figure className="image is-4by3 imageFade">
-            <img
-              className="is-rounded"
-              src={category.image}
-              alt={category.name}
-            />
+            <img className="is-rounded" src={category.image} alt={category.name} />
           </figure>
-          <div className="subtitle m-t-xs bold">
-            {capitalize(category.name)}
-          </div>
+          <div className="subtitle m-t-xs bold">{capitalize(category.name)}</div>
         </span>
       </Link>
     </div>

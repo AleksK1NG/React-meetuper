@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import ThreadItem from '../../ThreadItem/ThreadItem';
 import MeetupDetailAside from '../MeetupDetailAside/MeetupDetailAside';
 import ThreadCreateModal from '../../ThreadCreateModal/ThreadCreateModal';
-import {
-  canCratePostSelector,
-  createThread,
-  threadsSortedSelector
-} from '../../../ducks/threads';
+import { canCratePostSelector, threadsSortedSelector } from '../../../ducks/threadsModule/threadsSelectors';
+import { createThread } from '../../../ducks/threadsModule/threadsActions';
 
 const MeetupDetailMainSection = ({
   isAllDataLoaded,
@@ -36,10 +33,7 @@ const MeetupDetailMainSection = ({
               <h3 className="title is-3">About the Meetup</h3>
               <p>{meetup.description}</p>
               {isCanJoinMeetup ? (
-                <button
-                  onClick={() => joinMeetup(meetup._id)}
-                  className="button is-primary"
-                >
+                <button onClick={() => joinMeetup(meetup._id)} className="button is-primary">
                   Join In
                 </button>
               ) : null}
@@ -67,18 +61,11 @@ const MeetupDetailMainSection = ({
               {/*  ))}*/}
               {sortedThreads &&
                 sortedThreads.map((thread) => (
-                  <ThreadItem
-                    thread={thread}
-                    key={thread._id}
-                    isCanCreatePost={isCanCreatePost}
-                  />
+                  <ThreadItem thread={thread} key={thread._id} isCanCreatePost={isCanCreatePost} />
                 ))}
             </div>
             {!isAllDataLoaded && (
-              <button
-                className="button is-primary"
-                onClick={getMoreThreadPages}
-              >
+              <button className="button is-primary" onClick={getMoreThreadPages}>
                 Load more
               </button>
             )}

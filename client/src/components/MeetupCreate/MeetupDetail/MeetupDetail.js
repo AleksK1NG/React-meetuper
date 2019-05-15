@@ -10,15 +10,8 @@ const MeetupDetail = ({ categories }) => {
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">Choose Title</label>
-            <input
-              className="input"
-              type="text"
-              {...input}
-              placeholder="Enter Title"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <input className="input" type="text" {...input} placeholder="Enter Title" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
@@ -27,15 +20,8 @@ const MeetupDetail = ({ categories }) => {
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">Start Date</label>
-            <input
-              className="input"
-              type="date"
-              {...input}
-              placeholder="Start Date"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <input className="input" type="date" {...input} placeholder="Start Date" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
@@ -44,15 +30,8 @@ const MeetupDetail = ({ categories }) => {
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">From</label>
-            <input
-              className="input"
-              type="time"
-              {...input}
-              placeholder="Time From"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <input className="input" type="time" {...input} placeholder="Time From" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
@@ -61,26 +40,14 @@ const MeetupDetail = ({ categories }) => {
         {({ input, meta }) => (
           <div className="field">
             <label className="title m-b-sm">To</label>
-            <input
-              className="input"
-              type="time"
-              {...input}
-              placeholder="Time To"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <input className="input" type="time" {...input} placeholder="Time To" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
 
       {categories && (
-        <Field
-          name="category"
-          component="select"
-          type="text"
-          label="Categories"
-        >
+        <Field name="category" component="select" type="text" label="Categories">
           {({ input, meta }) => (
             <div className="select">
               <select {...input}>
@@ -92,9 +59,7 @@ const MeetupDetail = ({ categories }) => {
                     </option>
                   ))}
               </select>
-              {meta.touched && meta.error && (
-                <span className="help is-danger">{meta.error}</span>
-              )}
+              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
             </div>
           )}
         </Field>

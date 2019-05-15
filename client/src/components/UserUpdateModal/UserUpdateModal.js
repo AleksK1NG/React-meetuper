@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { updateUser, userSelector } from '../../ducks/auth';
+import { userSelector } from '../../ducks/authModule/authSelectors';
 import UserUpdateModalForm from './UserUpdateModalForm/UserUpdateModalForm';
+import { updateUser } from '../../ducks/authModule/authActions';
 
 const UserUpdateModal = ({ user, updateUser }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,21 +18,11 @@ const UserUpdateModal = ({ user, updateUser }) => {
   };
   return (
     <div>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="button is-primary is-outlined m-t-sm"
-      >
+      <button onClick={() => setIsOpen(!isOpen)} className="button is-primary is-outlined m-t-sm">
         Update Info
       </button>
 
-      {user && (
-        <UserUpdateModalForm
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          onSubmit={onSubmit}
-          user={user}
-        />
-      )}
+      {user && <UserUpdateModalForm isOpen={isOpen} setIsOpen={setIsOpen} onSubmit={onSubmit} user={user} />}
     </div>
   );
 };

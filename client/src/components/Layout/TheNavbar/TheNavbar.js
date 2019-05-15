@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logoutUser, userSelector } from '../../../ducks/auth';
+import { userSelector } from '../../../ducks/authModule/authSelectors';
+import { logoutUser } from '../../../ducks/authModule/authActions';
 
 const TheNavbar = ({ user, logoutUser }) => {
   return (
-    <nav
-      className="navbar is-spaced"
-      role="navigation"
-      aria-label="main navigation"
-    >
+    <nav className="navbar is-spaced" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <Link to="/" className="navbar-item">
           <h1 className="title is-4">React Meetuper</h1>
@@ -74,11 +71,7 @@ const TheNavbar = ({ user, logoutUser }) => {
                   Profile
                 </Link>
                 <hr className="navbar-divider" />
-                <div
-                  onClick={() => logoutUser()}
-                  className="navbar-item"
-                  style={{ cursor: 'pointer' }}
-                >
+                <div onClick={() => logoutUser()} className="navbar-item" style={{ cursor: 'pointer' }}>
                   Logout
                 </div>
               </div>

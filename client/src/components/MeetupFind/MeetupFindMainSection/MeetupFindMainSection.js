@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react';
 
-const MeetupFindItem = React.lazy(() =>
-  import('../MeetupFindItem/MeetupFindItem')
-);
+const MeetupFindItem = React.lazy(() => import('../MeetupFindItem/MeetupFindItem'));
 
 const MeetupFindMainSection = ({ meetups }) => {
   return (

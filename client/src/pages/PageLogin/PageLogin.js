@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './PageLogin.scss';
 import { Field, Form } from 'react-final-form';
-import { loginUser, toastMessageSelector } from '../../ducks/auth';
+import { loginUser } from '../../ducks/authModule/authActions';
 import { validateLogin } from '../../utils/finalFormValidation/validateLoginForm';
 
 const PageLogin = ({ loginUser }) => {
@@ -30,26 +30,12 @@ const PageLogin = ({ loginUser }) => {
                   <form onSubmit={handleSubmit}>
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="email"
-                          component="input"
-                          type="email"
-                          label="Email"
-                        >
+                        <Field name="email" component="input" type="email" label="Email">
                           {({ input, meta }) => (
                             <div>
                               <label>Email</label>
-                              <input
-                                className="input is-large"
-                                type="email"
-                                {...input}
-                                placeholder="Email"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="email" {...input} placeholder="Email" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -57,25 +43,12 @@ const PageLogin = ({ loginUser }) => {
                     </div>
                     <div className="field">
                       <div className="control">
-                        <Field
-                          name="password"
-                          component="input"
-                          label="Password"
-                        >
+                        <Field name="password" component="input" label="Password">
                           {({ input, meta }) => (
                             <div>
                               <label>Password</label>
-                              <input
-                                className="input is-large"
-                                type="password"
-                                {...input}
-                                placeholder="Password"
-                              />
-                              {meta.touched && meta.error && (
-                                <span className="help is-danger">
-                                  {meta.error}
-                                </span>
-                              )}
+                              <input className="input is-large" type="password" {...input} placeholder="Password" />
+                              {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                             </div>
                           )}
                         </Field>
@@ -106,8 +79,6 @@ const PageLogin = ({ loginUser }) => {
 };
 
 export default connect(
-  (state) => ({
-    toastMessage: toastMessageSelector(state)
-  }),
+  null,
   { loginUser }
 )(PageLogin);

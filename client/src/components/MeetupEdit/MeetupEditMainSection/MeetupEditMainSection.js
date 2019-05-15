@@ -19,15 +19,8 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                     {({ input, meta }) => (
                       <div className="field">
                         <label className="title m-b-sm">Starts At</label>
-                        <input
-                          className="input"
-                          type="date"
-                          {...input}
-                          placeholder="Start Date"
-                        />
-                        {meta.touched && meta.error && (
-                          <span className="help is-danger">{meta.error}</span>
-                        )}
+                        <input className="input" type="date" {...input} placeholder="Start Date" />
+                        {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                       </div>
                     )}
                   </Field>
@@ -37,15 +30,8 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                       {({ input, meta }) => (
                         <div className="field">
                           <label className="title m-b-sm">From</label>
-                          <input
-                            className="input"
-                            type="time"
-                            {...input}
-                            placeholder="Time From"
-                          />
-                          {meta.touched && meta.error && (
-                            <span className="help is-danger">{meta.error}</span>
-                          )}
+                          <input className="input" type="time" {...input} placeholder="Time From" />
+                          {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                         </div>
                       )}
                     </Field>
@@ -54,31 +40,17 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                     {({ input, meta }) => (
                       <div className="field">
                         <label className="title m-b-sm">To</label>
-                        <input
-                          className="input"
-                          type="time"
-                          {...input}
-                          placeholder="Time To"
-                        />
-                        {meta.touched && meta.error && (
-                          <span className="help is-danger">{meta.error}</span>
-                        )}
+                        <input className="input" type="time" {...input} placeholder="Time To" />
+                        {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                       </div>
                     )}
                   </Field>
                 </div>
-                <Field
-                  name="category"
-                  component="select"
-                  type="input"
-                  label="Categories"
-                >
+                <Field name="category" component="select" type="input" label="Categories">
                   {({ input, meta }) => (
                     <div className="select">
                       <select {...input}>
-                        <option value={meetup.category._id}>
-                          {capitalize(meetup.category.name)}
-                        </option>
+                        <option value={meetup.category._id}>{capitalize(meetup.category.name)}</option>
                         {categories &&
                           categories.map((category) => (
                             <option value={category._id} key={category._id}>
@@ -86,9 +58,7 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                             </option>
                           ))}
                       </select>
-                      {meta.touched && meta.error && (
-                        <span className="help is-danger">{meta.error}</span>
-                      )}
+                      {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                     </div>
                   )}
                 </Field>
@@ -97,24 +67,12 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                   <p>
                     <b>How to find us</b>
                   </p>
-                  <Field
-                    name="location"
-                    component="input"
-                    type="text"
-                    label="Meetup location"
-                  >
+                  <Field name="location" component="input" type="text" label="Meetup location">
                     {({ input, meta }) => (
                       <div className="field">
                         <label>Meetup location</label>
-                        <input
-                          className="input"
-                          type="text"
-                          {...input}
-                          placeholder="Meetup location"
-                        />
-                        {meta.touched && meta.error && (
-                          <span className="help is-danger">{meta.error}</span>
-                        )}
+                        <input className="input" type="text" {...input} placeholder="Meetup location" />
+                        {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                       </div>
                     )}
                   </Field>
@@ -123,24 +81,12 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
                   <p>
                     <b>Additional Info</b>
                   </p>
-                  <Field
-                    name="shortInfo"
-                    component="textarea"
-                    type="text"
-                    label="Additional Info"
-                  >
+                  <Field name="shortInfo" component="textarea" type="text" label="Additional Info">
                     {({ input, meta }) => (
                       <div className="field">
                         <label className="title">Additional Info</label>
-                        <textarea
-                          {...input}
-                          className="textarea"
-                          placeholder="Write Short Info"
-                          rows="3"
-                        />
-                        {meta.touched && meta.error && (
-                          <span className="help is-danger">{meta.error}</span>
-                        )}
+                        <textarea {...input} className="textarea" placeholder="Write Short Info" rows="3" />
+                        {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                       </div>
                     )}
                   </Field>
@@ -158,24 +104,12 @@ const MeetupEditMainSection = ({ categories, meetup }) => {
           <div className="column is-7 is-offset-1">
             <div className="content is-medium">
               <h3 className="title is-3">About the Meetup</h3>
-              <Field
-                name="description"
-                component="textarea"
-                type="text"
-                label="Long Description"
-              >
+              <Field name="description" component="textarea" type="text" label="Long Description">
                 {({ input, meta }) => (
                   <div className="field">
                     <label className="title">Long Description</label>
-                    <textarea
-                      {...input}
-                      className="textarea"
-                      placeholder="Write description"
-                      rows="3"
-                    />
-                    {meta.touched && meta.error && (
-                      <span className="help is-danger">{meta.error}</span>
-                    )}
+                    <textarea {...input} className="textarea" placeholder="Write description" rows="3" />
+                    {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                   </div>
                 )}
               </Field>

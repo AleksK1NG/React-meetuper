@@ -11,8 +11,7 @@ const ThreadItem = ({ thread, isCanCreatePost }) => {
       {isCanCreatePost && <PostCreate threadId={thread._id} />}
 
       {/**************************** Threads Posts ****************************/}
-      {thread &&
-        thread.posts.map((post) => <PostItem post={post} key={post._id} />)}
+      {thread && thread.posts.map((post) => <PostItem post={post} key={post._id} />)}
     </div>
   );
 };

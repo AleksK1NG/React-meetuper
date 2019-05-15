@@ -4,27 +4,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AppHero from '../../components/Layout/AppHero/AppHero';
 import AppDropdown from '../../components/shared/AppDropdown/AppDropdown';
-import {
-  allCategoriesSelector,
-  fetchAllCategories,
-  loadingCatSelector
-} from '../../ducks/categories';
-// import CategoryItem from '../../components/CategoryItem/CategoryItem';
+import { allCategoriesSelector, loadingCatSelector } from '../../ducks/categoriesModule/categoriesSelectors';
 import Loader from '../../components/shared/Loader/Loader';
-import {
-  allMeetupsSelector,
-  fetchAllMeetups,
-  loadingMeetupsSelector
-} from '../../ducks/meetups';
-import { locationSelector } from '../../ducks/meta';
+import { fetchAllMeetups } from '../../ducks/meetupsModule/meetupsActions';
+import { allMeetupsSelector, loadingMeetupsSelector } from '../../ducks/meetupsModule/meetupsSelectors';
+import { locationSelector } from '../../ducks/metaModule/metaSelectors';
+import { fetchAllCategories } from '../../ducks/categoriesModule/categoriesActions';
 
-const CategoryItem = React.lazy(() =>
-  import('../../components/CategoryItem/CategoryItem')
-);
-
-const MeetupItem = React.lazy(() =>
-  import('../../components/MeetupItem/MeetupItem')
-);
+const CategoryItem = React.lazy(() => import('../../components/CategoryItem/CategoryItem'));
+const MeetupItem = React.lazy(() => import('../../components/MeetupItem/MeetupItem'));
 
 const PageHome = ({
   ipLocation,
@@ -51,20 +39,12 @@ const PageHome = ({
               {ipLocation && `, Your current location is ${ipLocation}`}
             </h1>
             <AppDropdown />
-            <Link
-              to="/create"
-              className="button is-primary is-pulled-right m-r-sm"
-            >
+            <Link to="/create" className="button is-primary is-pulled-right m-r-sm">
               Create Meetups
             </Link>
-            <button className="button is-primary is-pulled-right m-r-sm">
-              All
-            </button>
+            <button className="button is-primary is-pulled-right m-r-sm">All</button>
           </div>
-          <div
-            className="row columns is-multiline"
-            style={{ justifyContent: 'center' }}
-          >
+          <div className="row columns is-multiline" style={{ justifyContent: 'center' }}>
             <Suspense fallback={<Loader />}>
               {meetups && !loadingMeetups ? (
                 meetups.map((meetup) => (
@@ -82,10 +62,7 @@ const PageHome = ({
           <div>
             <h1 className="title">Categories</h1>
 
-            <div
-              className="columns cover is-multiline is-mobile"
-              style={{ justifyContent: 'center' }}
-            >
+            <div className="columns cover is-multiline is-mobile" style={{ justifyContent: 'center' }}>
               <Suspense fallback={<Loader />}>
                 {categories && !loadingCategories ? (
                   categories.map((category) => (

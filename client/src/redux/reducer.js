@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import categoriesReducer from '../ducks/categories';
-import meetupsReducer from '../ducks/meetups';
-import threadsReducer from '../ducks/threads';
-import authReducer from '../ducks/auth';
-import userReducer from '../ducks/user';
-import metaReducer from '../ducks/meta';
+import categoriesReducer from '../ducks/categoriesModule/categoriesReducer';
+import meetupsReducer from '../ducks/meetupsModule/meetupsReducer';
+import threadsReducer from '../ducks/threadsModule/threadsReducer';
+import authReducer from '../ducks/authModule/authReducer';
+import userReducer from '../ducks/userModule/userReducer';
+import metaReducer from '../ducks/metaModule/metaReducer';
 import history from '../history';
 
 export default combineReducers({

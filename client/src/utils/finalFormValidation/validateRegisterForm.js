@@ -18,20 +18,12 @@ export const validateRegister = (values) => {
     errors.password = 'Password length must be greater then 6 characters';
   }
 
-  if (
-    values.passwordConfirmation &&
-    values.passwordConfirmation.trim().length < 6
-  ) {
-    errors.passwordConfirmation =
-      'Password length must be greater then 6 characters';
+  if (values.passwordConfirmation && values.passwordConfirmation.trim().length < 6) {
+    errors.passwordConfirmation = 'Password length must be greater then 6 characters';
   }
 
-  if (
-    values.passwordConfirmation &&
-    values.passwordConfirmation.trim() !== values.password.trim()
-  ) {
-    errors.passwordConfirmation =
-      'Password and password confirmation must be equal';
+  if (values.passwordConfirmation && values.passwordConfirmation.trim() !== values.password.trim()) {
+    errors.passwordConfirmation = 'Password and password confirmation must be equal';
   }
 
   if (values.email && !emailIsValid(values.email)) {

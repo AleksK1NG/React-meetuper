@@ -5,7 +5,7 @@
 # React Node.js FullStack Example
 
 ####TODO:
- * Deploy to Heroku
+ * Deploy to Heroku [X]
  * Add more features
 
 

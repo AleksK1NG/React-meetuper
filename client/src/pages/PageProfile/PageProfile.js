@@ -1,29 +1,21 @@
 import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  fetchUserStats,
   meetupsCountSelector,
   postsCountSelector,
   threadsCountSelector,
   userMeetupsSelector,
   userPostsSelector,
   userThreadsSelector
-} from '../../ducks/user';
-import { userSelector } from '../../ducks/auth';
+} from '../../ducks/userModule/userSelectors';
+import { userSelector } from '../../ducks/authModule/authSelectors';
 import Loader from '../../components/shared/Loader/Loader';
+import { fetchUserStats } from '../../ducks/userModule/userActions';
 
-const UserMeetupsItem = React.lazy(() =>
-  import('../../components/UserProfile/UserMeetupsItem/UserMeetupsItem')
-);
-const UserPostsItem = React.lazy(() =>
-  import('../../components/UserProfile/UserPostsItem/UserPostsItem')
-);
-const UserThreadsItem = React.lazy(() =>
-  import('../../components/UserProfile/UserThreadsItem/UserThreadsItem')
-);
-const HeaderSection = React.lazy(() =>
-  import('../../components/UserProfile/HeaderSection/HeaderSection')
-);
+const UserMeetupsItem = React.lazy(() => import('../../components/UserProfile/UserMeetupsItem/UserMeetupsItem'));
+const UserPostsItem = React.lazy(() => import('../../components/UserProfile/UserPostsItem/UserPostsItem'));
+const UserThreadsItem = React.lazy(() => import('../../components/UserProfile/UserThreadsItem/UserThreadsItem'));
+const HeaderSection = React.lazy(() => import('../../components/UserProfile/HeaderSection/HeaderSection'));
 
 const PageProfile = ({
   user,
@@ -58,27 +50,18 @@ const PageProfile = ({
           )}
           {activeTab === 'meetups' && (
             <div className="columns is-mobile is-multiline">
-              {userMeetups &&
-                userMeetups.map((meetup) => (
-                  <UserMeetupsItem meetup={meetup} key={meetup._id} />
-                ))}
+              {userMeetups && userMeetups.map((meetup) => <UserMeetupsItem meetup={meetup} key={meetup._id} />)}
             </div>
           )}
           {activeTab === 'threads' && (
             <div className="columns is-mobile is-multiline">
-              {userThreads &&
-                userThreads.map((thread) => (
-                  <UserThreadsItem thread={thread} key={thread._id} />
-                ))}
+              {userThreads && userThreads.map((thread) => <UserThreadsItem thread={thread} key={thread._id} />)}
             </div>
           )}
           {activeTab === 'posts' && (
             <div className="columns is-mobile is-multiline">
               {/*Posts map*/}
-              {userPosts &&
-                userPosts.map((post) => (
-                  <UserPostsItem post={post} key={post._id} />
-                ))}
+              {userPosts && userPosts.map((post) => <UserPostsItem post={post} key={post._id} />)}
             </div>
           )}
         </Suspense>

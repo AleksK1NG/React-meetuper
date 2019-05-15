@@ -16,9 +16,7 @@ const composeEnhancers =
       })
     : compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk, sagaMiddleware, routerMiddleware(history), logger)
-);
+const enhancer = composeEnhancers(applyMiddleware(thunk, sagaMiddleware, routerMiddleware(history), logger));
 
 const store = createStore(reducer, enhancer);
 sagaMiddleware.run(saga);

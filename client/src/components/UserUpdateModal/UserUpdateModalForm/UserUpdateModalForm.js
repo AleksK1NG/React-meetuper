@@ -9,11 +9,7 @@ const UserUpdateModalForm = ({ user, onSubmit, isOpen, setIsOpen }) => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">User Profile</p>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="delete"
-            aria-label="close"
-          />
+          <button onClick={() => setIsOpen(false)} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
           <Form
@@ -31,56 +27,28 @@ const UserUpdateModalForm = ({ user, onSubmit, isOpen, setIsOpen }) => {
                   {({ input, meta }) => (
                     <div className="field">
                       <label className="title">Name</label>
-                      <textarea
-                        {...input}
-                        className="input"
-                        placeholder="Name"
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="help is-danger">{meta.error}</span>
-                      )}
+                      <textarea {...input} className="input" placeholder="Name" />
+                      {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                     </div>
                   )}
                 </Field>
 
-                <Field
-                  name="username"
-                  component="textarea"
-                  type="text"
-                  label="Username"
-                >
+                <Field name="username" component="textarea" type="text" label="Username">
                   {({ input, meta }) => (
                     <div className="field">
                       <label className="title">Username</label>
-                      <textarea
-                        {...input}
-                        className="input"
-                        placeholder="Username"
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="help is-danger">{meta.error}</span>
-                      )}
+                      <textarea {...input} className="input" placeholder="Username" />
+                      {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                     </div>
                   )}
                 </Field>
 
-                <Field
-                  name="avatar"
-                  component="input"
-                  type="text"
-                  label="Avatar"
-                >
+                <Field name="avatar" component="input" type="text" label="Avatar">
                   {({ input, meta }) => (
                     <div className="field">
                       <label className="title">Avatar</label>
-                      <textarea
-                        {...input}
-                        className="input"
-                        placeholder="Avatar"
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="help is-danger">{meta.error}</span>
-                      )}
+                      <textarea {...input} className="input" placeholder="Avatar" />
+                      {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                     </div>
                   )}
                 </Field>
@@ -89,22 +57,12 @@ const UserUpdateModalForm = ({ user, onSubmit, isOpen, setIsOpen }) => {
                   {({ input, meta }) => (
                     <div className="field">
                       <label className="title">Info</label>
-                      <textarea
-                        {...input}
-                        className="input"
-                        placeholder="Info"
-                      />
-                      {meta.touched && meta.error && (
-                        <span className="help is-danger">{meta.error}</span>
-                      )}
+                      <textarea {...input} className="input" placeholder="Info" />
+                      {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
                     </div>
                   )}
                 </Field>
-                <button
-                  disabled={invalid || pristine}
-                  className="button is-success"
-                  type="submit"
-                >
+                <button disabled={invalid || pristine} className="button is-success" type="submit">
                   Save changes
                 </button>
                 <button onClick={() => setIsOpen(false)} className="button">

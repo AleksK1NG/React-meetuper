@@ -11,15 +11,8 @@ const MeetupEditHeroSection = ({ meetup, submit, invalid, pristine }) => {
           <Field name="title" component="input" type="text" label="Title">
             {({ input, meta }) => (
               <div className="field">
-                <input
-                  className="title input w-50"
-                  type="text"
-                  {...input}
-                  placeholder="Enter Title"
-                />
-                {meta.touched && meta.error && (
-                  <span className="help is-danger">{meta.error}</span>
-                )}
+                <input className="title input w-50" type="text" {...input} placeholder="Enter Title" />
+                {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
               </div>
             )}
           </Field>
@@ -27,11 +20,7 @@ const MeetupEditHeroSection = ({ meetup, submit, invalid, pristine }) => {
           <article className="media v-center">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img
-                  className="is-rounded"
-                  src={meetup.meetupCreator.avatar}
-                  alt={meetup.meetupCreator.name}
-                />
+                <img className="is-rounded" src={meetup.meetupCreator.avatar} alt={meetup.meetupCreator.name} />
               </p>
             </figure>
             <div className="media-content">

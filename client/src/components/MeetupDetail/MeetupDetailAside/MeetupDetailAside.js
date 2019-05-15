@@ -40,17 +40,11 @@ const MeetupDetailAside = ({ meetup, threads }) => {
       </div>
 
       <p className="menu-label">Threads</p>
-      <ul>
-        {threads &&
-          threads.map((thread) => <li key={thread._id}>{thread.title}</li>)}
-      </ul>
+      <ul>{threads && threads.map((thread) => <li key={thread._id}>{thread.title}</li>)}</ul>
 
       <p className="menu-label">Who is Going</p>
       <div className="columns is-multiline is-mobile">
-        {meetup &&
-          meetup.joinedPeople.map((p) => (
-            <PersonItemAvatar person={p} key={p._id} />
-          ))}
+        {meetup && meetup.joinedPeople.map((p) => <PersonItemAvatar person={p} key={p._id} />)}
       </div>
     </aside>
   );

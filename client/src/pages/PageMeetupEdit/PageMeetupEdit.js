@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupEdit.scss';
 import {
-  fetchMeetupById,
   loadingMeetupsSelector,
   meetupCreatorSelector,
-  meetupSelector,
-  updateMeetup
-} from '../../ducks/meetups';
+  meetupSelector
+} from '../../ducks/meetupsModule/meetupsSelectors';
 import Loader from '../../components/shared/Loader/Loader';
 import { Form } from 'react-final-form';
 import moment from 'moment';
@@ -15,10 +13,9 @@ import { validateMeetupEditForm } from '../../utils/finalFormValidation/validate
 import { Redirect } from 'react-router-dom';
 import MeetupEditHeroSection from '../../components/MeetupEdit/MeetupEditHeroSection/MeetupEditHeroSection';
 import MeetupEditMainSection from '../../components/MeetupEdit/MeetupEditMainSection/MeetupEditMainSection';
-import {
-  allCategoriesSelector,
-  fetchAllCategories
-} from '../../ducks/categories';
+import { allCategoriesSelector } from '../../ducks/categoriesModule/categoriesSelectors';
+import { fetchMeetupById, updateMeetup } from '../../ducks/meetupsModule/meetupsActions';
+import { fetchAllCategories } from '../../ducks/categoriesModule/categoriesActions';
 
 const PageMeetupEdit = ({
   fetchAllCategories,
@@ -41,7 +38,8 @@ const PageMeetupEdit = ({
     formApi.reset();
   };
 
-  if (loading || !meetup || !categories) return <Loader />;
+  if (loading || !meetup) return <Loader />;
+
   if (!loading && meetup && !isMeetupCreator) return <Redirect to="/" />;
 
   let submit;
@@ -61,16 +59,10 @@ const PageMeetupEdit = ({
         }}
         onSubmit={onSubmit}
         render={({ handleSubmit, pristine, invalid, values }) => {
-          console.log('Form values =>', values);
           submit = handleSubmit;
           return (
             <form onSubmit={handleSubmit}>
-              <MeetupEditHeroSection
-                meetup={meetup}
-                submit={submit}
-                invalid={invalid}
-                pristine={pristine}
-              />
+              <MeetupEditHeroSection meetup={meetup} submit={submit} invalid={invalid} pristine={pristine} />
               <MeetupEditMainSection categories={categories} meetup={meetup} />
             </form>
           );

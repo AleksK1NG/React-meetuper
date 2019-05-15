@@ -8,59 +8,28 @@ const MeetupDescription = () => {
         {({ input, meta }) => (
           <div className="field">
             <label className="title">Image</label>
-            <input
-              className="input"
-              type="text"
-              {...input}
-              placeholder="Image URL"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <input className="input" type="text" {...input} placeholder="Image URL" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
 
-      <Field
-        name="shortInfo"
-        component="textarea"
-        type="text"
-        label="Additional Info"
-      >
+      <Field name="shortInfo" component="textarea" type="text" label="Additional Info">
         {({ input, meta }) => (
           <div className="field">
             <label className="title">Additional Info</label>
-            <textarea
-              {...input}
-              className="textarea"
-              placeholder="Write Short Info"
-              rows="3"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <textarea {...input} className="textarea" placeholder="Write Short Info" rows="3" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>
 
-      <Field
-        name="description"
-        component="textarea"
-        type="text"
-        label="Long Description"
-      >
+      <Field name="description" component="textarea" type="text" label="Long Description">
         {({ input, meta }) => (
           <div className="field">
             <label className="title">Long Description</label>
-            <textarea
-              {...input}
-              className="textarea"
-              placeholder="Write description"
-              rows="3"
-            />
-            {meta.touched && meta.error && (
-              <span className="help is-danger">{meta.error}</span>
-            )}
+            <textarea {...input} className="textarea" placeholder="Write description" rows="3" />
+            {meta.touched && meta.error && <span className="help is-danger">{meta.error}</span>}
           </div>
         )}
       </Field>

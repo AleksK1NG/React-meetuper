@@ -17,9 +17,7 @@ const UserMeetupsItem = ({ meetup }) => {
             <div className="media-content">
               <p className="title is-4">{meetup.title}</p>
               <p className="subtitle is-6">
-                <span className="tag is-dark subtitle">
-                  {capitalize(meetup.category.name)}
-                </span>
+                <span className="tag is-dark subtitle">{capitalize(meetup.category.name)}</span>
               </p>
             </div>
           </div>

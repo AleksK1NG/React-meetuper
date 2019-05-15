@@ -1,16 +1,7 @@
 import React from 'react';
 
-const MeetupLookupSearch = ({
-  history,
-  category,
-  location,
-  userLocation,
-  setUserLocation,
-  fetchAllMeetups
-}) => {
+const MeetupLookupSearch = ({ history, category, location, userLocation, setUserLocation, fetchAllMeetups }) => {
   const fetchMeetups = (e) => {
-    // setUserLocation(e.target.value);
-
     const filter = {};
     if (userLocation) {
       filter['location'] = userLocation
@@ -49,10 +40,7 @@ const MeetupLookupSearch = ({
             </div>
             {category && (
               <div className="level-item">
-                <button
-                  onClick={cancelCategorySearch}
-                  className="button is-danger"
-                >
+                <button onClick={cancelCategorySearch} className="button is-danger">
                   {category} X
                 </button>
               </div>

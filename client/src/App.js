@@ -6,10 +6,10 @@ import './App.scss';
 import Loader from './components/shared/Loader/Loader';
 import TheNavbar from './components/Layout/TheNavbar/TheNavbar';
 import TheFooter from './components/Layout/TheFooter/TheFooter';
-import { loadUser } from './ducks/auth';
 import ProtectedRoute from './components/common/ProtectedRoute/ProtectedRoute';
 import { ToastContainer, toast } from 'react-toastify';
-import { getMetaData } from './ducks/meta';
+import { loadUser } from './ducks/authModule/authActions';
+import { getMetaData } from './ducks/metaModule/metaActions';
 
 const PageHome = React.lazy(() => import('./pages/PageHome/PageHome'));
 const PageMeetupDetail = React.lazy(() => import('./pages/PageMeetupDetail/PageMeetupDetail'));

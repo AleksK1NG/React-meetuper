@@ -4,11 +4,7 @@ const AppDropdown = () => {
   return (
     <div className="dropdown is-pulled-right is-hoverable">
       <div className="dropdown-trigger">
-        <button
-          className="button"
-          aria-haspopup="true"
-          aria-controls="dropdown-menu"
-        >
+        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
           <span>Change View</span>
           <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true" />

@@ -1,31 +1,19 @@
 import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  allMeetupsSelector,
-  fetchAllMeetups,
-  loadingMeetupsSelector
-} from '../../ducks/meetups';
+import { allMeetupsSelector, loadingMeetupsSelector } from '../../ducks/meetupsModule/meetupsSelectors';
 import AppHero from '../../components/Layout/AppHero/AppHero';
 import Loader from '../../components/shared/Loader/Loader';
 import './PageMeetupFind.scss';
 import MeetupLookupSearch from '../../components/MeetupFind/MeetupLookupSearch/MeetupLookupSearch';
-import { getMetaData, locationSelector } from '../../ducks/meta';
+import { locationSelector } from '../../ducks/metaModule/metaSelectors';
+import { fetchAllMeetups } from '../../ducks/meetupsModule/meetupsActions';
+import { getMetaData } from '../../ducks/metaModule/metaActions';
 
 const MeetupFindMainSection = React.lazy(() =>
-  import(
-    '../../components/MeetupFind/MeetupFindMainSection/MeetupFindMainSection'
-  )
+  import('../../components/MeetupFind/MeetupFindMainSection/MeetupFindMainSection')
 );
 
-const PageMeetupFind = ({
-  history,
-  match,
-  fetchAllMeetups,
-  meetups,
-  loading,
-  location,
-  getMetaData
-}) => {
+const PageMeetupFind = ({ history, match, fetchAllMeetups, meetups, loading, location, getMetaData }) => {
   const [userLocation, setUserLocation] = useState(() => location || '');
   useEffect(() => {
     getMetaData();

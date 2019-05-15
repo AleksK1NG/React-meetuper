@@ -1,14 +1,7 @@
 import React from 'react';
 import UserUpdateModal from '../../UserUpdateModal/UserUpdateModal';
 
-const HeaderSection = ({
-  user,
-  meetupsCount,
-  postsCount,
-  threadsCount,
-  activeTab,
-  setActiveTab
-}) => {
+const HeaderSection = ({ user, meetupsCount, postsCount, threadsCount, activeTab, setActiveTab }) => {
   return (
     <div className="section profile-heading">
       <div className="columns is-mobile is-multiline">

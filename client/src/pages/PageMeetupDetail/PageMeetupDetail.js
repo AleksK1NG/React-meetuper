@@ -1,34 +1,28 @@
 import React, { useEffect, Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import './PageMeetupDetail.scss';
+import { fetchMeetupById, joinMeetup, leaveMeetup } from '../../ducks/meetupsModule/meetupsActions';
 import {
   canJoinMeetupSelector,
-  fetchMeetupById,
   isMemberSelector,
-  joinMeetup,
-  leaveMeetup,
   loadingMeetupsSelector,
   meetupCreatorSelector,
   meetupSelector
-} from '../../ducks/meetups';
+} from '../../ducks/meetupsModule/meetupsSelectors';
 import Loader from '../../components/shared/Loader/Loader';
 import {
-  fetchThreadsById,
   isAllDataLoadedSelector,
   loadingThreadsSelector,
   threadsSelector
-} from '../../ducks/threads';
-import { isAuthenticatedSelector, userSelector } from '../../ducks/auth';
+} from '../../ducks/threadsModule/threadsSelectors';
+import { isAuthenticatedSelector, userSelector } from '../../ducks/authModule/authSelectors';
+import { fetchThreadsById } from '../../ducks/threadsModule/threadsActions';
 
 const MeetupDetailHeroSection = React.lazy(() =>
-  import(
-    '../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection'
-  )
+  import('../../components/MeetupDetail/MeetupDetailHeroSection/MeetupDetailHeroSection')
 );
 const MeetupDetailMainSection = React.lazy(() =>
-  import(
-    '../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection'
-  )
+  import('../../components/MeetupDetail/MeetupDetailMainSection/MeetupDetailMainSection')
 );
 
 const PageMeetupDetail = ({
@@ -56,7 +50,6 @@ const PageMeetupDetail = ({
   }, []);
 
   const getMoreThreadPages = () => {
-    console.log('page is ==>', threadPageNum);
     fetchThreadsById(match.params.id, threadPageNum, false);
     setThreadPageNum(threadPageNum + 1);
   };
@@ -66,11 +59,7 @@ const PageMeetupDetail = ({
   return (
     <div className="meetup-detail-page">
       <Suspense fallback={<Loader />}>
-        <MeetupDetailHeroSection
-          leaveMeetup={leaveMeetup}
-          isMeetupMember={isMeetupMember}
-          meetup={meetup}
-        />
+        <MeetupDetailHeroSection leaveMeetup={leaveMeetup} isMeetupMember={isMeetupMember} meetup={meetup} />
         <MeetupDetailMainSection
           isAllDataLoaded={isAllDataLoaded}
           getMoreThreadPages={getMoreThreadPages}
